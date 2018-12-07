@@ -17,13 +17,7 @@ use Sylius\Component\Core\Model\ImageInterface;
 
 interface ImageUploaderInterface
 {
-    /**
-     * @param ImageInterface $image
-     */
-    public function upload(ImageInterface $image);
+    public function upload(ImageInterface $image): void;
 
-    /**
-     * @param string $path
-     */
-    public function remove($path);
+    public function remove(string $path): bool;
 }

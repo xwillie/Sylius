@@ -15,7 +15,6 @@ namespace spec\Sylius\Bundle\CoreBundle\Validator\Constraints;
 
 use PhpSpec\ObjectBehavior;
 use Sylius\Bundle\CoreBundle\Validator\Constraints\UniqueReviewerEmail;
-use Sylius\Bundle\CoreBundle\Validator\Constraints\UniqueReviewerEmailValidator;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Review\Model\ReviewInterface;
 use Sylius\Component\User\Model\UserInterface;
@@ -27,10 +26,6 @@ use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Violation\ConstraintViolationBuilderInterface;
 
-/**
- * @author Mateusz Zalewski <mateusz.zalewski@lakion.com>
- * @author Grzegorz Sadowski <grzegorz.sadowski@lakion.com>
- */
 final class UniqueReviewerEmailValidatorSpec extends ObjectBehavior
 {
     function let(
@@ -38,17 +33,12 @@ final class UniqueReviewerEmailValidatorSpec extends ObjectBehavior
         TokenStorageInterface $tokenStorage,
         AuthorizationCheckerInterface $authorizationChecker,
         ExecutionContextInterface $executionContextInterface
-    ) {
+    ): void {
         $this->beConstructedWith($userRepository, $tokenStorage, $authorizationChecker);
         $this->initialize($executionContextInterface);
     }
 
-    function it_is_initializable()
-    {
-        $this->shouldHaveType(UniqueReviewerEmailValidator::class);
-    }
-
-    function it_extends_constraint_validator_class()
+    function it_extends_constraint_validator_class(): void
     {
         $this->shouldHaveType(ConstraintValidator::class);
     }
@@ -63,7 +53,7 @@ final class UniqueReviewerEmailValidatorSpec extends ObjectBehavior
         ReviewInterface $review,
         CustomerInterface $customer,
         UserInterface $existingUser
-    ) {
+    ): void {
         $constraint = new UniqueReviewerEmail();
 
         $tokenStorage->getToken()->willReturn($token);

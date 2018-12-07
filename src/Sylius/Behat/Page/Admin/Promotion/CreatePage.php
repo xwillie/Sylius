@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Sylius\Behat\Page\Admin\Promotion;
 
-use Behat\Mink\Driver\Selenium2Driver;
 use Behat\Mink\Element\NodeElement;
 use Behat\Mink\Exception\ElementNotFoundException;
 use Sylius\Behat\Behaviour\NamesIt;
@@ -22,10 +21,6 @@ use Sylius\Behat\Page\Admin\Crud\CreatePage as BaseCreatePage;
 use Sylius\Behat\Service\AutocompleteHelper;
 use Webmozart\Assert\Assert;
 
-/**
- * @author Mateusz Zalewski <mateusz.zalewski@lakion.com>
- * @author Łuksaz Zalewski <mateusz.zalewski@lakion.com>
- */
 class CreatePage extends BaseCreatePage implements CreatePageInterface
 {
     use NamesIt;
@@ -52,7 +47,7 @@ class CreatePage extends BaseCreatePage implements CreatePageInterface
      */
     public function selectRuleOption($option, $value, $multiple = false)
     {
-        $this->getLastCollectionItem('rules')->find('named', array('select', $option))->selectOption($value, $multiple);
+        $this->getLastCollectionItem('rules')->find('named', ['select', $option])->selectOption($value, $multiple);
     }
 
     /**
@@ -115,7 +110,7 @@ class CreatePage extends BaseCreatePage implements CreatePageInterface
      */
     public function selectActionOption($option, $value, $multiple = false)
     {
-        $this->getLastCollectionItem('actions')->find('named', array('select', $option))->selectOption($value, $multiple);
+        $this->getLastCollectionItem('actions')->find('named', ['select', $option])->selectOption($value, $multiple);
     }
 
     /**
@@ -220,7 +215,7 @@ class CreatePage extends BaseCreatePage implements CreatePageInterface
     /**
      * {@inheritdoc}
      */
-    protected function getDefinedElements()
+    protected function getDefinedElements(): array
     {
         return [
             'actions' => '#sylius_promotion_actions',

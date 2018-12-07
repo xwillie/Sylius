@@ -22,36 +22,20 @@ use Sylius\Component\Product\Repository\ProductAssociationTypeRepositoryInterfac
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-/**
- * @author Grzegorz Sadowski <grzegorz.sadowski@lakion.com>
- */
 class ProductAssociationExampleFactory extends AbstractExampleFactory implements ExampleFactoryInterface
 {
-    /**
-     * @var FactoryInterface
-     */
+    /** @var FactoryInterface */
     private $productAssociationFactory;
 
-    /**
-     * @var ProductAssociationTypeRepositoryInterface
-     */
+    /** @var ProductAssociationTypeRepositoryInterface */
     private $productAssociationTypeRepository;
 
-    /**
-     * @var ProductRepositoryInterface
-     */
+    /** @var ProductRepositoryInterface */
     private $productRepository;
 
-    /**
-     * @var OptionsResolver
-     */
+    /** @var OptionsResolver */
     private $optionsResolver;
 
-    /**
-     * @param FactoryInterface $productAssociationFactory
-     * @param ProductAssociationTypeRepositoryInterface $productAssociationTypeRepository
-     * @param ProductRepositoryInterface $productRepository
-     */
     public function __construct(
         FactoryInterface $productAssociationFactory,
         ProductAssociationTypeRepositoryInterface $productAssociationTypeRepository,
@@ -69,7 +53,7 @@ class ProductAssociationExampleFactory extends AbstractExampleFactory implements
     /**
      * {@inheritdoc}
      */
-    public function create(array $options = [])
+    public function create(array $options = []): ProductAssociationInterface
     {
         $options = $this->optionsResolver->resolve($options);
 
@@ -88,7 +72,7 @@ class ProductAssociationExampleFactory extends AbstractExampleFactory implements
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
             ->setDefault('type', LazyOption::randomOne($this->productAssociationTypeRepository))

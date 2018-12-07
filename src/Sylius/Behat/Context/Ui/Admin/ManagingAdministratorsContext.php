@@ -22,37 +22,20 @@ use Sylius\Behat\Service\NotificationCheckerInterface;
 use Sylius\Component\Core\Model\AdminUserInterface;
 use Webmozart\Assert\Assert;
 
-/**
- * @author Arkadiusz Krakowiak <arkadiusz.krakowiak@lakion.com>
- */
 final class ManagingAdministratorsContext implements Context
 {
-    /**
-     * @var CreatePageInterface
-     */
+    /** @var CreatePageInterface */
     private $createPage;
 
-    /**
-     * @var IndexPageInterface
-     */
+    /** @var IndexPageInterface */
     private $indexPage;
 
-    /**
-     * @var UpdatePageInterface
-     */
+    /** @var UpdatePageInterface */
     private $updatePage;
 
-    /**
-     * @var NotificationCheckerInterface
-     */
+    /** @var NotificationCheckerInterface */
     private $notificationChecker;
 
-    /**
-     * @param CreatePageInterface $createPage
-     * @param IndexPageInterface $indexPage
-     * @param UpdatePageInterface $updatePage
-     * @param NotificationCheckerInterface $notificationChecker
-     */
     public function __construct(
         CreatePageInterface $createPage,
         IndexPageInterface $indexPage,
@@ -74,8 +57,8 @@ final class ManagingAdministratorsContext implements Context
     }
 
     /**
-     * @Given /^I want to edit (this administrator)$/
      * @Given /^I am editing (my) details$/
+     * @When /^I want to edit (this administrator)$/
      */
     public function iWantToEditThisAdministrator(AdminUserInterface $adminUser)
     {
@@ -83,6 +66,7 @@ final class ManagingAdministratorsContext implements Context
     }
 
     /**
+     * @When I browse administrators
      * @When I want to browse administrators
      */
     public function iWantToBrowseAdministrators()
@@ -100,9 +84,9 @@ final class ManagingAdministratorsContext implements Context
     }
 
     /**
-     * @When I change its name as :username
+     * @When I change its name to :username
      */
-    public function iChangeItsNameAs($username)
+    public function iChangeItsNameTo($username)
     {
         $this->updatePage->changeUsername($username);
     }
@@ -117,17 +101,17 @@ final class ManagingAdministratorsContext implements Context
     }
 
     /**
-     * @When I change its email as :email
+     * @When I change its email to :email
      */
-    public function iChangeItsEmailAs($email)
+    public function iChangeItsEmailTo($email)
     {
         $this->updatePage->changeEmail($email);
     }
 
     /**
-     * @When I specify its locale to :localeCode
+     * @When I specify its locale as :localeCode
      */
-    public function iSpecifyItsLocaleTo($localeCode)
+    public function iSpecifyItsLocaleAs($localeCode)
     {
         $this->createPage->specifyLocale($localeCode);
     }
@@ -151,9 +135,9 @@ final class ManagingAdministratorsContext implements Context
     }
 
     /**
-     * @When I change its password as :password
+     * @When I change its password to :password
      */
-    public function iChangeItsPasswordAs($password)
+    public function iChangeItsPasswordTo($password)
     {
         $this->updatePage->changePassword($password);
     }
@@ -192,6 +176,22 @@ final class ManagingAdministratorsContext implements Context
     }
 
     /**
+     * @When I check (also) the :email administrator
+     */
+    public function iCheckTheAdministrator(string $email): void
+    {
+        $this->indexPage->checkResourceOnPage(['email' => $email]);
+    }
+
+    /**
+     * @When I delete them
+     */
+    public function iDeleteThem(): void
+    {
+        $this->indexPage->bulkDelete();
+    }
+
+    /**
      * @Then the administrator :email should appear in the store
      * @Then I should see the administrator :email in the list
      * @Then there should still be only one administrator with an email :email
@@ -215,9 +215,10 @@ final class ManagingAdministratorsContext implements Context
     }
 
     /**
+     * @Then I should see a single administrator in the list
      * @Then /^there should be (\d+) administrators in the list$/
      */
-    public function iShouldSeeAdministratorsInTheList($number)
+    public function iShouldSeeAdministratorsInTheList(int $number = 1): void
     {
         Assert::same($this->indexPage->countItems(), (int) $number);
     }

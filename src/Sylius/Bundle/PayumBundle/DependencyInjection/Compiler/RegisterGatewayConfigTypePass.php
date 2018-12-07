@@ -15,11 +15,7 @@ namespace Sylius\Bundle\PayumBundle\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Reference;
 
-/**
- * @author Mateusz Zalewski <mateusz.zalewski@lakion.com>
- */
 final class RegisterGatewayConfigTypePass implements CompilerPassInterface
 {
     /**

@@ -20,32 +20,18 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Intl\Intl;
 
-/**
- * @author Mateusz Zalewski <mateusz.zalewski@lakion.com>
- */
 final class LocaleSetup implements LocaleSetupInterface
 {
-    /**
-     * @var RepositoryInterface
-     */
+    /** @var RepositoryInterface */
     private $localeRepository;
 
-    /**
-     * @var FactoryInterface
-     */
+    /** @var FactoryInterface */
     private $localeFactory;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $locale;
 
-    /**
-     * @param RepositoryInterface $localeRepository
-     * @param FactoryInterface $localeFactory
-     * @param string $locale
-     */
-    public function __construct(RepositoryInterface $localeRepository, FactoryInterface $localeFactory, $locale)
+    public function __construct(RepositoryInterface $localeRepository, FactoryInterface $localeFactory, string $locale)
     {
         $this->localeRepository = $localeRepository;
         $this->localeFactory = $localeFactory;
@@ -55,12 +41,13 @@ final class LocaleSetup implements LocaleSetupInterface
     /**
      * {@inheritdoc}
      */
-    public function setup(InputInterface $input, OutputInterface $output)
+    public function setup(InputInterface $input, OutputInterface $output): LocaleInterface
     {
         $name = $this->getLanguageName($this->locale);
 
         $output->writeln(sprintf('Adding <info>%s</info> locale.', $name));
 
+        /** @var LocaleInterface $existingLocale */
         $existingLocale = $this->localeRepository->findOneBy(['code' => $this->locale]);
         if (null !== $existingLocale) {
             return $existingLocale;
@@ -75,12 +62,7 @@ final class LocaleSetup implements LocaleSetupInterface
         return $locale;
     }
 
-    /**
-     * @param string $code
-     *
-     * @return string|null
-     */
-    private function getLanguageName($code)
+    private function getLanguageName(string $code): ?string
     {
         return Intl::getLanguageBundle()->getLanguageName($code);
     }

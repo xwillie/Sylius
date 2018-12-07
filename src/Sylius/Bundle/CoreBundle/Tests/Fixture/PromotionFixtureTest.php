@@ -15,20 +15,18 @@ namespace Sylius\Bundle\CoreBundle\Tests\Fixture;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Matthias\SymfonyConfigTest\PhpUnit\ConfigurationTestCaseTrait;
+use PHPUnit\Framework\TestCase;
 use Sylius\Bundle\CoreBundle\Fixture\Factory\ExampleFactoryInterface;
 use Sylius\Bundle\CoreBundle\Fixture\PromotionFixture;
 
-/**
- * @author Grzegorz Sadowski <grzegorz.sadowski@lakion.com>
- */
-final class PromotionFixtureTest extends \PHPUnit_Framework_TestCase
+final class PromotionFixtureTest extends TestCase
 {
     use ConfigurationTestCaseTrait;
 
     /**
      * @test
      */
-    public function promotions_are_optional()
+    public function promotions_are_optional(): void
     {
         $this->assertConfigurationIsValid([[]], 'custom');
     }
@@ -36,7 +34,7 @@ final class PromotionFixtureTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function promotions_can_be_generated_randomly()
+    public function promotions_can_be_generated_randomly(): void
     {
         $this->assertConfigurationIsValid([['random' => 4]], 'random');
         $this->assertPartialConfigurationIsInvalid([['random' => -1]], 'random');
@@ -45,7 +43,7 @@ final class PromotionFixtureTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function promotion_code_is_optional()
+    public function promotion_code_is_optional(): void
     {
         $this->assertConfigurationIsValid([['custom' => [['code' => 'code']]]], 'custom.*.code');
     }
@@ -53,7 +51,7 @@ final class PromotionFixtureTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function promotion_name_is_optional()
+    public function promotion_name_is_optional(): void
     {
         $this->assertConfigurationIsValid([['custom' => [['name' => 'name']]]], 'custom.*.name');
     }
@@ -61,7 +59,7 @@ final class PromotionFixtureTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function promotion_description_is_optional()
+    public function promotion_description_is_optional(): void
     {
         $this->assertConfigurationIsValid([['custom' => [['description' => 'description']]]], 'custom.*.description');
     }
@@ -69,7 +67,7 @@ final class PromotionFixtureTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function promotion_usage_limit_is_optional()
+    public function promotion_usage_limit_is_optional(): void
     {
         $this->assertConfigurationIsValid([['custom' => [['usage_limit' => 10]]]], 'custom.*.usage_limit');
     }
@@ -77,7 +75,7 @@ final class PromotionFixtureTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function promotion_coupon_based_is_optional()
+    public function promotion_coupon_based_is_optional(): void
     {
         $this->assertConfigurationIsValid([['custom' => [['coupon_based' => false]]]], 'custom.*.coupon_based');
     }
@@ -85,7 +83,7 @@ final class PromotionFixtureTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function promotion_exclusive_is_optional()
+    public function promotion_exclusive_is_optional(): void
     {
         $this->assertConfigurationIsValid([['custom' => [['exclusive' => false]]]], 'custom.*.exclusive');
     }
@@ -93,7 +91,7 @@ final class PromotionFixtureTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function promotion_priority_is_optional()
+    public function promotion_priority_is_optional(): void
     {
         $this->assertConfigurationIsValid([['custom' => [['priority' => 0]]]], 'custom.*.priority');
     }
@@ -101,7 +99,7 @@ final class PromotionFixtureTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function promotion_channels_are_optional()
+    public function promotion_channels_are_optional(): void
     {
         $this->assertConfigurationIsValid([['custom' => [['channels' => ['channel_1', 'channel_2']]]]], 'custom.*.channels');
     }
@@ -109,7 +107,7 @@ final class PromotionFixtureTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function promotion_starts_at_is_optional()
+    public function promotion_starts_at_is_optional(): void
     {
         $this->assertConfigurationIsValid([['custom' => [['starts_at' => '-7 day']]]], 'custom.*.starts_at');
     }
@@ -117,7 +115,7 @@ final class PromotionFixtureTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function promotion_ends_at_is_optional()
+    public function promotion_ends_at_is_optional(): void
     {
         $this->assertConfigurationIsValid([['custom' => [['ends_at' => '7 day']]]], 'custom.*.ends_at');
     }
@@ -125,7 +123,7 @@ final class PromotionFixtureTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function promotion_rules_are_optional()
+    public function promotion_rules_are_optional(): void
     {
         $this->assertConfigurationIsValid([['custom' => [['rules' => [[
             'type' => 'cart_quantity',
@@ -138,7 +136,7 @@ final class PromotionFixtureTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function promotion_actions_are_optional()
+    public function promotion_actions_are_optional(): void
     {
         $this->assertConfigurationIsValid([['custom' => [['actions' => [[
             'type' => 'order_percentage_discount',
@@ -151,7 +149,7 @@ final class PromotionFixtureTest extends \PHPUnit_Framework_TestCase
     /**
      * {@inheritdoc}
      */
-    protected function getConfiguration()
+    protected function getConfiguration(): PromotionFixture
     {
         return new PromotionFixture(
             $this->getMockBuilder(ObjectManager::class)->getMock(),

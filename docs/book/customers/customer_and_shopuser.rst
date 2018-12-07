@@ -17,7 +17,7 @@ or that have somehow provided us their e-mail.
 How to create a Customer programmatically?
 ''''''''''''''''''''''''''''''''''''''''''
 
-As usually, use a factory. The only required field for the Customer entity is ``email``, provide it before adding it to the repository.
+As usual, use a factory. The only required field for the Customer entity is ``email``, provide it before adding it to the repository.
 
 .. code-block:: php
 
@@ -114,4 +114,4 @@ Customer related events
 Learn more
 ----------
 
-* :doc:`User - Component Documentation </components/User/index>`
+* :doc:`User - Component Documentation </components_and_bundles/components/User/index>`

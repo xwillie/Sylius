@@ -15,13 +15,9 @@ namespace spec\Sylius\Bundle\ThemeBundle\Locator;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Sylius\Bundle\ThemeBundle\Locator\ResourceLocator;
 use Sylius\Bundle\ThemeBundle\Locator\ResourceLocatorInterface;
 use Sylius\Bundle\ThemeBundle\Model\ThemeInterface;
 
-/**
- * @author Kamil Kokot <kamil@kokot.me>
- */
 final class ResourceLocatorSpec extends ObjectBehavior
 {
     function let(

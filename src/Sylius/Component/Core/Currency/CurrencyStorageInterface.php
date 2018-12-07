@@ -16,23 +16,12 @@ namespace Sylius\Component\Core\Currency;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Currency\Context\CurrencyNotFoundException;
 
-/**
- * @author Kamil Kokot <kamil@kokot.me>
- */
 interface CurrencyStorageInterface
 {
-    /**
-     * @param ChannelInterface $channel
-     * @param string $currencyCode
-     */
-    public function set(ChannelInterface $channel, $currencyCode);
+    public function set(ChannelInterface $channel, string $currencyCode): void;
 
     /**
-     * @param ChannelInterface $channel
-     *
-     * @return string
-     *
      * @throws CurrencyNotFoundException
      */
-    public function get(ChannelInterface $channel);
+    public function get(ChannelInterface $channel): ?string;
 }

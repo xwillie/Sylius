@@ -14,14 +14,10 @@ declare(strict_types=1);
 namespace spec\Sylius\Bundle\ResourceBundle\Routing;
 
 use PhpSpec\ObjectBehavior;
-use Sylius\Bundle\ResourceBundle\Routing\RouteFactory;
 use Sylius\Bundle\ResourceBundle\Routing\RouteFactoryInterface;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 
-/**
- * @author Paweł Jędrzejewski <pawel@sylius.org>
- */
 final class RouteFactorySpec extends ObjectBehavior
 {
     function it_implements_route_factory_interface(): void

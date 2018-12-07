@@ -15,19 +15,11 @@ namespace Sylius\Bundle\CoreBundle\Twig;
 
 use Symfony\Component\Templating\Helper\Helper;
 
-/**
- * @author Mateusz Zalewski <mateusz.zalewski@lakion.com>
- */
 final class PriceExtension extends \Twig_Extension
 {
-    /**
-     * @var Helper
-     */
+    /** @var Helper */
     private $helper;
 
-    /**
-     * @param Helper $helper
-     */
     public function __construct(Helper $helper)
     {
         $this->helper = $helper;
@@ -36,7 +28,7 @@ final class PriceExtension extends \Twig_Extension
     /**
      * {@inheritdoc}
      */
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
             new \Twig_Filter('sylius_calculate_price', [$this->helper, 'getPrice']),

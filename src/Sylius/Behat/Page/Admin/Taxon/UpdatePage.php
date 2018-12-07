@@ -23,12 +23,12 @@ use Sylius\Behat\Service\SlugGenerationHelper;
 use Sylius\Component\Core\Model\TaxonInterface;
 use Webmozart\Assert\Assert;
 
-/**
- * @author Arkadiusz Krakowiak <arkadiusz.krakowiak@lakion.com>
- */
 class UpdatePage extends BaseUpdatePage implements UpdatePageInterface
 {
     use ChecksCodeImmutability;
+
+    /** @var array */
+    private $imageUrls = [];
 
     /**
      * {@inheritdoc}
@@ -84,7 +84,7 @@ class UpdatePage extends BaseUpdatePage implements UpdatePageInterface
             $imageForm->fillField('Type', $type);
         }
 
-        $imageForm->find('css', 'input[type="file"]')->attachFile($filesPath.$path);
+        $imageForm->find('css', 'input[type="file"]')->attachFile($filesPath . $path);
     }
 
     /**
@@ -94,11 +94,11 @@ class UpdatePage extends BaseUpdatePage implements UpdatePageInterface
     {
         $imageElement = $this->getImageElementByType($type);
 
-        if (null === $imageElement) {
+        $imageUrl = $imageElement ? $imageElement->find('css', 'img')->getAttribute('src') : $this->provideImageUrlForType($type);
+        if (null === $imageElement && null === $imageUrl) {
             return false;
         }
 
-        $imageUrl = $imageElement->find('css', 'img')->getAttribute('src');
         $this->getDriver()->visit($imageUrl);
         $pageText = $this->getDocument()->getText();
         $this->getDriver()->back();
@@ -123,12 +123,27 @@ class UpdatePage extends BaseUpdatePage implements UpdatePageInterface
     public function removeImageWithType($type)
     {
         $imageElement = $this->getImageElementByType($type);
+        $imageSourceElement = $imageElement->find('css', 'img');
+        if (null !== $imageSourceElement) {
+            $this->saveImageUrlForType($type, $imageSourceElement->getAttribute('src'));
+        }
+
         $imageElement->clickLink('Delete');
     }
 
     public function removeFirstImage()
     {
         $imageElement = $this->getFirstImageElement();
+        $imageTypeElement = $imageElement->find('css', 'input[type=text]');
+        $imageSourceElement = $imageElement->find('css', 'img');
+
+        if (null !== $imageTypeElement && null !== $imageSourceElement) {
+            $this->saveImageUrlForType(
+                $imageTypeElement->getValue(),
+                $imageSourceElement->getAttribute('src')
+            );
+        }
+
         $imageElement->clickLink('Delete');
     }
 
@@ -161,7 +176,7 @@ class UpdatePage extends BaseUpdatePage implements UpdatePageInterface
         $filesPath = $this->getParameter('files_path');
 
         $imageForm = $this->getImageElementByType($type);
-        $imageForm->find('css', 'input[type="file"]')->attachFile($filesPath.$path);
+        $imageForm->find('css', 'input[type="file"]')->attachFile($filesPath . $path);
     }
 
     /**
@@ -243,7 +258,7 @@ class UpdatePage extends BaseUpdatePage implements UpdatePageInterface
     /**
      * {@inheritdoc}
      */
-    protected function getElement($name, array $parameters = [])
+    protected function getElement(string $name, array $parameters = []): NodeElement
     {
         if (!isset($parameters['%language%'])) {
             $parameters['%language%'] = 'en_US';
@@ -263,7 +278,7 @@ class UpdatePage extends BaseUpdatePage implements UpdatePageInterface
     /**
      * {@inheritdoc}
      */
-    protected function getDefinedElements()
+    protected function getDefinedElements(): array
     {
         return array_merge(parent::getDefinedElements(), [
             'code' => '#sylius_taxon_code',
@@ -319,12 +334,26 @@ class UpdatePage extends BaseUpdatePage implements UpdatePageInterface
     private function getImageElementByType($type)
     {
         $images = $this->getElement('images');
-        $typeInput = $images->find('css', 'input[value="'.$type.'"]');
+        $typeInput = $images->find('css', 'input[value="' . $type . '"]');
 
         if (null === $typeInput) {
             return null;
         }
 
         return $typeInput->getParent()->getParent()->getParent();
+    }
+
+    private function provideImageUrlForType(string $type): ?string
+    {
+        return $this->imageUrls[$type] ?? null;
+    }
+
+    private function saveImageUrlForType(string $type, string $imageUrl): void
+    {
+        if (false !== strpos($imageUrl, 'data:image/jpeg')) {
+            return;
+        }
+
+        $this->imageUrls[$type] = $imageUrl;
     }
 }

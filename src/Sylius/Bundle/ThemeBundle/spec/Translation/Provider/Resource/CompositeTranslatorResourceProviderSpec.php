@@ -14,13 +14,9 @@ declare(strict_types=1);
 namespace spec\Sylius\Bundle\ThemeBundle\Translation\Provider;
 
 use PhpSpec\ObjectBehavior;
-use Sylius\Bundle\ThemeBundle\Translation\Provider\Resource\CompositeTranslatorResourceProvider;
 use Sylius\Bundle\ThemeBundle\Translation\Provider\Resource\TranslatorResourceProviderInterface;
 use Sylius\Bundle\ThemeBundle\Translation\Resource\TranslationResourceInterface;
 
-/**
- * @author Kamil Kokot <kamil@kokot.me>
- */
 final class CompositeTranslatorResourceProviderSpec extends ObjectBehavior
 {
     function it_implements_translator_resource_provider_interface(): void

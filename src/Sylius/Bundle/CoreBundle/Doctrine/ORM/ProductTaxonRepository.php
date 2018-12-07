@@ -14,17 +14,15 @@ declare(strict_types=1);
 namespace Sylius\Bundle\CoreBundle\Doctrine\ORM;
 
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
+use Sylius\Component\Core\Model\ProductTaxonInterface;
 use Sylius\Component\Core\Repository\ProductTaxonRepositoryInterface;
 
-/**
- * @author Anna Walasek <anna.walasek@lakion.com>
- */
 class ProductTaxonRepository extends EntityRepository implements ProductTaxonRepositoryInterface
 {
     /**
      * {@inheritdoc}
      */
-    public function findOneByProductCodeAndTaxonCode($productCode, $taxonCode)
+    public function findOneByProductCodeAndTaxonCode(string $productCode, string $taxonCode): ?ProductTaxonInterface
     {
         return $this->createQueryBuilder('o')
             ->innerJoin('o.product', 'product')

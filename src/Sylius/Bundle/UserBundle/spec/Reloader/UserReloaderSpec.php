@@ -15,13 +15,9 @@ namespace spec\Sylius\Bundle\UserBundle\Reloader;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use PhpSpec\ObjectBehavior;
-use Sylius\Bundle\UserBundle\Reloader\UserReloader;
 use Sylius\Bundle\UserBundle\Reloader\UserReloaderInterface;
 use Sylius\Component\User\Model\UserInterface;
 
-/**
- * @author Łukasz Chruściel <lukasz.chrusciel@lakion.com>
- */
 final class UserReloaderSpec extends ObjectBehavior
 {
     function let(ObjectManager $objectManager): void

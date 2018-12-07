@@ -41,7 +41,7 @@ Currency Converter
 
 The ``Sylius\Component\Currency\Converter\CurrencyConverter`` is a service available under the ``sylius.currency_converter`` id.
 
-It lets you to convert money values from one currency to another.
+It allows you to convert money values from one currency to another.
 
 This solution is used for displaying an *approximate* value of price when the desired currency is different from the base currency of the current channel.
 
@@ -90,5 +90,5 @@ Sylius provides you with some handy :doc:`Global Twig variables </customization/
 Learn more
 ----------
 
-* :doc:`Currency - Component Documentation </components/Currency/index>`
+* :doc:`Currency - Component Documentation </components_and_bundles/components/Currency/index>`
 * :doc:`Pricing Concept Documentation </book/products/pricing>`

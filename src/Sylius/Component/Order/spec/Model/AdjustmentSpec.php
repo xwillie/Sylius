@@ -15,16 +15,11 @@ namespace spec\Sylius\Component\Order\Model;
 
 use PhpSpec\ObjectBehavior;
 use Sylius\Component\Order\Model\AdjustableInterface;
-use Sylius\Component\Order\Model\Adjustment;
 use Sylius\Component\Order\Model\AdjustmentInterface;
 use Sylius\Component\Order\Model\OrderInterface;
 use Sylius\Component\Order\Model\OrderItemInterface;
 use Sylius\Component\Order\Model\OrderItemUnitInterface;
 
-/**
- * @author Paweł Jędrzejewski <pawel@sylius.org>
- * @author Michał Marcinkowski <michal.marcinkowski@lakion.com>
- */
 final class AdjustmentSpec extends ObjectBehavior
 {
     function it_implements_an_adjustment_interface(): void

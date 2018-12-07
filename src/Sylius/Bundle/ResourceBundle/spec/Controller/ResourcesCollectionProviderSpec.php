@@ -20,7 +20,6 @@ use Pagerfanta\Pagerfanta;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Sylius\Bundle\ResourceBundle\Controller\RequestConfiguration;
-use Sylius\Bundle\ResourceBundle\Controller\ResourcesCollectionProvider;
 use Sylius\Bundle\ResourceBundle\Controller\ResourcesCollectionProviderInterface;
 use Sylius\Bundle\ResourceBundle\Controller\ResourcesResolverInterface;
 use Sylius\Bundle\ResourceBundle\Grid\View\ResourceGridView;
@@ -30,9 +29,6 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 
-/**
- * @author Paweł Jędrzejewski <pawel@sylius.org>
- */
 final class ResourcesCollectionProviderSpec extends ObjectBehavior
 {
     function let(ResourcesResolverInterface $resourcesResolver, PagerfantaFactory $pagerfantaRepresentationFactory): void
@@ -74,7 +70,8 @@ final class ResourcesCollectionProviderSpec extends ObjectBehavior
 
         $requestConfiguration->getRequest()->willReturn($request);
         $request->query = $queryParameters;
-        $queryParameters->get('limit')->willReturn(5);
+        $queryParameters->has('limit')->willReturn(true);
+        $queryParameters->getInt('limit')->willReturn(5);
         $queryParameters->get('page', 1)->willReturn(6);
 
         $paginator->setMaxPerPage(5)->shouldBeCalled();
@@ -106,7 +103,8 @@ final class ResourcesCollectionProviderSpec extends ObjectBehavior
 
         $requestConfiguration->getRequest()->willReturn($request);
         $request->query = $queryParameters;
-        $queryParameters->get('limit')->willReturn(1000);
+        $queryParameters->has('limit')->willReturn(true);
+        $queryParameters->getInt('limit')->willReturn(1000);
         $queryParameters->get('page', 1)->willReturn(1);
 
         $paginator->setMaxPerPage(99)->shouldBeCalled();
@@ -134,7 +132,8 @@ final class ResourcesCollectionProviderSpec extends ObjectBehavior
 
         $requestConfiguration->getRequest()->willReturn($request);
         $request->query = $queryParameters;
-        $queryParameters->get('limit')->willReturn(8);
+        $queryParameters->has('limit')->willReturn(true);
+        $queryParameters->getInt('limit')->willReturn(8);
         $queryParameters->get('page', 1)->willReturn(6);
         $queryParameters->all()->willReturn(['foo' => 2, 'bar' => 15]);
 
@@ -172,7 +171,8 @@ final class ResourcesCollectionProviderSpec extends ObjectBehavior
 
         $requestConfiguration->getRequest()->willReturn($request);
         $request->query = $queryParameters;
-        $queryParameters->get('limit')->willReturn(5);
+        $queryParameters->has('limit')->willReturn(true);
+        $queryParameters->getInt('limit')->willReturn(5);
         $queryParameters->get('page', 1)->willReturn(6);
 
         $paginator->setMaxPerPage(5)->shouldBeCalled();

@@ -19,12 +19,8 @@ use Prophecy\Argument;
 use Sylius\Component\Order\Factory\OrderItemUnitFactoryInterface;
 use Sylius\Component\Order\Model\OrderItemInterface;
 use Sylius\Component\Order\Model\OrderItemUnitInterface;
-use Sylius\Component\Order\Modifier\OrderItemQuantityModifier;
 use Sylius\Component\Order\Modifier\OrderItemQuantityModifierInterface;
 
-/**
- * @author Mateusz Zalewski <mateusz.zalewski@lakion.com>
- */
 final class OrderItemQuantityModifierSpec extends ObjectBehavior
 {
     function let(OrderItemUnitFactoryInterface $orderItemUnitFactory): void

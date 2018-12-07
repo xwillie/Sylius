@@ -15,20 +15,15 @@ namespace Sylius\Bundle\CoreBundle\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 
-/**
- * @author Arkadiusz Krakowiak <arkadiusz.krakowiake@lakion.com>
- */
 final class OrderProductEligibility extends Constraint
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     public $message = 'sylius.order.product_eligibility';
 
     /**
      * {@inheritdoc}
      */
-    public function validatedBy()
+    public function validatedBy(): string
     {
         return 'sylius_order_product_eligibility_validator';
     }
@@ -36,7 +31,7 @@ final class OrderProductEligibility extends Constraint
     /**
      * {@inheritdoc}
      */
-    public function getTargets()
+    public function getTargets(): string
     {
         return self::CLASS_CONSTRAINT;
     }

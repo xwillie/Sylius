@@ -19,9 +19,6 @@ use Sylius\Component\Product\Model\ProductInterface;
 use Sylius\Component\Product\Model\ProductVariantInterface;
 use Sylius\Component\Product\Repository\ProductVariantRepositoryInterface;
 
-/**
- * @author Alexandre Bacco <alexandre.bacco@gmail.com>
- */
 class ProductVariantRepository extends EntityRepository implements ProductVariantRepositoryInterface
 {
     /**
@@ -106,14 +103,14 @@ class ProductVariantRepository extends EntityRepository implements ProductVarian
     /**
      * {@inheritdoc}
      */
-    public function findByCodeAndProductCode(string $code, string $productCode): array
+    public function findByCodesAndProductCode(array $codes, string $productCode): array
     {
         return $this->createQueryBuilder('o')
             ->innerJoin('o.product', 'product')
             ->andWhere('product.code = :productCode')
-            ->andWhere('o.code = :code')
+            ->andWhere('o.code IN (:codes)')
             ->setParameter('productCode', $productCode)
-            ->setParameter('code', $code)
+            ->setParameter('codes', $codes)
             ->getQuery()
             ->getResult()
         ;
@@ -149,7 +146,7 @@ class ProductVariantRepository extends EntityRepository implements ProductVarian
                 'translation.name LIKE :phrase',
                 'o.code LIKE :phrase'
             ))
-            ->setParameter('phrase', '%'.$phrase.'%')
+            ->setParameter('phrase', '%' . $phrase . '%')
             ->setParameter('locale', $locale)
             ->setParameter('productCode', $productCode)
             ->getQuery()

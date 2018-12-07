@@ -18,9 +18,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-/**
- * @author Mateusz Zalewski <mateusz.zalewski@lakion.com>
- */
 final class StripeGatewayConfigurationType extends AbstractType
 {
     /**
@@ -29,22 +26,22 @@ final class StripeGatewayConfigurationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('secret_key', TextType::class, [
-                'label' => 'sylius.form.gateway_configuration.stripe.secret_key',
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'sylius.gateway_config.stripe.secret_key.not_blank',
-                        'groups' => 'sylius',
-                    ])
-                ],
-            ])
             ->add('publishable_key', TextType::class, [
                 'label' => 'sylius.form.gateway_configuration.stripe.publishable_key',
                 'constraints' => [
                     new NotBlank([
                         'message' => 'sylius.gateway_config.stripe.publishable_key.not_blank',
                         'groups' => 'sylius',
-                    ])
+                    ]),
+                ],
+            ])
+            ->add('secret_key', TextType::class, [
+                'label' => 'sylius.form.gateway_configuration.stripe.secret_key',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'sylius.gateway_config.stripe.secret_key.not_blank',
+                        'groups' => 'sylius',
+                    ]),
                 ],
             ])
         ;

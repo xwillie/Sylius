@@ -16,29 +16,19 @@ namespace Sylius\Bundle\CoreBundle\Validator\Constraints;
 use Sylius\Component\Attribute\AttributeType\AttributeTypeInterface;
 use Sylius\Component\Attribute\Model\AttributeValueInterface;
 use Sylius\Component\Registry\ServiceRegistryInterface;
-use Sylius\Component\Resource\Exception\UnexpectedTypeException;
 use Sylius\Component\Resource\Translation\Provider\TranslationLocaleProviderInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
+use Webmozart\Assert\Assert;
 
-/**
- * @author Anna Walasek <anna.walasek@lakion.com>
- */
 final class LocalesAwareValidAttributeValueValidator extends ConstraintValidator
 {
-    /**
-     * @var ServiceRegistryInterface
-     */
+    /** @var ServiceRegistryInterface */
     private $attributeTypeRegistry;
 
-    /**
-     * @var TranslationLocaleProviderInterface
-     */
+    /** @var TranslationLocaleProviderInterface */
     private $localeProvider;
 
-    /**
-     * @param ServiceRegistryInterface $attributeTypeRegistry
-     */
     public function __construct(ServiceRegistryInterface $attributeTypeRegistry, TranslationLocaleProviderInterface $localeProvider)
     {
         $this->attributeTypeRegistry = $attributeTypeRegistry;
@@ -47,12 +37,12 @@ final class LocalesAwareValidAttributeValueValidator extends ConstraintValidator
 
     /**
      * {@inheritdoc}
+     *
+     * @throws \InvalidArgumentException
      */
-    public function validate($value, Constraint $constraint)
+    public function validate($value, Constraint $constraint): void
     {
-        if (!$value instanceof AttributeValueInterface) {
-            throw new UnexpectedTypeException(get_class($value), AttributeValueInterface::class);
-        }
+        Assert::isInstanceOf($value, AttributeValueInterface::class);
 
         $defaultLocale = $this->localeProvider->getDefaultLocaleCode();
         $configuration = $value->getAttribute()->getConfiguration();

@@ -13,13 +13,9 @@ declare(strict_types=1);
 
 namespace Sylius\Component\Promotion\Repository;
 
-use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Promotion\Model\PromotionInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 
-/**
- * @author Saša Stamenković <umpirsky@gmail.com>
- */
 interface PromotionRepositoryInterface extends RepositoryInterface
 {
     /**
@@ -28,8 +24,6 @@ interface PromotionRepositoryInterface extends RepositoryInterface
     public function findActive(): array;
 
     /**
-     * @param string $name
-     *
      * @return PromotionInterface[]
      */
     public function findByName(string $name): array;

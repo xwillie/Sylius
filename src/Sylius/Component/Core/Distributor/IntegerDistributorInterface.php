@@ -13,18 +13,10 @@ declare(strict_types=1);
 
 namespace Sylius\Component\Core\Distributor;
 
-/**
- * @author Mateusz Zalewski <mateusz.zalewski@lakion.com>
- */
 interface IntegerDistributorInterface
 {
     /**
-     * @param float $amount
-     * @param int $numberOfTargets
-     *
-     * @return array
-     *
      * @throws \InvalidArgumentException
      */
-    public function distribute($amount, $numberOfTargets);
+    public function distribute(float $amount, int $numberOfTargets): array;
 }

@@ -21,33 +21,23 @@ use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\ShipmentInterface;
 use Sylius\Component\Core\Model\ShippingMethodInterface;
-use Sylius\Component\Core\Taxation\Applicator\OrderShipmentTaxesApplicator;
 use Sylius\Component\Core\Taxation\Applicator\OrderTaxesApplicatorInterface;
 use Sylius\Component\Order\Factory\AdjustmentFactoryInterface;
 use Sylius\Component\Taxation\Calculator\CalculatorInterface;
 use Sylius\Component\Taxation\Model\TaxRateInterface;
 use Sylius\Component\Taxation\Resolver\TaxRateResolverInterface;
 
-/**
- * @author Mateusz Zalewski <mateusz.zalewski@lakion.com>
- * @author Mark McKelvie <mark.mckelvie@reiss.com>
- */
 final class OrderShipmentTaxesApplicatorSpec extends ObjectBehavior
 {
     function let(
         CalculatorInterface $calculator,
         AdjustmentFactoryInterface $adjustmentsFactory,
         TaxRateResolverInterface $taxRateResolver
-    ) {
+    ): void {
         $this->beConstructedWith($calculator, $adjustmentsFactory, $taxRateResolver);
     }
 
-    function it_is_initializable()
-    {
-        $this->shouldHaveType(OrderShipmentTaxesApplicator::class);
-    }
-
-    function it_implements_an_order_shipment_taxes_applicator_interface()
+    function it_implements_an_order_shipment_taxes_applicator_interface(): void
     {
         $this->shouldImplement(OrderTaxesApplicatorInterface::class);
     }
@@ -62,7 +52,7 @@ final class OrderShipmentTaxesApplicatorSpec extends ObjectBehavior
         ShippingMethodInterface $shippingMethod,
         TaxRateInterface $taxRate,
         ZoneInterface $zone
-    ) {
+    ): void {
         $order->getShipments()->willReturn(new ArrayCollection([$shipment->getWrappedObject()]));
         $shipment->getMethod()->willReturn($shippingMethod);
         $taxRateResolver->resolve($shippingMethod, ['zone' => $zone])->willReturn($taxRate);
@@ -92,7 +82,7 @@ final class OrderShipmentTaxesApplicatorSpec extends ObjectBehavior
         ShippingMethodInterface $shippingMethod,
         TaxRateInterface $taxRate,
         ZoneInterface $zone
-    ) {
+    ): void {
         $order->getShipments()->willReturn(new ArrayCollection([$shipment->getWrappedObject()]));
         $shipment->getMethod()->willReturn($shippingMethod);
         $taxRateResolver->resolve($shippingMethod, ['zone' => $zone])->willReturn($taxRate);
@@ -110,11 +100,11 @@ final class OrderShipmentTaxesApplicatorSpec extends ObjectBehavior
     function it_throws_exception_if_order_has_no_shipment_but_shipment_total_is_greater_than_0(
         OrderInterface $order,
         ZoneInterface $zone
-    ) {
+    ): void {
         $order->getShippingTotal()->willReturn(10);
         $order->getShipments()->willReturn(new ArrayCollection([]));
 
-        $this->shouldThrow(\LogicException::class)->during('apply', [$order, $zone]);;
+        $this->shouldThrow(\LogicException::class)->during('apply', [$order, $zone]);
     }
 
     function it_does_nothing_if_tax_rate_cannot_be_resolved(
@@ -124,7 +114,7 @@ final class OrderShipmentTaxesApplicatorSpec extends ObjectBehavior
         ShipmentInterface $shipment,
         ShippingMethodInterface $shippingMethod,
         ZoneInterface $zone
-    ) {
+    ): void {
         $order->getShippingTotal()->willReturn(100);
         $order->getShipments()->willReturn(new ArrayCollection([$shipment->getWrappedObject()]));
         $shipment->getMethod()->willReturn($shippingMethod);
@@ -141,7 +131,7 @@ final class OrderShipmentTaxesApplicatorSpec extends ObjectBehavior
         TaxRateResolverInterface $taxRateResolver,
         OrderInterface $order,
         ZoneInterface $zone
-    ) {
+    ): void {
         $order->getShippingTotal()->willReturn(0);
 
         $taxRateResolver->resolve(Argument::any())->shouldNotBeCalled();

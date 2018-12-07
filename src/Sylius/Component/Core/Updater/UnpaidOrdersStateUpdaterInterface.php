@@ -13,10 +13,7 @@ declare(strict_types=1);
 
 namespace Sylius\Component\Core\Updater;
 
-/**
- * @author Mateusz Zalewski <mateusz.zalewski@lakion.com>
- */
 interface UnpaidOrdersStateUpdaterInterface
 {
-    public function cancel();
+    public function cancel(): void;
 }

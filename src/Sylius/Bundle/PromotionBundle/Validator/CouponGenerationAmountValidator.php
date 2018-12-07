@@ -20,19 +20,11 @@ use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Webmozart\Assert\Assert;
 
-/**
- * @author Arkadiusz Krakowiak <arkadiusz.krakowiak@lakion.com>
- */
 final class CouponGenerationAmountValidator extends ConstraintValidator
 {
-    /**
-     * @var GenerationPolicyInterface
-     */
+    /** @var GenerationPolicyInterface */
     private $generationPolicy;
 
-    /**
-     * @param GenerationPolicyInterface $generationPolicy
-     */
     public function __construct(GenerationPolicyInterface $generationPolicy)
     {
         $this->generationPolicy = $generationPolicy;
@@ -56,11 +48,11 @@ final class CouponGenerationAmountValidator extends ConstraintValidator
         if (!$this->generationPolicy->isGenerationPossible($instruction)) {
             $this->context->addViolation(
                 $constraint->message,
-                array(
+                [
                     '%expectedAmount%' => $instruction->getAmount(),
                     '%codeLength%' => $instruction->getCodeLength(),
-                    '%possibleAmount%' => $this->generationPolicy->getPossibleGenerationAmount($instruction)
-                )
+                    '%possibleAmount%' => $this->generationPolicy->getPossibleGenerationAmount($instruction),
+                ]
             );
         }
     }

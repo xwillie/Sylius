@@ -16,20 +16,12 @@ namespace Sylius\Component\Core\Repository;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 
-/**
- * @author Łukasz Chruściel <lukasz.chrusciel@lakion.com>
- */
 interface CustomerRepositoryInterface extends RepositoryInterface
 {
-    /**
-     * @return int
-     */
-    public function count();
+    public function countCustomers(): int;
 
     /**
-     * @param int $count
-     *
-     * @return CustomerInterface[]
+     * @return array|CustomerInterface[]
      */
-    public function findLatest($count);
+    public function findLatest(int $count): array;
 }

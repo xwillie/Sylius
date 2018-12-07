@@ -16,6 +16,7 @@ namespace Sylius\Bundle\ResourceBundle\Controller;
 use Doctrine\Common\Persistence\ObjectManager;
 use FOS\RestBundle\View\View;
 use Sylius\Bundle\ResourceBundle\Event\ResourceControllerEvent;
+use Sylius\Component\Resource\Exception\DeleteHandlingException;
 use Sylius\Component\Resource\Exception\UpdateHandlingException;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Metadata\MetadataInterface;
@@ -23,7 +24,6 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\Component\Resource\ResourceActions;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -31,110 +31,59 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-/**
- * @author Paweł Jędrzejewski <pawel@sylius.org>
- * @author Saša Stamenković <umpirsky@gmail.com>
- */
 class ResourceController extends Controller
 {
-    /**
-     * @var MetadataInterface
-     */
+    /** @var MetadataInterface */
     protected $metadata;
 
-    /**
-     * @var RequestConfigurationFactoryInterface
-     */
+    /** @var RequestConfigurationFactoryInterface */
     protected $requestConfigurationFactory;
 
-    /**
-     * @var ViewHandlerInterface
-     */
+    /** @var ViewHandlerInterface */
     protected $viewHandler;
 
-    /**
-     * @var RepositoryInterface
-     */
+    /** @var RepositoryInterface */
     protected $repository;
 
-    /**
-     * @var FactoryInterface
-     */
+    /** @var FactoryInterface */
     protected $factory;
 
-    /**
-     * @var NewResourceFactoryInterface
-     */
+    /** @var NewResourceFactoryInterface */
     protected $newResourceFactory;
 
-    /**
-     * @var ObjectManager
-     */
+    /** @var ObjectManager */
     protected $manager;
 
-    /**
-     * @var SingleResourceProviderInterface
-     */
+    /** @var SingleResourceProviderInterface */
     protected $singleResourceProvider;
 
-    /**
-     * @var ResourcesCollectionProviderInterface
-     */
+    /** @var ResourcesCollectionProviderInterface */
     protected $resourcesCollectionProvider;
 
-    /**
-     * @var ResourceFormFactoryInterface
-     */
+    /** @var ResourceFormFactoryInterface */
     protected $resourceFormFactory;
 
-    /**
-     * @var RedirectHandlerInterface
-     */
+    /** @var RedirectHandlerInterface */
     protected $redirectHandler;
 
-    /**
-     * @var FlashHelperInterface
-     */
+    /** @var FlashHelperInterface */
     protected $flashHelper;
 
-    /**
-     * @var AuthorizationCheckerInterface
-     */
+    /** @var AuthorizationCheckerInterface */
     protected $authorizationChecker;
 
-    /**
-     * @var EventDispatcherInterface
-     */
+    /** @var EventDispatcherInterface */
     protected $eventDispatcher;
 
-    /**
-     * @var StateMachineInterface
-     */
+    /** @var StateMachineInterface */
     protected $stateMachine;
 
-    /**
-     * @var ResourceUpdateHandlerInterface
-     */
+    /** @var ResourceUpdateHandlerInterface */
     protected $resourceUpdateHandler;
 
-    /**
-     * @param MetadataInterface $metadata
-     * @param RequestConfigurationFactoryInterface $requestConfigurationFactory
-     * @param ViewHandlerInterface $viewHandler
-     * @param RepositoryInterface $repository
-     * @param FactoryInterface $factory
-     * @param NewResourceFactoryInterface $newResourceFactory
-     * @param ObjectManager $manager
-     * @param SingleResourceProviderInterface $singleResourceProvider
-     * @param ResourcesCollectionProviderInterface $resourcesFinder
-     * @param ResourceFormFactoryInterface $resourceFormFactory
-     * @param RedirectHandlerInterface $redirectHandler
-     * @param FlashHelperInterface $flashHelper
-     * @param AuthorizationCheckerInterface $authorizationChecker
-     * @param EventDispatcherInterface $eventDispatcher
-     * @param StateMachineInterface $stateMachine
-     * @param ResourceUpdateHandlerInterface $resourceUpdateHandler
-     */
+    /** @var ResourceDeleteHandlerInterface */
+    protected $resourceDeleteHandler;
+
     public function __construct(
         MetadataInterface $metadata,
         RequestConfigurationFactoryInterface $requestConfigurationFactory,
@@ -151,7 +100,8 @@ class ResourceController extends Controller
         AuthorizationCheckerInterface $authorizationChecker,
         EventDispatcherInterface $eventDispatcher,
         StateMachineInterface $stateMachine,
-        ResourceUpdateHandlerInterface $resourceUpdateHandler
+        ResourceUpdateHandlerInterface $resourceUpdateHandler,
+        ResourceDeleteHandlerInterface $resourceDeleteHandler
     ) {
         $this->metadata = $metadata;
         $this->requestConfigurationFactory = $requestConfigurationFactory;
@@ -169,13 +119,9 @@ class ResourceController extends Controller
         $this->eventDispatcher = $eventDispatcher;
         $this->stateMachine = $stateMachine;
         $this->resourceUpdateHandler = $resourceUpdateHandler;
+        $this->resourceDeleteHandler = $resourceDeleteHandler;
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return Response
-     */
     public function showAction(Request $request): Response
     {
         $configuration = $this->requestConfigurationFactory->create($this->metadata, $request);
@@ -203,17 +149,14 @@ class ResourceController extends Controller
         return $this->viewHandler->handle($configuration, $view);
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return Response
-     */
     public function indexAction(Request $request): Response
     {
         $configuration = $this->requestConfigurationFactory->create($this->metadata, $request);
 
         $this->isGrantedOr403($configuration, ResourceActions::INDEX);
         $resources = $this->resourcesCollectionProvider->get($configuration, $this->repository);
+
+        $this->eventDispatcher->dispatchMultiple(ResourceActions::INDEX, $configuration, $resources);
 
         $view = View::create($resources);
 
@@ -233,11 +176,6 @@ class ResourceController extends Controller
         return $this->viewHandler->handle($configuration, $view);
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return Response
-     */
     public function createAction(Request $request): Response
     {
         $configuration = $this->requestConfigurationFactory->create($this->metadata, $request);
@@ -258,6 +196,10 @@ class ResourceController extends Controller
             if ($event->isStopped()) {
                 $this->flashHelper->addFlashFromEvent($configuration, $event);
 
+                if ($event->hasResponse()) {
+                    return $event->getResponse();
+                }
+
                 return $this->redirectHandler->redirectToIndex($configuration, $newResource);
             }
 
@@ -266,13 +208,17 @@ class ResourceController extends Controller
             }
 
             $this->repository->add($newResource);
-            $this->eventDispatcher->dispatchPostEvent(ResourceActions::CREATE, $configuration, $newResource);
+            $postEvent = $this->eventDispatcher->dispatchPostEvent(ResourceActions::CREATE, $configuration, $newResource);
 
             if (!$configuration->isHtmlRequest()) {
                 return $this->viewHandler->handle($configuration, View::create($newResource, Response::HTTP_CREATED));
             }
 
             $this->flashHelper->addSuccessFlash($configuration, ResourceActions::CREATE, $newResource);
+
+            if ($postEvent->hasResponse()) {
+                return $postEvent->getResponse();
+            }
 
             return $this->redirectHandler->redirectToResource($configuration, $newResource);
         }
@@ -281,7 +227,10 @@ class ResourceController extends Controller
             return $this->viewHandler->handle($configuration, View::create($form, Response::HTTP_BAD_REQUEST));
         }
 
-        $this->eventDispatcher->dispatchInitializeEvent(ResourceActions::CREATE, $configuration, $newResource);
+        $initializeEvent = $this->eventDispatcher->dispatchInitializeEvent(ResourceActions::CREATE, $configuration, $newResource);
+        if ($initializeEvent->hasResponse()) {
+            return $initializeEvent->getResponse();
+        }
 
         $view = View::create()
             ->setData([
@@ -297,11 +246,6 @@ class ResourceController extends Controller
         return $this->viewHandler->handle($configuration, $view);
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return Response
-     */
     public function updateAction(Request $request): Response
     {
         $configuration = $this->requestConfigurationFactory->create($this->metadata, $request);
@@ -366,7 +310,10 @@ class ResourceController extends Controller
             return $this->viewHandler->handle($configuration, View::create($form, Response::HTTP_BAD_REQUEST));
         }
 
-        $this->eventDispatcher->dispatchInitializeEvent(ResourceActions::UPDATE, $configuration, $resource);
+        $initializeEvent = $this->eventDispatcher->dispatchInitializeEvent(ResourceActions::UPDATE, $configuration, $resource);
+        if ($initializeEvent->hasResponse()) {
+            return $initializeEvent->getResponse();
+        }
 
         $view = View::create()
             ->setData([
@@ -382,11 +329,6 @@ class ResourceController extends Controller
         return $this->viewHandler->handle($configuration, $view);
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return Response
-     */
     public function deleteAction(Request $request): Response
     {
         $configuration = $this->requestConfigurationFactory->create($this->metadata, $request);
@@ -394,7 +336,7 @@ class ResourceController extends Controller
         $this->isGrantedOr403($configuration, ResourceActions::DELETE);
         $resource = $this->findOr404($configuration);
 
-        if ($configuration->isCsrfProtectionEnabled() && !$this->isCsrfTokenValid($resource->getId(), $request->request->get('_csrf_token'))) {
+        if ($configuration->isCsrfProtectionEnabled() && !$this->isCsrfTokenValid((string) $resource->getId(), $request->request->get('_csrf_token'))) {
             throw new HttpException(Response::HTTP_FORBIDDEN, 'Invalid csrf token.');
         }
 
@@ -413,8 +355,22 @@ class ResourceController extends Controller
             return $this->redirectHandler->redirectToIndex($configuration, $resource);
         }
 
-        $this->repository->remove($resource);
-        $this->eventDispatcher->dispatchPostEvent(ResourceActions::DELETE, $configuration, $resource);
+        try {
+            $this->resourceDeleteHandler->handle($resource, $this->repository);
+        } catch (DeleteHandlingException $exception) {
+            if (!$configuration->isHtmlRequest()) {
+                return $this->viewHandler->handle(
+                    $configuration,
+                    View::create(null, $exception->getApiResponseCode())
+                );
+            }
+
+            $this->flashHelper->addErrorFlash($configuration, $exception->getFlash());
+
+            return $this->redirectHandler->redirectToReferer($configuration);
+        }
+
+        $postEvent = $this->eventDispatcher->dispatchPostEvent(ResourceActions::DELETE, $configuration, $resource);
 
         if (!$configuration->isHtmlRequest()) {
             return $this->viewHandler->handle($configuration, View::create(null, Response::HTTP_NO_CONTENT));
@@ -422,20 +378,86 @@ class ResourceController extends Controller
 
         $this->flashHelper->addSuccessFlash($configuration, ResourceActions::DELETE, $resource);
 
+        if ($postEvent->hasResponse()) {
+            return $postEvent->getResponse();
+        }
+
         return $this->redirectHandler->redirectToIndex($configuration, $resource);
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return Response
-     */
+    public function bulkDeleteAction(Request $request): Response
+    {
+        $configuration = $this->requestConfigurationFactory->create($this->metadata, $request);
+
+        $this->isGrantedOr403($configuration, ResourceActions::BULK_DELETE);
+        $resources = $this->resourcesCollectionProvider->get($configuration, $this->repository);
+
+        if (
+            $configuration->isCsrfProtectionEnabled() &&
+            !$this->isCsrfTokenValid(ResourceActions::BULK_DELETE, $request->request->get('_csrf_token'))
+        ) {
+            throw new HttpException(Response::HTTP_FORBIDDEN, 'Invalid csrf token.');
+        }
+
+        $this->eventDispatcher->dispatchMultiple(ResourceActions::BULK_DELETE, $configuration, $resources);
+
+        foreach ($resources as $resource) {
+            $event = $this->eventDispatcher->dispatchPreEvent(ResourceActions::DELETE, $configuration, $resource);
+
+            if ($event->isStopped() && !$configuration->isHtmlRequest()) {
+                throw new HttpException($event->getErrorCode(), $event->getMessage());
+            }
+            if ($event->isStopped()) {
+                $this->flashHelper->addFlashFromEvent($configuration, $event);
+
+                if ($event->hasResponse()) {
+                    return $event->getResponse();
+                }
+
+                return $this->redirectHandler->redirectToIndex($configuration, $resource);
+            }
+
+            try {
+                $this->resourceDeleteHandler->handle($resource, $this->repository);
+            } catch (DeleteHandlingException $exception) {
+                if (!$configuration->isHtmlRequest()) {
+                    return $this->viewHandler->handle(
+                        $configuration,
+                        View::create(null, $exception->getApiResponseCode())
+                    );
+                }
+
+                $this->flashHelper->addErrorFlash($configuration, $exception->getFlash());
+
+                return $this->redirectHandler->redirectToReferer($configuration);
+            }
+
+            $postEvent = $this->eventDispatcher->dispatchPostEvent(ResourceActions::DELETE, $configuration, $resource);
+        }
+
+        if (!$configuration->isHtmlRequest()) {
+            return $this->viewHandler->handle($configuration, View::create(null, Response::HTTP_NO_CONTENT));
+        }
+
+        $this->flashHelper->addSuccessFlash($configuration, ResourceActions::BULK_DELETE);
+
+        if (isset($postEvent) && $postEvent->hasResponse()) {
+            return $postEvent->getResponse();
+        }
+
+        return $this->redirectHandler->redirectToIndex($configuration);
+    }
+
     public function applyStateMachineTransitionAction(Request $request): Response
     {
         $configuration = $this->requestConfigurationFactory->create($this->metadata, $request);
 
         $this->isGrantedOr403($configuration, ResourceActions::UPDATE);
         $resource = $this->findOr404($configuration);
+
+        if ($configuration->isCsrfProtectionEnabled() && !$this->isCsrfTokenValid((string) $resource->getId(), $request->get('_csrf_token'))) {
+            throw new HttpException(Response::HTTP_FORBIDDEN, 'Invalid CSRF token.');
+        }
 
         $event = $this->eventDispatcher->dispatchPreEvent(ResourceActions::UPDATE, $configuration, $resource);
 
@@ -444,6 +466,10 @@ class ResourceController extends Controller
         }
         if ($event->isStopped()) {
             $this->flashHelper->addFlashFromEvent($configuration, $event);
+
+            if ($event->hasResponse()) {
+                return $event->getResponse();
+            }
 
             return $this->redirectHandler->redirectToResource($configuration, $resource);
         }
@@ -467,7 +493,7 @@ class ResourceController extends Controller
             return $this->redirectHandler->redirectToReferer($configuration);
         }
 
-        $this->eventDispatcher->dispatchPostEvent(ResourceActions::UPDATE, $configuration, $resource);
+        $postEvent = $this->eventDispatcher->dispatchPostEvent(ResourceActions::UPDATE, $configuration, $resource);
 
         if (!$configuration->isHtmlRequest()) {
             $view = $configuration->getParameters()->get('return_content', true) ? View::create($resource, Response::HTTP_OK) : View::create(null, Response::HTTP_NO_CONTENT);
@@ -477,13 +503,14 @@ class ResourceController extends Controller
 
         $this->flashHelper->addSuccessFlash($configuration, ResourceActions::UPDATE, $resource);
 
+        if ($postEvent->hasResponse()) {
+            return $postEvent->getResponse();
+        }
+
         return $this->redirectHandler->redirectToResource($configuration, $resource);
     }
 
     /**
-     * @param RequestConfiguration $configuration
-     * @param string $permission
-     *
      * @throws AccessDeniedException
      */
     protected function isGrantedOr403(RequestConfiguration $configuration, string $permission): void
@@ -500,10 +527,6 @@ class ResourceController extends Controller
     }
 
     /**
-     * @param RequestConfiguration $configuration
-     *
-     * @return ResourceInterface
-     *
      * @throws NotFoundHttpException
      */
     protected function findOr404(RequestConfiguration $configuration): ResourceInterface

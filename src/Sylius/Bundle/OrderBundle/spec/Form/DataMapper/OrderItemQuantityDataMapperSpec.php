@@ -14,15 +14,11 @@ declare(strict_types=1);
 namespace spec\Sylius\Bundle\OrderBundle\Form\DataMapper;
 
 use PhpSpec\ObjectBehavior;
-use Sylius\Bundle\OrderBundle\Form\DataMapper\OrderItemQuantityDataMapper;
 use Sylius\Component\Order\Model\OrderItemInterface;
 use Sylius\Component\Order\Modifier\OrderItemQuantityModifierInterface;
 use Symfony\Component\Form\DataMapperInterface;
 use Symfony\Component\Form\FormInterface;
 
-/**
- * @author Mateusz Zalewski <mateusz.zalewski@lakion.com>
- */
 final class OrderItemQuantityDataMapperSpec extends ObjectBehavior
 {
     function let(

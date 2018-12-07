@@ -19,51 +19,27 @@ use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Model\TaxonInterface;
 use Sylius\Component\Product\Repository\ProductRepositoryInterface as BaseProductRepositoryInterface;
 
-/**
- * @author Łukasz Chruściel <lukasz.chrusciel@lakion.com>
- */
 interface ProductRepositoryInterface extends BaseProductRepositoryInterface
 {
     /**
-     * @param string $locale
      * @param mixed|null $taxonId
-     *
-     * @return QueryBuilder
      */
-    public function createListQueryBuilder($locale, $taxonId = null);
+    public function createListQueryBuilder(string $locale, $taxonId = null): QueryBuilder;
+
+    public function createShopListQueryBuilder(
+        ChannelInterface $channel,
+        TaxonInterface $taxon,
+        string $locale,
+        array $sorting = [],
+        bool $includeAllDescendants = false
+    ): QueryBuilder;
 
     /**
-     * @param ChannelInterface $channel
-     * @param TaxonInterface $taxon
-     * @param string $locale
-     * @param array $sorting
-     *
-     * @return QueryBuilder
+     * @return array|ProductInterface[]
      */
-    public function createShopListQueryBuilder(ChannelInterface $channel, TaxonInterface $taxon, $locale, array $sorting = []);
+    public function findLatestByChannel(ChannelInterface $channel, string $locale, int $count): array;
 
-    /**
-     * @param ChannelInterface $channel
-     * @param string $locale
-     * @param int $count
-     *
-     * @return ProductInterface[]
-     */
-    public function findLatestByChannel(ChannelInterface $channel, $locale, $count);
+    public function findOneByChannelAndSlug(ChannelInterface $channel, string $locale, string $slug): ?ProductInterface;
 
-    /**
-     * @param ChannelInterface $channel
-     * @param string $locale
-     * @param string $slug
-     *
-     * @return ProductInterface|null
-     */
-    public function findOneByChannelAndSlug(ChannelInterface $channel, $locale, $slug);
-
-    /**
-     * @param string $code
-     *
-     * @return ProductInterface|null
-     */
-    public function findOneByCode($code);
+    public function findOneByCode(string $code): ?ProductInterface;
 }

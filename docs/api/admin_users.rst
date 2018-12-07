@@ -48,7 +48,7 @@ If you request for more detailed data, you will receive an object with the follo
 
 .. note::
 
-    Read more about :doc:`User model in the component docs</components/User/models>`.
+    Read more about :doc:`User model in the component docs</components_and_bundles/components/User/models>`.
 
 Creating an Admin User
 ----------------------
@@ -84,7 +84,7 @@ To create a new admin user use the below method:
 
 .. code-block:: bash
 
-    $ curl http://demo.sylius.org/api/v1/users/ \
+    $ curl http://demo.sylius.com/api/v1/users/ \
         -H "Authorization: Bearer SampleToken" \
         -H "Content-Type: application/json" \
         -X POST \
@@ -109,7 +109,7 @@ Exemplary Response
     {
         "id": 7,
         "username": "Balrog",
-        "usernameCanonical": "barlog",
+        "usernameCanonical": "balrog",
         "roles": [
             "ROLE_ADMINISTRATION_ACCESS"
         ],
@@ -128,7 +128,7 @@ Example
 
 .. code-block:: bash
 
-    $ curl http://demo.sylius.org/api/v1/users/ \
+    $ curl http://demo.sylius.com/api/v1/users/ \
         -H "Authorization: Bearer SampleToken" \
         -H "Content-Type: application/json" \
        -X POST
@@ -191,7 +191,7 @@ Example
 
 .. code-block:: bash
 
-    $ curl http://demo.sylius.org/api/v1/users/ \
+    $ curl http://demo.sylius.com/api/v1/users/ \
         -H "Authorization: Bearer SampleToken" \
         -H "Content-Type: application/json" \
         -X POST \
@@ -219,7 +219,7 @@ Exemplary Response
     {
         "id": 9,
         "username": "Balrog",
-        "usernameCanonical": "barlog",
+        "usernameCanonical": "balrog",
         "roles": [
             "ROLE_ADMINISTRATION_ACCESS"
         ],
@@ -257,7 +257,7 @@ To see the details for the admin user with ``id = 9`` use the below method:
 
 .. code-block:: bash
 
-    $ curl http://demo.sylius.org/api/v1/users/9 \
+    $ curl http://demo.sylius.com/api/v1/users/9 \
         -H "Authorization: Bearer SampleToken" \
         -H "Accept: application/json"
 
@@ -278,7 +278,7 @@ Exemplary Response
     {
         "id": 9,
         "username": "Balrog",
-        "usernameCanonical": "barlog",
+        "usernameCanonical": "balrog",
         "roles": [
             "ROLE_ADMINISTRATION_ACCESS"
         ],
@@ -317,7 +317,7 @@ Example
 
 .. code-block:: bash
 
-    $ curl http://demo.sylius.org/api/v1/users/ \
+    $ curl http://demo.sylius.com/api/v1/users/ \
         -H "Authorization: Bearer SampleToken" \
         -H "Accept: application/json"
 
@@ -405,7 +405,7 @@ Example
 
 .. code-block:: bash
 
-    $ curl http://demo.sylius.org/api/v1/users/9 \
+    $ curl http://demo.sylius.com/api/v1/users/9 \
         -H "Authorization: Bearer SampleToken" \
         -H "Content-Type: application/json" \
         -X PUT \
@@ -434,7 +434,7 @@ Example
 
 .. code-block:: bash
 
-    $ curl http://demo.sylius.org/api/v1/users/9 \
+    $ curl http://demo.sylius.com/api/v1/users/9 \
         -H "Authorization: Bearer SampleToken" \
         -H "Content-Type: application/json" \
         -X PUT
@@ -500,7 +500,7 @@ To partially update the admin user with ``id = 9`` use the below method:
 
 .. code-block:: bash
 
-    $ curl http://demo.sylius.org/api/v1/users/9 \
+    $ curl http://demo.sylius.com/api/v1/users/9 \
         -H "Authorization: Bearer SampleToken" \
         -H "Content-Type: application/json" \
         -X PATCH \
@@ -544,7 +544,7 @@ To delete the admin user with ``id = 9`` use the below method:
 
 .. code-block:: bash
 
-    $ curl http://demo.sylius.org/api/v1/users/9 \
+    $ curl http://demo.sylius.com/api/v1/users/9 \
         -H "Authorization: Bearer SampleToken" \
         -H "Accept: application/json" \
         -X DELETE
@@ -565,7 +565,7 @@ Example
 
 .. code-block:: bash
 
-    $ curl http://demo.sylius.org/api/v1/users/6 \
+    $ curl http://demo.sylius.com/api/v1/users/6 \
         -H "Authorization: Bearer SampleToken" \
         -H "Accept: application/json" \
         -X DELETE

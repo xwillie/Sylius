@@ -13,13 +13,14 @@ declare(strict_types=1);
 
 namespace Sylius\Component\Core;
 
-/**
- * @author Mateusz Zalewski <mateusz.zalewski@lakion.com>
- */
-class ProductReviewTransitions
+final class ProductReviewTransitions
 {
     public const GRAPH = 'sylius_product_review';
 
     public const TRANSITION_ACCEPT = 'accept';
     public const TRANSITION_REJECT = 'reject';
+
+    private function __construct()
+    {
+    }
 }

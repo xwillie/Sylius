@@ -13,57 +13,28 @@ declare(strict_types=1);
 
 namespace Sylius\Component\Core\Model;
 
-use Sylius\Component\Channel\Model\ChannelAwareInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
 
-/**
- * @author Mateusz Zalewski <mateusz.zalewski@lakion.com>
- * @author Gorka Laucirica <gorka.lauzirika@gmail.com>
- */
 interface ChannelPricingInterface extends ResourceInterface
 {
-    /**
-     * @return ProductVariantInterface
-     */
-    public function getProductVariant();
+    public function getProductVariant(): ?ProductVariantInterface;
 
-    /**
-     * @param ProductVariantInterface|null $productVariant
-     */
-    public function setProductVariant(ProductVariantInterface $productVariant = null);
+    public function setProductVariant(?ProductVariantInterface $productVariant): void;
 
-    /**
-     * @return int
-     */
-    public function getPrice();
+    public function getPrice(): ?int;
 
-    /**
-     * @param int $price
-     */
-    public function setPrice($price);
+    public function setPrice(?int $price): void;
 
     /**
      * @return string
      */
-    public function getChannelCode();
+    public function getChannelCode(): ?string;
 
-    /**
-     * @param string $channelCode
-     */
-    public function setChannelCode($channelCode);
+    public function setChannelCode(?string $channelCode): void;
 
-    /**
-     * @return int
-     */
-    public function getOriginalPrice();
+    public function getOriginalPrice(): ?int;
 
-    /**
-     * @param int $originalPrice
-     */
-    public function setOriginalPrice($originalPrice);
+    public function setOriginalPrice(?int $originalPrice): void;
 
-    /**
-     * @return bool
-     */
-    public function isPriceReduced();
+    public function isPriceReduced(): bool;
 }

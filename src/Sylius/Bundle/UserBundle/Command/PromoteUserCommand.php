@@ -19,9 +19,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
- * @author Loïc Frémont <loic@mobizel.com>
- */
 class PromoteUserCommand extends AbstractRoleCommand
 {
     /**
@@ -32,12 +29,12 @@ class PromoteUserCommand extends AbstractRoleCommand
         $this
             ->setName('sylius:user:promote')
             ->setDescription('Promotes a user by adding roles.')
-            ->setDefinition(array(
+            ->setDefinition([
                 new InputArgument('email', InputArgument::REQUIRED, 'Email'),
                 new InputArgument('roles', InputArgument::IS_ARRAY, 'Security roles'),
                 new InputOption('super-admin', null, InputOption::VALUE_NONE, 'Set the user as a super admin'),
                 new InputOption('user-type', null, InputOption::VALUE_REQUIRED, 'User type'),
-            ))
+            ])
             ->setHelp(<<<EOT
 The <info>sylius:user:promote</info> command promotes a user by adding security roles
 
@@ -55,13 +52,14 @@ EOT
 
         foreach ($securityRoles as $securityRole) {
             if ($user->hasRole($securityRole)) {
-                $output->writeln(sprintf('<error>User "%s" did already have "%s" security role.</error>', (string)$user, $securityRole));
+                $output->writeln(sprintf('<error>User "%s" did already have "%s" security role.</error>', $user->getEmail(), $securityRole));
                 $error = true;
+
                 continue;
             }
 
             $user->addRole($securityRole);
-            $output->writeln(sprintf('Security role <comment>%s</comment> has been added to user <comment>%s</comment>', $securityRole, (string)$user));
+            $output->writeln(sprintf('Security role <comment>%s</comment> has been added to user <comment>%s</comment>', $securityRole, $user->getEmail()));
         }
 
         if (!$error) {

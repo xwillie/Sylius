@@ -19,28 +19,17 @@ use Sylius\Component\Resource\Model\VersionedInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Webmozart\Assert\Assert;
 
-/**
- * @author Grzegorz Sadowski <grzegorz.sadowski@lakion.com>
- */
 final class LockingListener
 {
-    /**
-     * @var EntityManagerInterface
-     */
+    /** @var EntityManagerInterface */
     private $manager;
 
-    /**
-     * @param EntityManagerInterface $manager
-     */
     public function __construct(EntityManagerInterface $manager)
     {
         $this->manager = $manager;
     }
 
-    /**
-     * @param GenericEvent $event
-     */
-    public function lock(GenericEvent $event)
+    public function lock(GenericEvent $event): void
     {
         $subject = $event->getSubject();
 

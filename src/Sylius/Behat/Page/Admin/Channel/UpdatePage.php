@@ -17,10 +17,6 @@ use Sylius\Behat\Behaviour\ChecksCodeImmutability;
 use Sylius\Behat\Behaviour\Toggles;
 use Sylius\Behat\Page\Admin\Crud\UpdatePage as BaseUpdatePage;
 
-/**
- * @author Kamil Kokot <kamil@kokot.me>
- * @author Łukasz Chruściel <lukasz.chrusciel@lakion.com>
- */
 class UpdatePage extends BaseUpdatePage implements UpdatePageInterface
 {
     use ChecksCodeImmutability;
@@ -55,7 +51,7 @@ class UpdatePage extends BaseUpdatePage implements UpdatePageInterface
      */
     public function isLocaleChosen($language)
     {
-        return $this->getElement('locales')->find('named', array('option', $language))->hasAttribute('selected');
+        return $this->getElement('locales')->find('named', ['option', $language])->hasAttribute('selected');
     }
 
     /**
@@ -71,7 +67,7 @@ class UpdatePage extends BaseUpdatePage implements UpdatePageInterface
      */
     public function isCurrencyChosen($currencyCode)
     {
-        return $this->getElement('currencies')->find('named', array('option', $currencyCode))->hasAttribute('selected');
+        return $this->getElement('currencies')->find('named', ['option', $currencyCode])->hasAttribute('selected');
     }
 
     /**
@@ -79,7 +75,7 @@ class UpdatePage extends BaseUpdatePage implements UpdatePageInterface
      */
     public function chooseDefaultTaxZone($taxZone)
     {
-        $this->getDocument()->selectFieldOption('Default tax zone', (null === $taxZone) ? '' : $taxZone);
+        $this->getDocument()->selectFieldOption('Default tax zone', $taxZone ?? '');
     }
 
     /**
@@ -95,7 +91,7 @@ class UpdatePage extends BaseUpdatePage implements UpdatePageInterface
      */
     public function isDefaultTaxZoneChosen($taxZone)
     {
-        return $this->getElement('default_tax_zone')->find('named', array('option', $taxZone))->hasAttribute('selected');
+        return $this->getElement('default_tax_zone')->find('named', ['option', $taxZone])->hasAttribute('selected');
     }
 
     /**
@@ -113,7 +109,7 @@ class UpdatePage extends BaseUpdatePage implements UpdatePageInterface
     {
         return $this
             ->getElement('tax_calculation_strategy')
-            ->find('named', array('option', $taxCalculationStrategy))
+            ->find('named', ['option', $taxCalculationStrategy])
             ->hasAttribute('selected')
         ;
     }
@@ -145,7 +141,7 @@ class UpdatePage extends BaseUpdatePage implements UpdatePageInterface
     /**
      * {@inheritdoc}
      */
-    protected function getDefinedElements()
+    protected function getDefinedElements(): array
     {
         return array_merge(parent::getDefinedElements(), [
             'base_currency' => '#sylius_channel_baseCurrency',

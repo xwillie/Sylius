@@ -20,101 +20,44 @@ use Sylius\Component\Currency\Model\CurrencyInterface;
 use Sylius\Component\Locale\Model\LocaleInterface;
 use Sylius\Component\Locale\Model\LocalesAwareInterface;
 
-/**
- * @author Paweł Jędrzejewski <pawel@sylius.org>
- */
 interface ChannelInterface extends
     BaseChannelInterface,
     CurrenciesAwareInterface,
     LocalesAwareInterface
 {
-    /**
-     * @return CurrencyInterface
-     */
-    public function getBaseCurrency();
+    public function getBaseCurrency(): ?CurrencyInterface;
 
-    /**
-     * @param CurrencyInterface $currency
-     */
-    public function setBaseCurrency(CurrencyInterface $currency);
+    public function setBaseCurrency(?CurrencyInterface $currency): void;
 
-    /**
-     * @return LocaleInterface
-     */
-    public function getDefaultLocale();
+    public function getDefaultLocale(): ?LocaleInterface;
 
-    /**
-     * @param LocaleInterface $locale
-     */
-    public function setDefaultLocale(LocaleInterface $locale);
+    public function setDefaultLocale(?LocaleInterface $locale): void;
 
-    /**
-     * @return ZoneInterface
-     */
-    public function getDefaultTaxZone();
+    public function getDefaultTaxZone(): ?ZoneInterface;
 
-    /**
-     * @param ZoneInterface $defaultTaxZone
-     */
-    public function setDefaultTaxZone(ZoneInterface $defaultTaxZone);
+    public function setDefaultTaxZone(?ZoneInterface $defaultTaxZone): void;
 
-    /**
-     * @return string
-     */
-    public function getTaxCalculationStrategy();
+    public function getTaxCalculationStrategy(): ?string;
 
-    /**
-     * @param string $taxCalculationStrategy
-     */
-    public function setTaxCalculationStrategy($taxCalculationStrategy);
+    public function setTaxCalculationStrategy(?string $taxCalculationStrategy): void;
 
-    /**
-     * @return string
-     */
-    public function getThemeName();
+    public function getThemeName(): ?string;
 
-    /**
-     * @param string $themeName
-     */
-    public function setThemeName($themeName);
+    public function setThemeName(?string $themeName): void;
 
-    /**
-     * @return string
-     */
-    public function getContactEmail();
+    public function getContactEmail(): ?string;
 
-    /**
-     * @param string $contactEmail
-     */
-    public function setContactEmail($contactEmail);
+    public function setContactEmail(?string $contactEmail): void;
 
-    /**
-     * @return bool
-     */
-    public function isSkippingShippingStepAllowed();
+    public function isSkippingShippingStepAllowed(): bool;
 
-    /**
-     * @param bool $skippingShippingStepAllowed
-     */
-    public function setSkippingShippingStepAllowed($skippingShippingStepAllowed);
+    public function setSkippingShippingStepAllowed(bool $skippingShippingStepAllowed): void;
 
-    /**
-     * @return bool
-     */
-    public function isSkippingPaymentStepAllowed();
+    public function isSkippingPaymentStepAllowed(): bool;
 
-    /**
-     * @param bool $skippingPaymentStepAllowed
-     */
-    public function setSkippingPaymentStepAllowed($skippingPaymentStepAllowed);
+    public function setSkippingPaymentStepAllowed(bool $skippingPaymentStepAllowed): void;
 
-    /**
-     * @return bool
-     */
-    public function isAccountVerificationRequired();
+    public function isAccountVerificationRequired(): bool;
 
-    /**
-     * @param bool $accountVerificationRequired
-     */
-    public function setAccountVerificationRequired($accountVerificationRequired);
+    public function setAccountVerificationRequired(bool $accountVerificationRequired): void;
 }

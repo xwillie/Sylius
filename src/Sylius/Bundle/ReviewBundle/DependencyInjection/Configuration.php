@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Sylius\Bundle\ReviewBundle\DependencyInjection;
 
 use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
-use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Bundle\ResourceBundle\SyliusResourceBundle;
 use Sylius\Bundle\ReviewBundle\Form\Type\ReviewType;
 use Sylius\Component\Resource\Factory\Factory;
@@ -24,10 +23,6 @@ use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
-/**
- * @author Daniel Richter <nexyz9@gmail.com>
- * @author Grzegorz Sadowski <grzegorz.sadowski@lakion.com>
- */
 final class Configuration implements ConfigurationInterface
 {
     /**
@@ -50,16 +45,13 @@ final class Configuration implements ConfigurationInterface
         return $treeBuilder;
     }
 
-    /**
-     * @param ArrayNodeDefinition $node
-     */
     private function addResourcesSection(ArrayNodeDefinition $node): void
     {
         $node
             ->children()
             ->arrayNode('resources')
                 ->useAttributeAsKey('name')
-                ->prototype('array')
+                ->arrayPrototype()
                     ->children()
                         ->scalarNode('subject')->isRequired()->end()
                         ->arrayNode('review')

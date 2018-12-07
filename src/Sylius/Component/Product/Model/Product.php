@@ -15,52 +15,37 @@ namespace Sylius\Component\Product\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Sylius\Component\Attribute\Model\AttributeInterface;
-use Webmozart\Assert\Assert;
 use Sylius\Component\Attribute\Model\AttributeValueInterface;
 use Sylius\Component\Resource\Model\TimestampableTrait;
 use Sylius\Component\Resource\Model\ToggleableTrait;
 use Sylius\Component\Resource\Model\TranslatableTrait;
+use Sylius\Component\Resource\Model\TranslationInterface;
+use Webmozart\Assert\Assert;
 
-/**
- * @author Paweł Jędrzejewski <pawel@sylius.org>
- * @author Gonzalo Vilaseca <gvilaseca@reiss.co.uk>
- */
 class Product implements ProductInterface
 {
     use TimestampableTrait, ToggleableTrait;
     use TranslatableTrait {
         __construct as private initializeTranslationsCollection;
+        getTranslation as private doGetTranslation;
     }
 
-    /**
-     * @var mixed
-     */
+    /** @var mixed */
     protected $id;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $code;
 
-    /**
-     * @var Collection|AttributeValueInterface[]
-     */
+    /** @var Collection|AttributeValueInterface[] */
     protected $attributes;
 
-    /**
-     * @var Collection|ProductVariantInterface[]
-     */
+    /** @var Collection|ProductVariantInterface[] */
     protected $variants;
 
-    /**
-     * @var Collection|ProductOptionInterface[]
-     */
+    /** @var Collection|ProductOptionInterface[] */
     protected $options;
 
-    /**
-     * @var Collection|ProductAssociationInterface[]
-     */
+    /** @var Collection|ProductAssociationInterface[] */
     protected $associations;
 
     public function __construct()
@@ -74,12 +59,9 @@ class Product implements ProductInterface
         $this->options = new ArrayCollection();
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
-        return $this->getName();
+        return (string) $this->getName();
     }
 
     /**
@@ -194,17 +176,25 @@ class Product implements ProductInterface
     /**
      * {@inheritdoc}
      */
-    public function getAttributesByLocale(string $localeCode, string $fallbackLocaleCode): Collection
-    {
+    public function getAttributesByLocale(
+        string $localeCode,
+        string $fallbackLocaleCode,
+        ?string $baseLocaleCode = null
+    ): Collection {
+        if (null === $baseLocaleCode || $baseLocaleCode === $fallbackLocaleCode) {
+            $baseLocaleCode = $fallbackLocaleCode;
+            $fallbackLocaleCode = null;
+        }
+
         $attributes = $this->attributes->filter(
-            function (ProductAttributeValueInterface $attribute) use ($fallbackLocaleCode) {
-                return $attribute->getLocaleCode() === $fallbackLocaleCode;
+            function (ProductAttributeValueInterface $attribute) use ($baseLocaleCode) {
+                return $attribute->getLocaleCode() === $baseLocaleCode;
             }
         );
 
         $attributesWithFallback = [];
         foreach ($attributes as $attribute) {
-            $attributesWithFallback[] = $this->getAttributeInDifferentLocale($attribute, $localeCode);
+            $attributesWithFallback[] = $this->getAttributeInDifferentLocale($attribute, $localeCode, $fallbackLocaleCode);
         }
 
         return new ArrayCollection($attributesWithFallback);
@@ -215,6 +205,7 @@ class Product implements ProductInterface
      */
     public function addAttribute(?AttributeValueInterface $attribute): void
     {
+        /** @var ProductAttributeValueInterface $attribute */
         Assert::isInstanceOf(
             $attribute,
             ProductAttributeValueInterface::class,
@@ -232,6 +223,7 @@ class Product implements ProductInterface
      */
     public function removeAttribute(?AttributeValueInterface $attribute): void
     {
+        /** @var ProductAttributeValueInterface $attribute */
         Assert::isInstanceOf(
             $attribute,
             ProductAttributeValueInterface::class,
@@ -433,6 +425,17 @@ class Product implements ProductInterface
     }
 
     /**
+     * @return ProductTranslationInterface
+     */
+    public function getTranslation(?string $locale = null): TranslationInterface
+    {
+        /** @var ProductTranslationInterface $translation */
+        $translation = $this->doGetTranslation($locale);
+
+        return $translation;
+    }
+
+    /**
      * {@inheritdoc}
      */
     protected function createTranslation(): ProductTranslationInterface
@@ -440,23 +443,37 @@ class Product implements ProductInterface
         return new ProductTranslation();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     private function getAttributeInDifferentLocale(
         ProductAttributeValueInterface $attributeValue,
-        ?string $localeCode
+        string $localeCode,
+        ?string $fallbackLocaleCode = null
     ): AttributeValueInterface {
-        if (!$this->hasAttributeByCodeAndLocale($attributeValue->getCode(), $localeCode)) {
+        if (!$this->hasNotEmptyAttributeByCodeAndLocale($attributeValue->getCode(), $localeCode)) {
+            if (
+                null !== $fallbackLocaleCode &&
+                $this->hasNotEmptyAttributeByCodeAndLocale($attributeValue->getCode(), $fallbackLocaleCode)
+            ) {
+                return $this->getAttributeByCodeAndLocale($attributeValue->getCode(), $fallbackLocaleCode);
+            }
+
             return $attributeValue;
         }
 
-        $attributeValueInDifferentLocale = $this->getAttributeByCodeAndLocale($attributeValue->getCode(), $localeCode);
-        if ('' === $attributeValueInDifferentLocale->getValue()
-            || null === $attributeValueInDifferentLocale->getValue()) {
-            return $attributeValue;
+        return $this->getAttributeByCodeAndLocale($attributeValue->getCode(), $localeCode);
+    }
+
+    private function hasNotEmptyAttributeByCodeAndLocale(string $attributeCode, string $localeCode): bool
+    {
+        $attributeValue = $this->getAttributeByCodeAndLocale($attributeCode, $localeCode);
+        if (null === $attributeValue) {
+            return false;
         }
 
-        return $attributeValueInDifferentLocale;
+        $value = $attributeValue->getValue();
+        if ('' === $value || null === $value || [] === $value) {
+            return false;
+        }
+
+        return true;
     }
 }

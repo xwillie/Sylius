@@ -18,15 +18,10 @@ use Sylius\Bundle\FixturesBundle\Suite\SuiteRegistryInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
-/**
- * @author Kamil Kokot <kamil@kokot.me>
- */
 final class FixturesLoadCommand extends ContainerAwareCommand
 {
     /**
@@ -63,9 +58,6 @@ final class FixturesLoadCommand extends ContainerAwareCommand
         $this->loadSuites($input);
     }
 
-    /**
-     * @param InputInterface $input
-     */
     private function loadSuites(InputInterface $input): void
     {
         $suiteName = $input->getArgument('suite');
@@ -74,17 +66,11 @@ final class FixturesLoadCommand extends ContainerAwareCommand
         $this->getSuiteLoader()->load($suite);
     }
 
-    /**
-     * @return SuiteRegistryInterface
-     */
     private function getSuiteRegistry(): SuiteRegistryInterface
     {
         return $this->getContainer()->get('sylius_fixtures.suite_registry');
     }
 
-    /**
-     * @return SuiteLoaderInterface
-     */
     private function getSuiteLoader(): SuiteLoaderInterface
     {
         return $this->getContainer()->get('sylius_fixtures.suite_loader');

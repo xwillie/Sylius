@@ -17,30 +17,20 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Customer\Model\Customer as BaseCustomer;
 use Sylius\Component\User\Model\UserInterface as BaseUserInterface;
+use Webmozart\Assert\Assert;
 
-/**
- * @author Michał Marcinkowski <michal.marcinkowski@lakion.com>
- */
 class Customer extends BaseCustomer implements CustomerInterface
 {
-    /**
-     * @var Collection|OrderInterface[]
-     */
+    /** @var Collection|OrderInterface[] */
     protected $orders;
 
-    /**
-     * @var AddressInterface
-     */
+    /** @var AddressInterface */
     protected $defaultAddress;
 
-    /**
-     * @var Collection|AddressInterface[]
-     */
+    /** @var Collection|AddressInterface[] */
     protected $addresses;
 
-    /**
-     * @var ShopUserInterface
-     */
+    /** @var ShopUserInterface */
     protected $user;
 
     public function __construct()
@@ -54,7 +44,7 @@ class Customer extends BaseCustomer implements CustomerInterface
     /**
      * {@inheritdoc}
      */
-    public function getOrders()
+    public function getOrders(): Collection
     {
         return $this->orders;
     }
@@ -62,7 +52,7 @@ class Customer extends BaseCustomer implements CustomerInterface
     /**
      * {@inheritdoc}
      */
-    public function getDefaultAddress()
+    public function getDefaultAddress(): ?AddressInterface
     {
         return $this->defaultAddress;
     }
@@ -70,7 +60,7 @@ class Customer extends BaseCustomer implements CustomerInterface
     /**
      * {@inheritdoc}
      */
-    public function setDefaultAddress(AddressInterface $defaultAddress = null)
+    public function setDefaultAddress(?AddressInterface $defaultAddress): void
     {
         $this->defaultAddress = $defaultAddress;
 
@@ -82,7 +72,7 @@ class Customer extends BaseCustomer implements CustomerInterface
     /**
      * {@inheritdoc}
      */
-    public function addAddress(AddressInterface $address)
+    public function addAddress(AddressInterface $address): void
     {
         if (!$this->hasAddress($address)) {
             $this->addresses[] = $address;
@@ -93,7 +83,7 @@ class Customer extends BaseCustomer implements CustomerInterface
     /**
      * {@inheritdoc}
      */
-    public function removeAddress(AddressInterface $address)
+    public function removeAddress(AddressInterface $address): void
     {
         $this->addresses->removeElement($address);
         $address->setCustomer(null);
@@ -102,7 +92,7 @@ class Customer extends BaseCustomer implements CustomerInterface
     /**
      * {@inheritdoc}
      */
-    public function hasAddress(AddressInterface $address)
+    public function hasAddress(AddressInterface $address): bool
     {
         return $this->addresses->contains($address);
     }
@@ -110,7 +100,7 @@ class Customer extends BaseCustomer implements CustomerInterface
     /**
      * {@inheritdoc}
      */
-    public function getAddresses()
+    public function getAddresses(): Collection
     {
         return $this->addresses;
     }
@@ -128,27 +118,30 @@ class Customer extends BaseCustomer implements CustomerInterface
      */
     public function setUser(?BaseUserInterface $user): void
     {
-        if ($this->user !== $user) {
-            $this->user = $user;
-            $this->assignCustomer($user);
+        if ($this->user === $user) {
+            return;
+        }
+
+        /** @var ShopUserInterface|null $user */
+        Assert::nullOrIsInstanceOf($user, ShopUserInterface::class);
+
+        $previousUser = $this->user;
+        $this->user = $user;
+
+        if ($previousUser instanceof ShopUserInterface) {
+            $previousUser->setCustomer(null);
+        }
+
+        if ($user instanceof ShopUserInterface) {
+            $user->setCustomer($this);
         }
     }
 
     /**
      * {@inheritdoc}
      */
-    public function hasUser()
+    public function hasUser(): bool
     {
         return null !== $this->user;
-    }
-
-    /**
-     * @param ShopUserInterface|null $user
-     */
-    protected function assignCustomer(ShopUserInterface $user = null)
-    {
-        if (null !== $user) {
-            $user->setCustomer($this);
-        }
     }
 }

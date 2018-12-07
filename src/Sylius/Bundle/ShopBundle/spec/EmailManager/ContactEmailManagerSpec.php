@@ -17,9 +17,6 @@ use PhpSpec\ObjectBehavior;
 use Sylius\Bundle\ShopBundle\EmailManager\ContactEmailManagerInterface;
 use Sylius\Component\Mailer\Sender\SenderInterface;
 
-/**
- * @author Grzegorz Sadowski <grzegorz.sadowski@lakion.com>
- */
 final class ContactEmailManagerSpec extends ObjectBehavior
 {
     function let(SenderInterface $sender): void
@@ -43,7 +40,9 @@ final class ContactEmailManagerSpec extends ObjectBehavior
                         'email' => 'customer@example.com',
                         'message' => 'Hello!',
                     ],
-                ]
+                ],
+                [],
+                ['customer@example.com']
             )
             ->shouldBeCalled()
         ;

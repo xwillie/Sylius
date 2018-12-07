@@ -15,7 +15,6 @@ namespace spec\Sylius\Component\Addressing\Matcher;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use PhpSpec\ObjectBehavior;
-use Sylius\Component\Addressing\Matcher\ZoneMatcher;
 use Sylius\Component\Addressing\Matcher\ZoneMatcherInterface;
 use Sylius\Component\Addressing\Model\AddressInterface;
 use Sylius\Component\Addressing\Model\CountryInterface;
@@ -24,11 +23,6 @@ use Sylius\Component\Addressing\Model\ZoneInterface;
 use Sylius\Component\Addressing\Model\ZoneMemberInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 
-/**
- * @author Saša Stamenković <umpirsky@gmail.com>
- * @author Gonzalo Vilaseca <gvilaseca@reiss.co.uk>
- * @author Jan Góralski <jan.goralski@lakion.com>
- */
 final class ZoneMatcherSpec extends ObjectBehavior
 {
     function let(RepositoryInterface $repository): void

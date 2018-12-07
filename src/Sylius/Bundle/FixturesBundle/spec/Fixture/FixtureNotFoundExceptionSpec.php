@@ -14,12 +14,7 @@ declare(strict_types=1);
 namespace spec\Sylius\Bundle\FixturesBundle\Fixture;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
-use Sylius\Bundle\FixturesBundle\Fixture\FixtureNotFoundException;
 
-/**
- * @author Kamil Kokot <kamil@kokot.me>
- */
 final class FixtureNotFoundExceptionSpec extends ObjectBehavior
 {
     function let(): void

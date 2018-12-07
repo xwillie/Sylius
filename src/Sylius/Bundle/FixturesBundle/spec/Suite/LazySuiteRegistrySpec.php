@@ -14,16 +14,11 @@ declare(strict_types=1);
 namespace spec\Sylius\Bundle\FixturesBundle\Suite;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
-use Sylius\Bundle\FixturesBundle\Suite\LazySuiteRegistry;
 use Sylius\Bundle\FixturesBundle\Suite\SuiteFactoryInterface;
 use Sylius\Bundle\FixturesBundle\Suite\SuiteInterface;
 use Sylius\Bundle\FixturesBundle\Suite\SuiteNotFoundException;
 use Sylius\Bundle\FixturesBundle\Suite\SuiteRegistryInterface;
 
-/**
- * @author Kamil Kokot <kamil@kokot.me>
- */
 final class LazySuiteRegistrySpec extends ObjectBehavior
 {
     function let(SuiteFactoryInterface $suiteFactory): void

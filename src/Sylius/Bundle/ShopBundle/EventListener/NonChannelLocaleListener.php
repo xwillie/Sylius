@@ -20,29 +20,18 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Webmozart\Assert\Assert;
 
-/**
- * @author Jan Góralski <jan.goralski@lakion.com>
- */
 final class NonChannelLocaleListener
 {
-    /**
-     * @var LocaleProviderInterface
-     */
+    /** @var LocaleProviderInterface */
     private $channelBasedLocaleProvider;
 
-    /**
-     * @var FirewallMap
-     */
+    /** @var FirewallMap */
     private $firewallMap;
 
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     private $firewallNames;
 
     /**
-     * @param LocaleProviderInterface $channelBasedLocaleProvider
-     * @param FirewallMap $firewallMap
      * @param string[] $firewallNames
      */
     public function __construct(
@@ -59,8 +48,6 @@ final class NonChannelLocaleListener
     }
 
     /**
-     * @param GetResponseEvent $event
-     *
      * @throws NotFoundHttpException
      */
     public function restrictRequestLocale(GetResponseEvent $event): void
@@ -83,11 +70,6 @@ final class NonChannelLocaleListener
         }
     }
 
-    /**
-     * @param FirewallConfig|null $firewall
-     *
-     * @return bool
-     */
     private function isFirewallSupported(?FirewallConfig $firewall = null): bool
     {
         return

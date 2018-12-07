@@ -14,12 +14,7 @@ declare(strict_types=1);
 namespace spec\Sylius\Bundle\FixturesBundle\Suite;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
-use Sylius\Bundle\FixturesBundle\Suite\SuiteNotFoundException;
 
-/**
- * @author Kamil Kokot <kamil@kokot.me>
- */
 final class SuiteNotFoundExceptionSpec extends ObjectBehavior
 {
     function let(): void

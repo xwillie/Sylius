@@ -15,7 +15,6 @@ namespace spec\Sylius\Bundle\UserBundle\Provider;
 
 use PhpSpec\ObjectBehavior;
 use Sylius\Bundle\UserBundle\Provider\AbstractUserProvider;
-use Sylius\Bundle\UserBundle\Provider\UsernameOrEmailProvider;
 use Sylius\Component\User\Canonicalizer\CanonicalizerInterface;
 use Sylius\Component\User\Model\User;
 use Sylius\Component\User\Model\UserInterface;
@@ -23,10 +22,6 @@ use Sylius\Component\User\Repository\UserRepositoryInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
-/**
- * @author Łukasz Chruściel <lukasz.chrusciel@lakion.com>
- * @author Michał Marcinkowski <michal.marcinkowski@lakion.com>
- */
 final class UsernameOrEmailProviderSpec extends ObjectBehavior
 {
     function let(UserRepositoryInterface $userRepository, CanonicalizerInterface $canonicalizer): void

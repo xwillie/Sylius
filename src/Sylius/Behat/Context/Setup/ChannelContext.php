@@ -18,48 +18,27 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Sylius\Behat\Service\SharedStorageInterface;
 use Sylius\Component\Addressing\Model\ZoneInterface;
 use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
-use Sylius\Component\Core\Currency\CurrencyStorageInterface;
+use Sylius\Component\Core\Formatter\StringInflector;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Test\Services\DefaultChannelFactoryInterface;
 
-/**
- * @author Arkadiusz Krakowiak <arkadiusz.krakowiak@lakion.com>
- * @author Mateusz Zalewski <mateusz.zalewski@lakion.com>
- */
 final class ChannelContext implements Context
 {
-    /**
-     * @var SharedStorageInterface
-     */
+    /** @var SharedStorageInterface */
     private $sharedStorage;
 
-    /**
-     * @var DefaultChannelFactoryInterface
-     */
+    /** @var DefaultChannelFactoryInterface */
     private $unitedStatesChannelFactory;
 
-    /**
-     * @var DefaultChannelFactoryInterface
-     */
+    /** @var DefaultChannelFactoryInterface */
     private $defaultChannelFactory;
 
-    /**
-     * @var ChannelRepositoryInterface
-     */
+    /** @var ChannelRepositoryInterface */
     private $channelRepository;
 
-    /**
-     * @var ObjectManager
-     */
+    /** @var ObjectManager */
     private $channelManager;
 
-    /**
-     * @param SharedStorageInterface $sharedStorage
-     * @param DefaultChannelFactoryInterface $unitedStatesChannelFactory
-     * @param DefaultChannelFactoryInterface $defaultChannelFactory
-     * @param ChannelRepositoryInterface $channelRepository
-     * @param ObjectManager $channelManager
-     */
     public function __construct(
         SharedStorageInterface $sharedStorage,
         DefaultChannelFactoryInterface $unitedStatesChannelFactory,
@@ -72,6 +51,16 @@ final class ChannelContext implements Context
         $this->defaultChannelFactory = $defaultChannelFactory;
         $this->channelRepository = $channelRepository;
         $this->channelManager = $channelManager;
+    }
+
+    /**
+     * @Given :channel channel has account verification disabled
+     */
+    public function channelHasAccountVerificationDisabled(ChannelInterface $channel): void
+    {
+        $channel->setAccountVerificationRequired(false);
+
+        $this->channelManager->flush();
     }
 
     /**
@@ -113,9 +102,10 @@ final class ChannelContext implements Context
      * @Given /^the store(?:| also) operates on (?:a|another) channel named "([^"]+)" in "([^"]+)" currency$/
      * @Given the store operates on a channel identified by :code code
      */
-    public function theStoreOperatesOnAChannelNamed($channelIdentifier, $currencyCode = null)
+    public function theStoreOperatesOnAChannelNamed($channelName, $currencyCode = null)
     {
-        $defaultData = $this->defaultChannelFactory->create($channelIdentifier, $channelIdentifier, $currencyCode);
+        $channelCode = StringInflector::nameToLowercaseCode($channelName);
+        $defaultData = $this->defaultChannelFactory->create($channelCode, $channelName, $currencyCode);
 
         $this->sharedStorage->setClipboard($defaultData);
         $this->sharedStorage->set('channel', $defaultData['channel']);
@@ -197,7 +187,6 @@ final class ChannelContext implements Context
     }
 
     /**
-     * @param ChannelInterface $channel
      * @param bool $state
      */
     private function changeChannelState(ChannelInterface $channel, $state)

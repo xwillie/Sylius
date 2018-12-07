@@ -22,41 +22,23 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-/**
- * @author Kamil Kokot <kamil@kokot.me>
- */
 class ShopUserExampleFactory extends AbstractExampleFactory implements ExampleFactoryInterface
 {
-    /**
-     * @var FactoryInterface
-     */
+    /** @var FactoryInterface */
     private $userFactory;
 
-    /**
-     * @var FactoryInterface
-     */
+    /** @var FactoryInterface */
     private $customerFactory;
 
-    /**
-     * @var RepositoryInterface
-     */
+    /** @var RepositoryInterface */
     private $customerGroupRepository;
 
-    /**
-     * @var \Faker\Generator
-     */
+    /** @var \Faker\Generator */
     private $faker;
 
-    /**
-     * @var OptionsResolver
-     */
+    /** @var OptionsResolver */
     private $optionsResolver;
 
-    /**
-     * @param FactoryInterface $userFactory
-     * @param FactoryInterface $customerFactory
-     * @param RepositoryInterface $customerGroupRepository
-     */
     public function __construct(
         FactoryInterface $userFactory,
         FactoryInterface $customerFactory,
@@ -75,7 +57,7 @@ class ShopUserExampleFactory extends AbstractExampleFactory implements ExampleFa
     /**
      * {@inheritdoc}
      */
-    public function create(array $options = [])
+    public function create(array $options = []): ShopUserInterface
     {
         $options = $this->optionsResolver->resolve($options);
 
@@ -99,16 +81,16 @@ class ShopUserExampleFactory extends AbstractExampleFactory implements ExampleFa
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
-            ->setDefault('email', function (Options $options) {
+            ->setDefault('email', function (Options $options): string {
                 return $this->faker->email;
             })
-            ->setDefault('first_name', function (Options $options) {
+            ->setDefault('first_name', function (Options $options): string {
                 return $this->faker->firstName;
             })
-            ->setDefault('last_name', function (Options $options) {
+            ->setDefault('last_name', function (Options $options): string {
                 return $this->faker->lastName;
             })
             ->setDefault('enabled', true)

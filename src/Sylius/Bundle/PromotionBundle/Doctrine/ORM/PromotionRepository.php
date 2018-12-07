@@ -13,14 +13,10 @@ declare(strict_types=1);
 
 namespace Sylius\Bundle\PromotionBundle\Doctrine\ORM;
 
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\QueryBuilder;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Promotion\Repository\PromotionRepositoryInterface;
 
-/**
- * @author Saša Stamenković <umpirsky@gmail.com>
- */
 class PromotionRepository extends EntityRepository implements PromotionRepositoryInterface
 {
     /**
@@ -43,12 +39,6 @@ class PromotionRepository extends EntityRepository implements PromotionRepositor
         return $this->findBy(['name' => $name]);
     }
 
-    /**
-     * @param QueryBuilder $queryBuilder
-     * @param \DateTimeInterface|null $date
-     *
-     * @return QueryBuilder
-     */
     protected function filterByActive(QueryBuilder $queryBuilder, ?\DateTimeInterface $date = null): QueryBuilder
     {
         return $queryBuilder

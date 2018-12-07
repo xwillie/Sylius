@@ -14,12 +14,8 @@ declare(strict_types=1);
 namespace spec\Sylius\Bundle\MoneyBundle\Formatter;
 
 use PhpSpec\ObjectBehavior;
-use Sylius\Bundle\MoneyBundle\Formatter\MoneyFormatter;
 use Sylius\Bundle\MoneyBundle\Formatter\MoneyFormatterInterface;
 
-/**
- * @author Łukasz Chruściel <lukasz.chrusciel@lakion.com>
- */
 final class MoneyFormatterSpec extends ObjectBehavior
 {
     function it_implements_money_formatter_interface(): void

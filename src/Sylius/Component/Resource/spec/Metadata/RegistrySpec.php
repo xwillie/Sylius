@@ -15,12 +15,8 @@ namespace spec\Sylius\Component\Resource\Metadata;
 
 use PhpSpec\ObjectBehavior;
 use Sylius\Component\Resource\Metadata\MetadataInterface;
-use Sylius\Component\Resource\Metadata\Registry;
 use Sylius\Component\Resource\Metadata\RegistryInterface;
 
-/**
- * @author Paweł Jędrzejewski <pawel@sylius.org>
- */
 final class RegistrySpec extends ObjectBehavior
 {
     function it_implements_registry_interface(): void

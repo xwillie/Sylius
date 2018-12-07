@@ -14,21 +14,15 @@ declare(strict_types=1);
 namespace spec\Sylius\Bundle\ThemeBundle\Controller;
 
 use PhpSpec\ObjectBehavior;
-use Sylius\Bundle\ThemeBundle\Controller\ThemeScreenshotController;
 use Sylius\Bundle\ThemeBundle\Model\ThemeInterface;
 use Sylius\Bundle\ThemeBundle\Model\ThemeScreenshot;
 use Sylius\Bundle\ThemeBundle\Repository\ThemeRepositoryInterface;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-/**
- * @author Kamil Kokot <kamil@kokot.me>
- */
 final class ThemeScreenshotControllerSpec extends ObjectBehavior
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     private $fixturesPath;
 
     function let(ThemeRepositoryInterface $themeRepository): void

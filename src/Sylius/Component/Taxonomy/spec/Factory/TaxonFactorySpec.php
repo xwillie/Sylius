@@ -15,13 +15,9 @@ namespace spec\Sylius\Component\Taxonomy\Factory;
 
 use PhpSpec\ObjectBehavior;
 use Sylius\Component\Resource\Factory\FactoryInterface;
-use Sylius\Component\Taxonomy\Factory\TaxonFactory;
 use Sylius\Component\Taxonomy\Factory\TaxonFactoryInterface;
 use Sylius\Component\Taxonomy\Model\TaxonInterface;
 
-/**
- * @author Mateusz Zalewski <mateusz.zalewski@lakion.com>
- */
 final class TaxonFactorySpec extends ObjectBehavior
 {
     function let(FactoryInterface $factory): void

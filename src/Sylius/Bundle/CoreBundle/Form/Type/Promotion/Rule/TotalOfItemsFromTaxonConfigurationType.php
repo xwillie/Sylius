@@ -15,7 +15,6 @@ namespace Sylius\Bundle\CoreBundle\Form\Type\Promotion\Rule;
 
 use Sylius\Bundle\MoneyBundle\Form\Type\MoneyType;
 use Sylius\Bundle\ResourceBundle\Form\DataTransformer\ResourceToIdentifierTransformer;
-use Sylius\Bundle\ResourceBundle\Form\Type\ResourceAutocompleteChoiceType;
 use Sylius\Bundle\TaxonomyBundle\Form\Type\TaxonAutocompleteChoiceType;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Component\Form\AbstractType;
@@ -23,19 +22,11 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\ReversedTransformer;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-/**
- * @author Mateusz Zalewski <mateusz.zalewski@lakion.com>
- */
 final class TotalOfItemsFromTaxonConfigurationType extends AbstractType
 {
-    /**
-     * @var RepositoryInterface
-     */
+    /** @var RepositoryInterface */
     private $taxonRepository;
 
-    /**
-     * @param RepositoryInterface $taxonRepository
-     */
     public function __construct(RepositoryInterface $taxonRepository)
     {
         $this->taxonRepository = $taxonRepository;
@@ -44,7 +35,7 @@ final class TotalOfItemsFromTaxonConfigurationType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('taxon', TaxonAutocompleteChoiceType::class, [
@@ -56,13 +47,15 @@ final class TotalOfItemsFromTaxonConfigurationType extends AbstractType
             ])
         ;
 
-        $builder->get('taxon')->addModelTransformer(new ReversedTransformer(new ResourceToIdentifierTransformer($this->taxonRepository, 'code')));
+        $builder->get('taxon')->addModelTransformer(
+            new ReversedTransformer(new ResourceToIdentifierTransformer($this->taxonRepository, 'code'))
+        );
     }
 
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
             ->setRequired('currency')
@@ -73,7 +66,7 @@ final class TotalOfItemsFromTaxonConfigurationType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'sylius_promotion_rule_total_of_items_from_taxon_configuration';
     }

@@ -24,7 +24,7 @@ If you request a payment method via API, you will receive an object with the fol
 
 .. note::
 
-    Read more about :doc:`Payment Methods in the component docs</components/Payment/models>`.
+    Read more about :doc:`Payment Methods in the component docs</components_and_bundles/components/Payment/models>`.
 
 Getting a Single Payment Method
 -------------------------------
@@ -53,7 +53,7 @@ To see the details of the payment method with ``code = cash_on_delivery`` use th
 
 .. code-block:: bash
 
-     $ curl http://demo.sylius.org/api/v1/payment-methods/cash_on_delivery \
+     $ curl http://demo.sylius.com/api/v1/payment-methods/cash_on_delivery \
         -H "Authorization: Bearer SampleToken" \
         -H "Accept: application/json"
 

@@ -13,14 +13,8 @@ declare(strict_types=1);
 
 namespace Sylius\Tests\Controller;
 
-use Sylius\Component\Core\Model\OrderInterface;
-use Sylius\Component\Core\Model\PaymentMethodInterface;
-use Sylius\Component\Core\Model\ShippingMethodInterface;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * @author Mateusz Zalewski <mateusz.zalewski@lakion.com>
- */
 final class CheckoutShippingApiTest extends CheckoutApiTestCase
 {
     /**
@@ -270,8 +264,6 @@ EOT;
     }
 
     /**
-     * @param mixed $cartId
-     *
      * @return string
      */
     private function getSelectShippingUrl($cartId)

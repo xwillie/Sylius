@@ -16,11 +16,7 @@ namespace spec\Sylius\Component\User\Security;
 use PhpSpec\ObjectBehavior;
 use Sylius\Component\User\Model\CredentialsHolderInterface;
 use Sylius\Component\User\Security\UserPasswordEncoderInterface;
-use Sylius\Component\User\Security\UserPbkdf2PasswordEncoder;
 
-/**
- * @author Michał Marcinkowski <michal.marcinkowski@lakion.com>
- */
 final class UserPbkdf2PasswordEncoderSpec extends ObjectBehavior
 {
     function it_implements_password_updater_interface(): void

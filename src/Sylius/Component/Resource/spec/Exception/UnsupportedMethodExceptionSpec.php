@@ -14,11 +14,7 @@ declare(strict_types=1);
 namespace spec\Sylius\Component\Resource\Exception;
 
 use PhpSpec\ObjectBehavior;
-use Sylius\Component\Resource\Exception\UnsupportedMethodException;
 
-/**
- * @author Jan Góralski <jan.goralski@lakion.com>
- */
 final class UnsupportedMethodExceptionSpec extends ObjectBehavior
 {
     function let(): void

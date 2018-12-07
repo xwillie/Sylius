@@ -16,13 +16,9 @@ namespace spec\Sylius\Bundle\ThemeBundle\Locator;
 use PhpSpec\ObjectBehavior;
 use Sylius\Bundle\ThemeBundle\Factory\FinderFactoryInterface;
 use Sylius\Bundle\ThemeBundle\Locator\FileLocatorInterface;
-use Sylius\Bundle\ThemeBundle\Locator\RecursiveFileLocator;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
-/**
- * @author Kamil Kokot <kamil@kokot.me>
- */
 final class RecursiveFileLocatorSpec extends ObjectBehavior
 {
     function let(FinderFactoryInterface $finderFactory): void
@@ -76,6 +72,33 @@ final class RecursiveFileLocatorSpec extends ObjectBehavior
 
         $this->locateFilesNamed('readme.md')->shouldReturn([
             '/search/path/nested1/readme.md',
+            '/search/path/nested2/readme.md',
+        ]);
+    }
+
+    function it_searches_for_files_at_a_maximum_depth(
+        FinderFactoryInterface $finderFactory,
+        Finder $finder,
+        SplFileInfo $firstSplFileInfo,
+        SplFileInfo $secondSplFileInfo
+    ): void {
+        $this->beConstructedWith($finderFactory, ['/search/path/'], 1);
+        $finderFactory->create()->willReturn($finder);
+
+        $finder->depth('<= 1')->shouldBeCalled()->willReturn($finder);
+        $finder->name('readme.md')->shouldBeCalled()->willReturn($finder);
+        $finder->in('/search/path/')->shouldBeCalled()->willReturn($finder);
+        $finder->ignoreUnreadableDirs()->shouldBeCalled()->willReturn($finder);
+        $finder->files()->shouldBeCalled()->willReturn($finder);
+
+        $finder->getIterator()->willReturn(new \ArrayIterator([
+            $secondSplFileInfo->getWrappedObject(),
+        ]));
+
+        $firstSplFileInfo->getPathname()->willReturn('/search/path/nested1/leveldeeper/readme.md');
+        $secondSplFileInfo->getPathname()->willReturn('/search/path/nested2/readme.md');
+
+        $this->locateFilesNamed('readme.md')->shouldReturn([
             '/search/path/nested2/readme.md',
         ]);
     }

@@ -14,11 +14,7 @@ declare(strict_types=1);
 namespace spec\Sylius\Bundle\ThemeBundle\Loader;
 
 use PhpSpec\ObjectBehavior;
-use Sylius\Bundle\ThemeBundle\Loader\ThemeLoadingFailedException;
 
-/**
- * @author Kamil Kokot <kamil@kokot.me>
- */
 final class ThemeLoadingFailedExceptionSpec extends ObjectBehavior
 {
     function it_is_a_domain_exception(): void

@@ -14,16 +14,12 @@ declare(strict_types=1);
 namespace spec\Sylius\Component\Order\Factory;
 
 use PhpSpec\ObjectBehavior;
-use Sylius\Component\Order\Factory\OrderItemUnitFactory;
 use Sylius\Component\Order\Factory\OrderItemUnitFactoryInterface;
 use Sylius\Component\Order\Model\OrderItemInterface;
 use Sylius\Component\Order\Model\OrderItemUnit;
 use Sylius\Component\Order\Model\OrderItemUnitInterface;
 use Sylius\Component\Resource\Exception\UnsupportedMethodException;
 
-/**
- * @author Mateusz Zalewski <mateusz.zalewski@lakion.com>
- */
 final class OrderItemUnitFactorySpec extends ObjectBehavior
 {
     function let(): void

@@ -3,6 +3,7 @@ sylius_admin_ajax_product_variants_update_position:
     methods: [PUT]
     defaults:
         _controller: sylius.controller.product_variant:updatePositionsAction
+        _format: json
         _sylius:
             permission: true
 
@@ -11,6 +12,7 @@ sylius_admin_ajax_product_variants_by_phrase:
     methods: [GET]
     defaults:
         _controller: sylius.controller.product_variant:indexAction
+        _format: json
         _sylius:
             serialization_groups: [Autocomplete]
             permission: true
@@ -21,16 +23,15 @@ sylius_admin_ajax_product_variants_by_phrase:
                     locale: expr:service('sylius.context.locale').getLocaleCode()
                     productCode: $productCode
 
-sylius_admin_ajax_product_variants_by_code:
+sylius_admin_ajax_product_variants_by_codes:
     path: /
     methods: [GET]
     defaults:
         _controller: sylius.controller.product_variant:indexAction
+        _format: json
         _sylius:
             serialization_groups: [Autocomplete]
             permission: true
             repository:
-                method: findByCodeAndProductCode
-                arguments:
-                    code: $code
-                    productCode: $productCode
+                method: findByCodesAndProductCode
+                arguments: [$code, $productCode]

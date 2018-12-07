@@ -16,20 +16,15 @@ namespace Sylius\Component\Core\Model;
 use Sylius\Component\Addressing\Model\ZoneInterface;
 use Sylius\Component\Taxation\Model\TaxRate as BaseTaxRate;
 
-/**
- * @author Paweł Jędrzejewski <pawel@sylius.org>
- */
 class TaxRate extends BaseTaxRate implements TaxRateInterface
 {
-    /**
-     * @var ZoneInterface
-     */
+    /** @var ZoneInterface */
     protected $zone;
 
     /**
      * {@inheritdoc}
      */
-    public function getZone()
+    public function getZone(): ?ZoneInterface
     {
         return $this->zone;
     }
@@ -37,7 +32,7 @@ class TaxRate extends BaseTaxRate implements TaxRateInterface
     /**
      * {@inheritdoc}
      */
-    public function setZone(ZoneInterface $zone = null)
+    public function setZone(?ZoneInterface $zone): void
     {
         $this->zone = $zone;
     }

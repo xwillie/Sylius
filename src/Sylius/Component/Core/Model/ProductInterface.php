@@ -13,15 +13,13 @@ declare(strict_types=1);
 
 namespace Sylius\Component\Core\Model;
 
+use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Channel\Model\ChannelsAwareInterface;
 use Sylius\Component\Product\Model\ProductInterface as BaseProductInterface;
-use Sylius\Component\Review\Model\ReviewInterface;
+use Sylius\Component\Resource\Model\TranslationInterface;
 use Sylius\Component\Review\Model\ReviewableInterface;
+use Sylius\Component\Review\Model\ReviewInterface;
 
-/**
- * @author Paweł Jędrzejewski <pawel@sylius.org>
- * @author Anna Walasek <anna.walasek@lakion.com>
- */
 interface ProductInterface extends
     BaseProductInterface,
     ProductTaxonsAwareInterface,
@@ -40,50 +38,32 @@ interface ProductInterface extends
     public const VARIANT_SELECTION_CHOICE = 'choice';
     public const VARIANT_SELECTION_MATCH = 'match';
 
-    /**
-     * @return string
-     */
-    public function getVariantSelectionMethod();
+    public function getVariantSelectionMethod(): string;
 
     /**
-     * @param string $variantSelectionMethod
-     *
      * @throws \InvalidArgumentException
      */
-    public function setVariantSelectionMethod($variantSelectionMethod);
+    public function setVariantSelectionMethod(?string $variantSelectionMethod): void;
+
+    public function isVariantSelectionMethodChoice(): bool;
+
+    public function getVariantSelectionMethodLabel(): string;
+
+    public function getShortDescription(): ?string;
+
+    public function setShortDescription(?string $shortDescription): void;
+
+    public function getMainTaxon(): ?TaxonInterface;
+
+    public function setMainTaxon(?TaxonInterface $mainTaxon): void;
 
     /**
-     * @return bool
+     * @return Collection|ReviewInterface[]
      */
-    public function isVariantSelectionMethodChoice();
+    public function getAcceptedReviews(): Collection;
 
     /**
-     * @return string
+     * @return ProductTranslationInterface
      */
-    public function getVariantSelectionMethodLabel();
-
-    /**
-     * @return string
-     */
-    public function getShortDescription();
-
-    /**
-     * @param string $shortDescription
-     */
-    public function setShortDescription($shortDescription);
-
-    /**
-     * @return TaxonInterface
-     */
-    public function getMainTaxon();
-
-    /**
-     * @param TaxonInterface $mainTaxon
-     */
-    public function setMainTaxon(TaxonInterface $mainTaxon = null);
-
-    /**
-     * @return ReviewInterface[]
-     */
-    public function getAcceptedReviews();
+    public function getTranslation(?string $locale = null): TranslationInterface;
 }

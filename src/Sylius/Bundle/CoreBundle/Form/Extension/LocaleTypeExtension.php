@@ -17,25 +17,16 @@ use Sylius\Bundle\LocaleBundle\Form\Type\LocaleType;
 use Sylius\Component\Locale\Model\LocaleInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Component\Form\AbstractTypeExtension;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Intl\Intl;
 
-/**
- * @author Kamil Kokot <kamil@kokot.me>
- */
 final class LocaleTypeExtension extends AbstractTypeExtension
 {
-    /**
-     * @var RepositoryInterface
-     */
+    /** @var RepositoryInterface */
     private $localeRepository;
 
-    /**
-     * @param RepositoryInterface $localeRepository
-     */
     public function __construct(RepositoryInterface $localeRepository)
     {
         $this->localeRepository = $localeRepository;
@@ -44,7 +35,7 @@ final class LocaleTypeExtension extends AbstractTypeExtension
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
             $options = [
@@ -69,25 +60,20 @@ final class LocaleTypeExtension extends AbstractTypeExtension
     /**
      * {@inheritdoc}
      */
-    public function getExtendedType()
+    public function getExtendedType(): string
     {
         return LocaleType::class;
     }
 
-    /**
-     * @param $code
-     *
-     * @return null|string
-     */
-    private function getLocaleName($code)
+    private function getLocaleName(string $code): ?string
     {
         return Intl::getLocaleBundle()->getLocaleName($code);
     }
 
     /**
-     * @return array
+     * @return array|LocaleInterface[]
      */
-    private function getAvailableLocales()
+    private function getAvailableLocales(): array
     {
         $availableLocales = Intl::getLocaleBundle()->getLocaleNames();
 

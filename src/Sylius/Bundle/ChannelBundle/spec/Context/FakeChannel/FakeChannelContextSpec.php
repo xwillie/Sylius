@@ -16,7 +16,6 @@ namespace spec\Sylius\Bundle\ChannelBundle\Context\FakeChannel;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Sylius\Bundle\ChannelBundle\Context\FakeChannel\FakeChannelCodeProviderInterface;
-use Sylius\Bundle\ChannelBundle\Context\FakeChannel\FakeChannelContext;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Channel\Context\ChannelNotFoundException;
 use Sylius\Component\Channel\Model\ChannelInterface;
@@ -24,9 +23,6 @@ use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-/**
- * @author Kamil Kokot <kamil@kokot.me>
- */
 final class FakeChannelContextSpec extends ObjectBehavior
 {
     function let(

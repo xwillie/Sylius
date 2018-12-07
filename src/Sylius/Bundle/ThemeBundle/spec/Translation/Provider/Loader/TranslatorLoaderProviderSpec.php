@@ -14,13 +14,9 @@ declare(strict_types=1);
 namespace spec\Sylius\Bundle\ThemeBundle\Translation\Provider;
 
 use PhpSpec\ObjectBehavior;
-use Sylius\Bundle\ThemeBundle\Translation\Provider\Loader\TranslatorLoaderProvider;
 use Sylius\Bundle\ThemeBundle\Translation\Provider\Loader\TranslatorLoaderProviderInterface;
 use Symfony\Component\Translation\Loader\LoaderInterface;
 
-/**
- * @author Kamil Kokot <kamil@kokot.me>
- */
 final class TranslatorLoaderProviderSpec extends ObjectBehavior
 {
     function it_implements_translation_loader_provider_interface(): void

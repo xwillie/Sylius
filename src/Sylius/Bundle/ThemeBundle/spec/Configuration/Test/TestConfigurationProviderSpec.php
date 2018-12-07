@@ -15,12 +15,8 @@ namespace spec\Sylius\Bundle\ThemeBundle\Configuration\Test;
 
 use PhpSpec\ObjectBehavior;
 use Sylius\Bundle\ThemeBundle\Configuration\ConfigurationProviderInterface;
-use Sylius\Bundle\ThemeBundle\Configuration\Test\TestConfigurationProvider;
 use Sylius\Bundle\ThemeBundle\Configuration\Test\TestThemeConfigurationManagerInterface;
 
-/**
- * @author Kamil Kokot <kamil@kokot.me>
- */
 final class TestConfigurationProviderSpec extends ObjectBehavior
 {
     function let(TestThemeConfigurationManagerInterface $testThemeConfigurationManager): void

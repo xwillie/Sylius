@@ -13,19 +13,14 @@ declare(strict_types=1);
 
 namespace spec\Sylius\Component\Registry;
 
-require_once __DIR__.'/Fixture/SampleServiceInterface.php';
+require_once __DIR__ . '/Fixture/SampleServiceInterface.php';
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use spec\Sylius\Component\Registry\Fixture\SampleServiceInterface;
 use Sylius\Component\Registry\NonExistingServiceException;
-use Sylius\Component\Registry\PrioritizedServiceRegistry;
 use Sylius\Component\Registry\PrioritizedServiceRegistryInterface;
 use Zend\Stdlib\PriorityQueue;
 
-/**
- * @author Mark McKelvie <mark.mckelvie@reiss.com>
- */
 final class PrioritizedServiceRegistrySpec extends ObjectBehavior
 {
     function let(): void

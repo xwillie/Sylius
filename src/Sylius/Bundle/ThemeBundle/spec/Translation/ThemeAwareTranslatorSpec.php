@@ -16,18 +16,15 @@ namespace spec\Sylius\Bundle\ThemeBundle\Translation;
 use PhpSpec\ObjectBehavior;
 use Sylius\Bundle\ThemeBundle\Context\ThemeContextInterface;
 use Sylius\Bundle\ThemeBundle\Model\ThemeInterface;
-use Sylius\Bundle\ThemeBundle\Translation\ThemeAwareTranslator;
 use Symfony\Component\HttpKernel\CacheWarmer\WarmableInterface;
 use Symfony\Component\Translation\MessageCatalogueInterface;
 use Symfony\Component\Translation\TranslatorBagInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 
-/**
- * @author Kamil Kokot <kamil@kokot.me>
- */
 final class ThemeAwareTranslatorSpec extends ObjectBehavior
 {
-    function let(TranslatorInterface $translator, ThemeContextInterface $themeContext): void {
+    function let(TranslatorInterface $translator, ThemeContextInterface $themeContext): void
+    {
         $translator->implement(TranslatorBagInterface::class);
 
         $this->beConstructedWith($translator, $themeContext);

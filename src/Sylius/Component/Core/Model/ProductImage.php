@@ -16,27 +16,20 @@ namespace Sylius\Component\Core\Model;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
-/**
- * @author Grzegorz Sadowski <grzegorz.sadowski@lakion.com>
- */
 class ProductImage extends Image implements ProductImageInterface
 {
-    /**
-     * @var Collection|ProductVariantInterface[]
-     */
+    /** @var Collection|ProductVariantInterface[] */
     protected $productVariants;
 
     public function __construct()
     {
-        parent::__construct();
-
         $this->productVariants = new ArrayCollection();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function hasProductVariants()
+    public function hasProductVariants(): bool
     {
         return !$this->productVariants->isEmpty();
     }
@@ -44,7 +37,7 @@ class ProductImage extends Image implements ProductImageInterface
     /**
      * {@inheritdoc}
      */
-    public function getProductVariants()
+    public function getProductVariants(): Collection
     {
         return $this->productVariants;
     }
@@ -52,7 +45,7 @@ class ProductImage extends Image implements ProductImageInterface
     /**
      * {@inheritdoc}
      */
-    public function hasProductVariant(ProductVariantInterface $productVariant)
+    public function hasProductVariant(ProductVariantInterface $productVariant): bool
     {
         return $this->productVariants->contains($productVariant);
     }
@@ -60,7 +53,7 @@ class ProductImage extends Image implements ProductImageInterface
     /**
      * {@inheritdoc}
      */
-    public function addProductVariant(ProductVariantInterface $productVariant)
+    public function addProductVariant(ProductVariantInterface $productVariant): void
     {
         $this->productVariants->add($productVariant);
     }
@@ -68,7 +61,7 @@ class ProductImage extends Image implements ProductImageInterface
     /**
      * {@inheritdoc}
      */
-    public function removeProductVariant(ProductVariantInterface $productVariant)
+    public function removeProductVariant(ProductVariantInterface $productVariant): void
     {
         if ($this->hasProductVariant($productVariant)) {
             $this->productVariants->removeElement($productVariant);

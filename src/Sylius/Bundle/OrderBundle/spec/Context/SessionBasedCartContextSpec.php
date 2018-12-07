@@ -14,16 +14,12 @@ declare(strict_types=1);
 namespace spec\Sylius\Bundle\OrderBundle\Context;
 
 use PhpSpec\ObjectBehavior;
-use Sylius\Bundle\OrderBundle\Context\SessionBasedCartContext;
 use Sylius\Component\Order\Context\CartContextInterface;
 use Sylius\Component\Order\Context\CartNotFoundException;
 use Sylius\Component\Order\Model\OrderInterface;
 use Sylius\Component\Order\Repository\OrderRepositoryInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
-/**
- * @author Arkadiusz Krakowiak <arkadiusz.krakowiak@lakion.com>
- */
 final class SessionBasedCartContextSpec extends ObjectBehavior
 {
     function let(SessionInterface $session, OrderRepositoryInterface $orderRepository): void
@@ -40,7 +36,7 @@ final class SessionBasedCartContextSpec extends ObjectBehavior
         SessionInterface $session,
         OrderRepositoryInterface $orderRepository,
         OrderInterface $cart
-    ): void  {
+    ): void {
         $session->has('session_key_name')->willReturn(true);
         $session->get('session_key_name')->willReturn(12345);
         $orderRepository->findCartById(12345)->willReturn($cart);

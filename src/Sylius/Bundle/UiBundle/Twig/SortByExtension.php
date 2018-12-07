@@ -13,13 +13,9 @@ declare(strict_types=1);
 
 namespace Sylius\Bundle\UiBundle\Twig;
 
-use Doctrine\Common\Collections\Collection;
 use Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
-/**
- * @author Jan Góralski <jan.goralski@lakion.com>
- */
 class SortByExtension extends \Twig_Extension
 {
     /**
@@ -33,12 +29,6 @@ class SortByExtension extends \Twig_Extension
     }
 
     /**
-     * @param iterable $iterable
-     * @param string $field
-     * @param string $order
-     *
-     * @return array
-     *
      * @throws NoSuchPropertyException
      */
     public function sortBy(iterable $iterable, string $field, string $order = 'ASC'): array
@@ -62,11 +52,6 @@ class SortByExtension extends \Twig_Extension
         return $array;
     }
 
-    /**
-     * @param iterable $iterable
-     *
-     * @return array
-     */
     private function transformIterableToArray(iterable $iterable): array
     {
         if (is_array($iterable)) {

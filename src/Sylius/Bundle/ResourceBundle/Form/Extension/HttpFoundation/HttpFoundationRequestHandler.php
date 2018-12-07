@@ -1,9 +1,9 @@
 <?php
 
 /*
- * This file is part of the Symfony package.
+ * This file is part of the Sylius package.
  *
- * (c) Fabien Potencier <fabien@symfony.com>
+ * (c) Paweł Jędrzejewski
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -18,6 +18,7 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\RequestHandlerInterface;
 use Symfony\Component\Form\Util\ServerParams;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -30,9 +31,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 final class HttpFoundationRequestHandler implements RequestHandlerInterface
 {
-    /**
-     * @var ServerParams
-     */
+    /** @var ServerParams */
     private $serverParams;
 
     /**
@@ -80,7 +79,7 @@ final class HttpFoundationRequestHandler implements RequestHandlerInterface
                 $form->addError(new FormError(
                     call_user_func($form->getConfig()->getOption('upload_max_size_message')),
                     null,
-                    array('{{ max }}' => $this->serverParams->getNormalizedIniPostMaxSize())
+                    ['{{ max }}' => $this->serverParams->getNormalizedIniPostMaxSize()]
                 ));
 
                 return;
@@ -90,7 +89,7 @@ final class HttpFoundationRequestHandler implements RequestHandlerInterface
                 $params = $request->request->all();
                 $files = $request->files->all();
             } elseif ($request->request->has($name) || $request->files->has($name)) {
-                $default = $form->getConfig()->getCompound() ? array() : null;
+                $default = $form->getConfig()->getCompound() ? [] : null;
                 $params = $request->request->get($name, $default);
                 $files = $request->files->get($name, $default);
             } else {
@@ -106,5 +105,10 @@ final class HttpFoundationRequestHandler implements RequestHandlerInterface
         }
 
         $form->submit($data, 'PATCH' !== $method);
+    }
+
+    public function isFileUpload($data)
+    {
+        return $data instanceof File;
     }
 }

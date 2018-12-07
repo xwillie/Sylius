@@ -22,35 +22,21 @@ use Sylius\Component\Order\Context\CartNotFoundException;
 use Sylius\Component\Resource\Exception\UnexpectedTypeException;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
-/**
- * @author Michał Marcinkowski <michal.marcinkowski@lakion.com>
- */
 final class CartBlamerListener
 {
-    /**
-     * @var ObjectManager
-     */
+    /** @var ObjectManager */
     private $cartManager;
 
-    /**
-     * @var CartContextInterface
-     */
+    /** @var CartContextInterface */
     private $cartContext;
 
-    /**
-     * @param ObjectManager $cartManager
-     * @param CartContextInterface $cartContext
-     */
     public function __construct(ObjectManager $cartManager, CartContextInterface $cartContext)
     {
         $this->cartManager = $cartManager;
         $this->cartContext = $cartContext;
     }
 
-    /**
-     * @param UserEvent $userEvent
-     */
-    public function onImplicitLogin(UserEvent $userEvent)
+    public function onImplicitLogin(UserEvent $userEvent): void
     {
         $user = $userEvent->getUser();
         if (!$user instanceof ShopUserInterface) {
@@ -60,10 +46,7 @@ final class CartBlamerListener
         $this->blame($user);
     }
 
-    /**
-     * @param InteractiveLoginEvent $interactiveLoginEvent
-     */
-    public function onInteractiveLogin(InteractiveLoginEvent $interactiveLoginEvent)
+    public function onInteractiveLogin(InteractiveLoginEvent $interactiveLoginEvent): void
     {
         $user = $interactiveLoginEvent->getAuthenticationToken()->getUser();
         if (!$user instanceof ShopUserInterface) {
@@ -73,10 +56,7 @@ final class CartBlamerListener
         $this->blame($user);
     }
 
-    /**
-     * @param ShopUserInterface $user
-     */
-    private function blame(ShopUserInterface $user)
+    private function blame(ShopUserInterface $user): void
     {
         $cart = $this->getCart();
         if (null === $cart) {
@@ -89,11 +69,9 @@ final class CartBlamerListener
     }
 
     /**
-     * @return OrderInterface
-     *
      * @throws UnexpectedTypeException
      */
-    private function getCart()
+    private function getCart(): ?OrderInterface
     {
         try {
             $cart = $this->cartContext->getCart();

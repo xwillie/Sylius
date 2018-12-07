@@ -17,12 +17,8 @@ use org\bovigo\vfs\vfsStreamDirectory as VfsStreamDirectory;
 use org\bovigo\vfs\vfsStreamWrapper as VfsStreamWrapper;
 use PhpSpec\ObjectBehavior;
 use Sylius\Bundle\ThemeBundle\Configuration\ConfigurationProcessorInterface;
-use Sylius\Bundle\ThemeBundle\Configuration\Test\TestThemeConfigurationManager;
 use Sylius\Bundle\ThemeBundle\Configuration\Test\TestThemeConfigurationManagerInterface;
 
-/**
- * @author Kamil Kokot <kamil@kokot.me>
- */
 final class TestThemeConfigurationManagerSpec extends ObjectBehavior
 {
     function let(ConfigurationProcessorInterface $configurationProcessor): void

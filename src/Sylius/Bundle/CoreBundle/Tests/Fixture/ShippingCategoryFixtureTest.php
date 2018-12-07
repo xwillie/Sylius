@@ -15,20 +15,18 @@ namespace Sylius\Bundle\CoreBundle\Tests\Fixture;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Matthias\SymfonyConfigTest\PhpUnit\ConfigurationTestCaseTrait;
+use PHPUnit\Framework\TestCase;
 use Sylius\Bundle\CoreBundle\Fixture\Factory\ExampleFactoryInterface;
 use Sylius\Bundle\CoreBundle\Fixture\ShippingCategoryFixture;
 
-/**
- * @author Kamil Kokot <kamil@kokot.me>
- */
-final class ShippingCategoryFixtureTest extends \PHPUnit_Framework_TestCase
+final class ShippingCategoryFixtureTest extends TestCase
 {
     use ConfigurationTestCaseTrait;
 
     /**
      * @test
      */
-    public function shipping_categories_are_optional()
+    public function shipping_categories_are_optional(): void
     {
         $this->assertConfigurationIsValid([[]], 'custom');
     }
@@ -36,7 +34,7 @@ final class ShippingCategoryFixtureTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function shipping_categories_can_be_generated_randomly()
+    public function shipping_categories_can_be_generated_randomly(): void
     {
         $this->assertConfigurationIsValid([['random' => 4]], 'random');
         $this->assertPartialConfigurationIsInvalid([['random' => -1]], 'random');
@@ -45,7 +43,7 @@ final class ShippingCategoryFixtureTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function shipping_category_code_is_optional()
+    public function shipping_category_code_is_optional(): void
     {
         $this->assertConfigurationIsValid([['custom' => [['code' => 'CUSTOM']]]], 'custom.*.code');
     }
@@ -53,7 +51,7 @@ final class ShippingCategoryFixtureTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function shipping_category_description_is_optional()
+    public function shipping_category_description_is_optional(): void
     {
         $this->assertConfigurationIsValid([['custom' => [['description' => 'Lorem ipsum']]]], 'custom.*.description');
     }
@@ -61,7 +59,7 @@ final class ShippingCategoryFixtureTest extends \PHPUnit_Framework_TestCase
     /**
      * {@inheritdoc}
      */
-    protected function getConfiguration()
+    protected function getConfiguration(): ShippingCategoryFixture
     {
         return new ShippingCategoryFixture(
             $this->getMockBuilder(ObjectManager::class)->getMock(),

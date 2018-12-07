@@ -19,21 +19,13 @@ use Sylius\Component\Resource\Model\TimestampableTrait;
 use Sylius\Component\Shipping\Model\ShipmentInterface as BaseShipmentInterface;
 use Sylius\Component\Shipping\Model\ShippableInterface;
 
-/**
- * @author Mateusz Zalewski <mateusz.zalewski@lakion.com>
- */
 class OrderItemUnit extends BaseOrderItemUnit implements OrderItemUnitInterface
 {
     use TimestampableTrait;
 
-    /**
-     * @var ShipmentInterface
-     */
+    /** @var ShipmentInterface|null */
     protected $shipment;
 
-    /**
-     * @param OrderItemInterface $orderItem
-     */
     public function __construct(OrderItemInterface $orderItem)
     {
         parent::__construct($orderItem);
@@ -76,7 +68,7 @@ class OrderItemUnit extends BaseOrderItemUnit implements OrderItemUnitInterface
     /**
      * {@inheritdoc}
      */
-    public function getTaxTotal()
+    public function getTaxTotal(): int
     {
         $taxTotal = 0;
 

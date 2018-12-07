@@ -18,9 +18,6 @@ use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Promotion\Model\PromotionCouponInterface;
 use Sylius\Component\Promotion\Repository\PromotionCouponRepositoryInterface;
 
-/**
- * @author Arkadiusz Krakowiak <arkadiusz.krakowiak@lakion.com>
- */
 class PromotionCouponRepository extends EntityRepository implements PromotionCouponRepositoryInterface
 {
     /**
@@ -67,7 +64,7 @@ class PromotionCouponRepository extends EntityRepository implements PromotionCou
     /**
      * {@inheritdoc}
      */
-    public function findByPromotionCode(string $promotionCode): iterable
+    public function createPaginatorForPromotion(string $promotionCode): iterable
     {
         $queryBuilder = $this->createQueryBuilder('o')
             ->leftJoin('o.promotion', 'promotion')

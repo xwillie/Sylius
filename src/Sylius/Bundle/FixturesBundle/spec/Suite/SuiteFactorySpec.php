@@ -15,18 +15,13 @@ namespace spec\Sylius\Bundle\FixturesBundle\Suite;
 
 use PhpSpec\ObjectBehavior;
 use PhpSpec\Wrapper\Collaborator;
-use Prophecy\Argument;
 use Sylius\Bundle\FixturesBundle\Fixture\FixtureInterface;
 use Sylius\Bundle\FixturesBundle\Fixture\FixtureRegistryInterface;
 use Sylius\Bundle\FixturesBundle\Listener\ListenerInterface;
 use Sylius\Bundle\FixturesBundle\Listener\ListenerRegistryInterface;
-use Sylius\Bundle\FixturesBundle\Suite\SuiteFactory;
 use Sylius\Bundle\FixturesBundle\Suite\SuiteFactoryInterface;
 use Symfony\Component\Config\Definition\Processor;
 
-/**
- * @author Kamil Kokot <kamil@kokot.me>
- */
 final class SuiteFactorySpec extends ObjectBehavior
 {
     function let(FixtureRegistryInterface $fixtureRegistry, ListenerRegistryInterface $listenerRegistry, Processor $optionsProcessor): void
@@ -216,10 +211,9 @@ final class SuiteFactorySpec extends ObjectBehavior
 
     /**
      * @param Collaborator[] ...$collaborators
-     *
-     * @return \Generator
      */
-    private function createGenerator(Collaborator ...$collaborators) {
+    private function createGenerator(Collaborator ...$collaborators): \Generator
+    {
         foreach ($collaborators as $collaborator) {
             yield $collaborator->getWrappedObject() => [];
         }

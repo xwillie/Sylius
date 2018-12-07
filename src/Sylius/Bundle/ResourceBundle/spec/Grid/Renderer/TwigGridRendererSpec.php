@@ -16,15 +16,11 @@ namespace spec\Sylius\Bundle\ResourceBundle\Grid\Renderer;
 use PhpSpec\ObjectBehavior;
 use Sylius\Bundle\ResourceBundle\Controller\RequestConfiguration;
 use Sylius\Bundle\ResourceBundle\Grid\Parser\OptionsParserInterface;
-use Sylius\Bundle\ResourceBundle\Grid\Renderer\TwigGridRenderer;
 use Sylius\Bundle\ResourceBundle\Grid\View\ResourceGridView;
 use Sylius\Component\Grid\Definition\Action;
 use Sylius\Component\Grid\Renderer\GridRendererInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-/**
- * @author Grzegorz Sadowski <grzegorz.sadowski@lakion.com>
- */
 final class TwigGridRendererSpec extends ObjectBehavior
 {
     function let(
@@ -33,8 +29,8 @@ final class TwigGridRendererSpec extends ObjectBehavior
         OptionsParserInterface $optionsParser
     ): void {
         $actionTemplates = [
-            'link' => 'SyliusGridBundle:Action:_link.html.twig',
-            'form' => 'SyliusGridBundle:Action:_form.html.twig',
+            'link' => '@SyliusGrid/Action/_link.html.twig',
+            'form' => '@SyliusGrid/Action/_form.html.twig',
         ];
 
         $this->beConstructedWith(
@@ -67,7 +63,7 @@ final class TwigGridRendererSpec extends ObjectBehavior
         $optionsParser->parseOptions([], $request, null)->shouldBeCalled();
 
         $twig
-            ->render('SyliusGridBundle:Action:_link.html.twig', [
+            ->render('@SyliusGrid/Action/_link.html.twig', [
                 'grid' => $gridView,
                 'action' => $action,
                 'data' => null,

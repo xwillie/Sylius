@@ -13,18 +13,14 @@ declare(strict_types=1);
 
 namespace Sylius\Bundle\PromotionBundle\Form\Type\Action;
 
+use Sylius\Bundle\PromotionBundle\Form\DataTransformer\PercentFloatToLocalizedStringTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PercentType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Range;
 use Symfony\Component\Validator\Constraints\Type;
 
-/**
- * @author Saša Stamenković <umpirsky@gmail.com>
- * @author Grzegorz Sadowski <grzegorz.sadowski@lakion.com>
- */
 final class PercentageDiscountConfigurationType extends AbstractType
 {
     /**
@@ -48,6 +44,7 @@ final class PercentageDiscountConfigurationType extends AbstractType
                 ],
             ])
         ;
+        $builder->get('percentage')->resetViewTransformers()->addViewTransformer(new PercentFloatToLocalizedStringTransformer());
     }
 
     /**

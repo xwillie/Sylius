@@ -17,19 +17,11 @@ use Sylius\Component\Channel\Model\ChannelInterface;
 use Sylius\Component\Locale\Context\LocaleNotFoundException;
 use Sylius\Component\Resource\Storage\StorageInterface;
 
-/**
- * @author Kamil Kokot <kamil@kokot.me>
- */
 final class LocaleStorage implements LocaleStorageInterface
 {
-    /**
-     * @var StorageInterface
-     */
+    /** @var StorageInterface */
     private $storage;
 
-    /**
-     * @param StorageInterface $storage
-     */
     public function __construct(StorageInterface $storage)
     {
         $this->storage = $storage;
@@ -38,7 +30,7 @@ final class LocaleStorage implements LocaleStorageInterface
     /**
      * {@inheritdoc}
      */
-    public function set(ChannelInterface $channel, $localeCode)
+    public function set(ChannelInterface $channel, string $localeCode): void
     {
         $this->storage->set($this->provideKey($channel), $localeCode);
     }
@@ -46,7 +38,7 @@ final class LocaleStorage implements LocaleStorageInterface
     /**
      * {@inheritdoc}
      */
-    public function get(ChannelInterface $channel)
+    public function get(ChannelInterface $channel): string
     {
         $localeCode = $this->storage->get($this->provideKey($channel));
         if (null === $localeCode) {
@@ -59,7 +51,7 @@ final class LocaleStorage implements LocaleStorageInterface
     /**
      * {@inheritdoc}
      */
-    private function provideKey(ChannelInterface $channel)
+    private function provideKey(ChannelInterface $channel): string
     {
         return '_locale_' . $channel->getCode();
     }

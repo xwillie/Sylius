@@ -15,13 +15,9 @@ namespace spec\Sylius\Bundle\ThemeBundle\Configuration;
 
 use PhpSpec\ObjectBehavior;
 use Sylius\Bundle\ThemeBundle\Configuration\ConfigurationProcessorInterface;
-use Sylius\Bundle\ThemeBundle\Configuration\SymfonyConfigurationProcessor;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\Processor;
 
-/**
- * @author Kamil Kokot <kamil@kokot.me>
- */
 final class SymfonyConfigurationProcessorSpec extends ObjectBehavior
 {
     function let(ConfigurationInterface $configuration, Processor $processor): void

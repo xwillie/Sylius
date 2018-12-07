@@ -14,16 +14,12 @@ declare(strict_types=1);
 namespace spec\Sylius\Bundle\UserBundle\Authentication;
 
 use PhpSpec\ObjectBehavior;
-use Sylius\Bundle\UserBundle\Authentication\AuthenticationSuccessHandler;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationSuccessHandlerInterface;
 use Symfony\Component\Security\Http\Authentication\DefaultAuthenticationSuccessHandler;
 use Symfony\Component\Security\Http\HttpUtils;
 
-/**
- * @author Arkadiusz Krakowiak <arkadiusz.krakowiak@lakion.com>
- */
 final class AuthenticationSuccessHandlerSpec extends ObjectBehavior
 {
     function let(HttpUtils $httpUtils): void

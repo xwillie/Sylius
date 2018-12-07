@@ -19,15 +19,15 @@
     </imports>
 
     <services>
+        <defaults public="true" />
+
+        <service id="Sylius\Bundle\OrderBundle\Command\RemoveExpiredCartsCommand">
+            <tag name="console.command" />
+        </service>
+
         <service id="sylius.context.cart.new" class="Sylius\Component\Order\Context\CartContext">
             <argument type="service" id="sylius.factory.order" />
             <tag name="sylius.context.cart" priority="-999" />
-        </service>
-        <service id="sylius.context.cart.session_based" class="Sylius\Bundle\OrderBundle\Context\SessionBasedCartContext">
-            <argument type="service" id="session" />
-            <argument>_sylius.cart</argument>
-            <argument type="service" id="sylius.repository.order" />
-            <tag name="sylius.context.cart" priority="-777" />
         </service>
         <service id="sylius.context.cart.composite" class="Sylius\Component\Order\Context\CompositeCartContext" public="false" />
 

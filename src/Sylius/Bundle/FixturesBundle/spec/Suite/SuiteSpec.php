@@ -15,14 +15,9 @@ namespace spec\Sylius\Bundle\FixturesBundle\Suite;
 
 use PhpSpec\ObjectBehavior;
 use PhpSpec\Wrapper\Collaborator;
-use Prophecy\Argument;
 use Sylius\Bundle\FixturesBundle\Fixture\FixtureInterface;
-use Sylius\Bundle\FixturesBundle\Suite\Suite;
 use Sylius\Bundle\FixturesBundle\Suite\SuiteInterface;
 
-/**
- * @author Kamil Kokot <kamil@kokot.me>
- */
 final class SuiteSpec extends ObjectBehavior
 {
     function let(): void
@@ -81,10 +76,9 @@ final class SuiteSpec extends ObjectBehavior
 
     /**
      * @param Collaborator[] ...$collaborators
-     *
-     * @return \Generator
      */
-    private function createGenerator(Collaborator ...$collaborators) {
+    private function createGenerator(Collaborator ...$collaborators): \Generator
+    {
         foreach ($collaborators as $collaborator) {
             yield $collaborator->getWrappedObject() => [];
         }

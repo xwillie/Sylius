@@ -1,2 +1,2 @@
 * :doc:`/plugins/creating-plugin`
-* :doc:`/plugins/list`
+* :doc:`/plugins/plugin-development-guide/index`

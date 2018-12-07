@@ -18,20 +18,11 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 
-/**
- * @author Gabi Udrescu <gabriel.udr@gmail.com>
- * @author Łukasz Chruściel <lukasz.chrusciel@lakion.com>
- */
 final class TaxonFilterConfigurationType extends AbstractType
 {
-    /**
-     * @var DataTransformerInterface
-     */
+    /** @var DataTransformerInterface */
     private $taxonsToCodesTransformer;
 
-    /**
-     * @param DataTransformerInterface $taxonsToCodesTransformer
-     */
     public function __construct(DataTransformerInterface $taxonsToCodesTransformer)
     {
         $this->taxonsToCodesTransformer = $taxonsToCodesTransformer;
@@ -40,7 +31,7 @@ final class TaxonFilterConfigurationType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('taxons', TaxonAutocompleteChoiceType::class, [
@@ -56,7 +47,7 @@ final class TaxonFilterConfigurationType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'sylius_promotion_action_filter_taxon_configuration';
     }

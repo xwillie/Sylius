@@ -16,19 +16,11 @@ namespace Sylius\Bundle\ShopBundle\EmailManager;
 use Sylius\Bundle\CoreBundle\Mailer\Emails;
 use Sylius\Component\Mailer\Sender\SenderInterface;
 
-/**
- * @author Grzegorz Sadowski <grzegorz.sadowski@lakion.com>
- */
 final class ContactEmailManager implements ContactEmailManagerInterface
 {
-    /**
-     * @var SenderInterface
-     */
+    /** @var SenderInterface */
     private $emailSender;
 
-    /**
-     * @param SenderInterface $emailSender
-     */
     public function __construct(SenderInterface $emailSender)
     {
         $this->emailSender = $emailSender;
@@ -39,6 +31,6 @@ final class ContactEmailManager implements ContactEmailManagerInterface
      */
     public function sendContactRequest(array $data, array $recipients): void
     {
-        $this->emailSender->send(Emails::CONTACT_REQUEST, $recipients, ['data' => $data]);
+        $this->emailSender->send(Emails::CONTACT_REQUEST, $recipients, ['data' => $data], [], [$data['email']]);
     }
 }

@@ -15,42 +15,23 @@ namespace Sylius\Component\Core\Model;
 
 use Doctrine\Common\Collections\Collection;
 
-/**
- * @author Ahmed Kooli <kooliahmd@gmail.com>
- */
 interface ProductImagesAwareInterface
 {
     /**
      * @return Collection|ImageInterface[]
      */
-    public function getImages();
+    public function getImages(): Collection;
 
     /**
-     * @param string $type
-     *
      * @return Collection|ImageInterface[]
      */
-    public function getImagesByType($type);
+    public function getImagesByType(string $type): Collection;
 
-    /**
-     * @return bool
-     */
-    public function hasImages();
+    public function hasImages(): bool;
 
-    /**
-     * @param ImageInterface $image
-     *
-     * @return bool
-     */
-    public function hasImage(ProductImageInterface $image);
+    public function hasImage(ProductImageInterface $image): bool;
 
-    /**
-     * @param ImageInterface $image
-     */
-    public function addImage(ProductImageInterface $image);
+    public function addImage(ProductImageInterface $image): void;
 
-    /**
-     * @param ImageInterface $image
-     */
-    public function removeImage(ProductImageInterface $image);
+    public function removeImage(ProductImageInterface $image): void;
 }

@@ -28,7 +28,7 @@ If you request a payment via API, you will receive an object with the following 
 
 .. note::
 
-    Read more about :doc:`Payments in the component docs</components/Payment/models>`.
+    Read more about :doc:`Payments in the component docs</components_and_bundles/components/Payment/models>`.
 
 Getting a Single Payment
 ------------------------
@@ -57,7 +57,7 @@ To see the details of the payment with ``id = 20`` use the below method:
 
 .. code-block:: bash
 
-     $ curl http://demo.sylius.org/api/v1/payments/20 \
+     $ curl http://demo.sylius.com/api/v1/payments/20 \
         -H "Authorization: Bearer SampleToken" \
         -H "Accept: application/json"
 
@@ -153,7 +153,7 @@ To see the first page of the paginated list of payments with two payments on eac
 
 .. code-block:: bash
 
-     $ curl http://demo.sylius.org/api/v1/payments/\?limit\=2 \
+     $ curl http://demo.sylius.com/api/v1/payments/\?limit\=2 \
         -H "Authorization: Bearer SampleToken" \
         -H "Accept: application/json"
 

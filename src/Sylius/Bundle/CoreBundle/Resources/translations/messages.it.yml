@@ -4,11 +4,11 @@
 sylius:
     form:
         block:
-            body: Testo
+            body: Body
             id: ID
             title: Titolo
         cart:
-            coupon: Promozione
+            coupon: Codice sconto
         checkout:
             addressing:
                 different_billing_address: Vuoi usare un indirizzo diverso per la fatturazione?
@@ -18,25 +18,25 @@ sylius:
             channels: Canali
         promotion_action:
             add_product_configuration:
-                product: Prodotto
+                product: Prdotto
         promotion_coupon:
             per_customer_usage_limit: Limite di utilizzo per cliente
         group:
-            name: Nome
+            name: "Nome\n"
             roles: Regole
         channel:
             contact_email: Email di contatto
-            currencies: Monete
+            currencies: Valute
             currency_base: Valuta base
             account_verification_required: È richiesta la verifica dell'account?
-            hostname: Hostname
-            locale_default: Locale predefinita
+            hostname: Hostname (Nome server)
+            locale_default: Localizzazione predefinita
             locales: Localizzazioni
             payment_methods: Metodi di pagamento
             shipping_methods: Metodi di spedizione
             skipping_shipping_step_allowed: Saltare lo step spedizione nel caso sia disponibile un solo metodo di spedizione?
             skipping_payment_step_allowed: Saltare lo step pagamento nel caso sia disponibile un solo metodo di pagamento?
-            tax_calculation_strategy: Strategia di calcolo fiscale
+            tax_calculation_strategy: Metodo di calcolo delle tasse
             tax_zone_default: Aliquota predefinita
             taxonomies: Tassonomie
             theme: Tema
@@ -55,7 +55,7 @@ sylius:
             payment_state: Stato pagamento
             channel: Tutti i canali
         page:
-            body: Testo
+            body: Body
             id: ID
             title: Titolo
         product:
@@ -63,11 +63,11 @@ sylius:
             restricted_zone: Zona soggetta a restrizioni
             short_description: Descrizione breve
             variant_selection_method: Metodo di selezione delle varianti
-            main_taxon: Taxon principale
+            main_taxon: Gruppo prodotto principale
             channels: Canali
             enabled: Abilitato
         product_filter:
-            name: Nome
+            name: "Nome\n"
             code: Codice
         product_variant:
             tax_category: Categoria fiscale
@@ -123,7 +123,7 @@ sylius:
             product: Prodotto associato
             type: Tipi di associazione
         product_association_type:
-            name: Nome
+            name: "Nome\n"
         promotion_filter:
             products: Filtro prodotti
             taxons: Filtro Taxons
@@ -162,8 +162,8 @@ sylius:
             intl: Intl
             json_encode: JSON
             mbstring: Stringa multibyte
-            "off": false
-            "on": true
+            off: false
+            on: true
             pcre: PCRE
             pdo: PDO
             php_xml: PHP-XML
@@ -174,16 +174,16 @@ sylius:
             header: file system
             cache:
                 header: cache
-                help: 'Per impostare le autorizzazioni eseguire: sudo setfacl -R -m u:www-data:rwX -m u:`whoami`:rwX %path% && sudo setfacl -dR -m u:www-data:rwx -m u:`whoami`:rwx %path%'
+                help: "Per impostare le autorizzazioni eseguire: sudo setfacl -R -m u:www-data:rwX -m u:`whoami`:rwX %path% && sudo setfacl -dR -m u:www-data:rwx -m u:`whoami`:rwx %path%"
             exists: esiste
             logs:
                 header: logs
-                help: 'Per impostare le autorizzazioni eseguire: sudo setfacl -R -m u:www-data:rwX -m u:`whoami`:rwX %path% && sudo setfacl -dR -m u:www-data:rwx -m u:`whoami`:rwx %path%'
+                help: "Per impostare le autorizzazioni eseguire: sudo setfacl -R -m u:www-data:rwX -m u:`whoami`:rwX %path% && sudo setfacl -dR -m u:www-data:rwx -m u:`whoami`:rwx %path%"
             not_exists: non esiste
             not_writable: non scrivibile
             parameters:
                 header: parameters.yml
-                help: 'Per impostare le autorizzazioni eseguire: sudo chmod a+w %path%'
+                help: "Per impostare le autorizzazioni eseguire: sudo chmod a+w %path%"
             vendors: fornitori
             writable: scrivibile
         settings:
@@ -192,8 +192,8 @@ sylius:
             detect_unicode: detect_unicode
             magic_quotes_gpc: magic_quotes_gpc
             non_deprecated: non deprecato
-            "off": false
-            "on": true
+            off: false
+            on: true
             register_globals: register_globals
             session:
                 auto_start: session.auto_start
@@ -201,7 +201,7 @@ sylius:
             timezone: timezone
             timezone_deprecated:
                 header: Timezone deprecato
-                help: 'Il timezone %timezone% è deprecato. Correggi il tuo file php.ini (lista di timezone deprecati http://php.net/manual/en/timezones.others.php).'
+                help: Il timezone %timezone% è deprecato. Correggi il tuo file php.ini (lista di timezone deprecati http://php.net/manual/en/timezones.others.php).
             version: Versione PHP
             version_recommended: Versione PHP raccomandata
     payum_gateway:

@@ -16,27 +16,16 @@ namespace Sylius\Bundle\ResourceBundle\Controller;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\HttpFoundation\Request;
+use Webmozart\Assert\Assert;
 
-/**
- * @author Paweł Jędrzejewski <pawel@sylius.org>
- * @author Dosena Ishmael <nukboon@gmail.com>
- */
 final class ParametersParser implements ParametersParserInterface
 {
-    /**
-     * @var ContainerInterface
-     */
+    /** @var ContainerInterface */
     private $container;
 
-    /**
-     * @var ExpressionLanguage
-     */
+    /** @var ExpressionLanguage */
     private $expression;
 
-    /**
-     * @param ContainerInterface $container
-     * @param ExpressionLanguage $expression
-     */
     public function __construct(ContainerInterface $container, ExpressionLanguage $expression)
     {
         $this->container = $container;
@@ -57,12 +46,6 @@ final class ParametersParser implements ParametersParserInterface
         }, $parameters);
     }
 
-    /**
-     * @param mixed $parameter
-     * @param Request $request
-     *
-     * @return mixed
-     */
     private function parseRequestValue($parameter, Request $request)
     {
         if (!is_string($parameter)) {
@@ -77,15 +60,13 @@ final class ParametersParser implements ParametersParserInterface
             return $this->parseRequestValueExpression(substr($parameter, 5), $request);
         }
 
+        if (0 === strpos($parameter, '!!')) {
+            return $this->parseRequestValueTypecast($parameter, $request);
+        }
+
         return $parameter;
     }
 
-    /**
-     * @param string $expression
-     * @param Request $request
-     *
-     * @return string
-     */
     private function parseRequestValueExpression(string $expression, Request $request)
     {
         $expression = preg_replace_callback('/(\$\w+)/', function ($matches) use ($request) {
@@ -103,5 +84,16 @@ final class ParametersParser implements ParametersParserInterface
         }, $expression);
 
         return $this->expression->evaluate($expression, ['container' => $this->container]);
+    }
+
+    private function parseRequestValueTypecast($parameter, Request $request)
+    {
+        [$typecast, $castedValue] = explode(' ', $parameter, 2);
+
+        $castFunctionName = substr($typecast, 2) . 'val';
+
+        Assert::oneOf($castFunctionName, ['intval', 'floatval', 'boolval'], 'Variable can be casted only to int, float or bool.');
+
+        return $castFunctionName($this->parseRequestValue($castedValue, $request));
     }
 }

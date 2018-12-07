@@ -15,12 +15,8 @@ namespace spec\Sylius\Component\Order\Aggregator;
 
 use PhpSpec\ObjectBehavior;
 use Sylius\Component\Order\Aggregator\AdjustmentsAggregatorInterface;
-use Sylius\Component\Order\Aggregator\AdjustmentsByLabelAggregator;
 use Sylius\Component\Order\Model\AdjustmentInterface;
 
-/**
- * @author Mateusz Zalewski <mateusz.zalewski@lakion.com>
- */
 final class AdjustmentsByLabelAggregatorSpec extends ObjectBehavior
 {
     function it_implements_adjustments_aggregator_interface(): void

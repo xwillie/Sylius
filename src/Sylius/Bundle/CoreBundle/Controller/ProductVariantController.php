@@ -21,19 +21,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-/**
- * @author Grzegorz Sadowski <grzegorz.sadowski@lakion.com>
- */
 class ProductVariantController extends ResourceController
 {
     /**
-     * @param Request $request
-     *
-     * @return JsonResponse
-     *
      * @throws HttpException
      */
-    public function updatePositionsAction(Request $request)
+    public function updatePositionsAction(Request $request): Response
     {
         $configuration = $this->requestConfigurationFactory->create($this->metadata, $request);
         $this->isGrantedOr403($configuration, ResourceActions::UPDATE);

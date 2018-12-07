@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace spec\Sylius\Bundle\UserBundle\Authentication;
 
 use PhpSpec\ObjectBehavior;
-use Sylius\Bundle\UserBundle\Authentication\AuthenticationFailureHandler;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
@@ -23,9 +22,6 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerI
 use Symfony\Component\Security\Http\Authentication\DefaultAuthenticationFailureHandler;
 use Symfony\Component\Security\Http\HttpUtils;
 
-/**
- * @author Arkadiusz Krakowiak <arkadiusz.krakowiak@lakion.com>
- */
 final class AuthenticationFailureHandlerSpec extends ObjectBehavior
 {
     function let(HttpKernelInterface $httpKernel, HttpUtils $httpUtils): void

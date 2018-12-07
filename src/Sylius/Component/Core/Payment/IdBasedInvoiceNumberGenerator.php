@@ -16,16 +16,13 @@ namespace Sylius\Component\Core\Payment;
 use Sylius\Component\Order\Model\OrderInterface;
 use Sylius\Component\Payment\Model\PaymentInterface;
 
-/**
- * @author Arkadiusz Krakowiak <arkadiusz.krakowiak@lakion.com>
- */
 final class IdBasedInvoiceNumberGenerator implements InvoiceNumberGeneratorInterface
 {
     /**
      * {@inheritdoc}
      */
-    public function generate(OrderInterface $order, PaymentInterface $payment)
+    public function generate(OrderInterface $order, PaymentInterface $payment): string
     {
-        return $order->getId().'-'.$payment->getId();
+        return $order->getId() . '-' . $payment->getId();
     }
 }

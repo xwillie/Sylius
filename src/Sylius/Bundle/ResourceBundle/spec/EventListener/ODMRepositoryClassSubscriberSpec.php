@@ -19,14 +19,11 @@ use Doctrine\ODM\MongoDB\Events;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Sylius\Bundle\ResourceBundle\EventListener\ODMRepositoryClassSubscriber;
 use Sylius\Component\Resource\Metadata\MetadataInterface;
 use Sylius\Component\Resource\Metadata\RegistryInterface;
 
 /**
  * @require Doctrine\ODM\MongoDB\Events
- *
- * @author Ben Davies <ben.davies@gmail.com>
  */
 final class ODMRepositoryClassSubscriberSpec extends ObjectBehavior
 {

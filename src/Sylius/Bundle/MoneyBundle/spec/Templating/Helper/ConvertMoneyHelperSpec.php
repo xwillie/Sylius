@@ -14,16 +14,10 @@ declare(strict_types=1);
 namespace spec\Sylius\Bundle\MoneyBundle\Templating\Helper;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
-use Sylius\Bundle\MoneyBundle\Templating\Helper\ConvertMoneyHelper;
 use Sylius\Bundle\MoneyBundle\Templating\Helper\ConvertMoneyHelperInterface;
 use Sylius\Component\Currency\Converter\CurrencyConverterInterface;
 use Symfony\Component\Templating\Helper\Helper;
 
-/**
- * @author Paweł Jędrzejewski <pawel@sylius.org>
- * @author Łukasz Chruściel <lukasz.chrusciel@lakion.com>
- */
 final class ConvertMoneyHelperSpec extends ObjectBehavior
 {
     function let(CurrencyConverterInterface $currencyConverter): void

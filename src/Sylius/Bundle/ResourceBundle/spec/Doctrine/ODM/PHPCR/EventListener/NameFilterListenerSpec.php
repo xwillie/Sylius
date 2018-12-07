@@ -16,13 +16,10 @@ namespace spec\Sylius\Bundle\ResourceBundle\Doctrine\ODM\PHPCR\EventListener;
 use Doctrine\ODM\PHPCR\DocumentManagerInterface;
 use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
 use PhpSpec\ObjectBehavior;
-use Sylius\Bundle\ResourceBundle\Doctrine\ODM\PHPCR\EventListener\NameFilterListener;
 use Sylius\Bundle\ResourceBundle\Event\ResourceControllerEvent;
 
 /**
  * @require Doctrine\ODM\PHPCR\DocumentManagerInterface
- *
- * @author Daniel Leech <daniel@dantleech.com>
  */
 final class NameFilterListenerSpec extends ObjectBehavior
 {
@@ -41,7 +38,7 @@ final class NameFilterListenerSpec extends ObjectBehavior
         $documentManager->getClassMetadata('stdClass')->willReturn($metadata);
         $metadata->nodename = null;
 
-        $this->shouldThrow(new \RuntimeException('In order to use the node name filter on "stdClass" it is necessary to map a field as the "nodename"'))->during('onEvent', [ $event ]);
+        $this->shouldThrow(new \RuntimeException('In order to use the node name filter on "stdClass" it is necessary to map a field as the "nodename"'))->during('onEvent', [$event]);
     }
 
     function it_should_clean_the_name(

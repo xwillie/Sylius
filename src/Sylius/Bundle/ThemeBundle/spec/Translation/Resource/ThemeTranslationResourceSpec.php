@@ -15,12 +15,8 @@ namespace spec\Sylius\Bundle\ThemeBundle\Translation\Provider;
 
 use PhpSpec\ObjectBehavior;
 use Sylius\Bundle\ThemeBundle\Model\ThemeInterface;
-use Sylius\Bundle\ThemeBundle\Translation\Resource\ThemeTranslationResource;
 use Sylius\Bundle\ThemeBundle\Translation\Resource\TranslationResourceInterface;
 
-/**
- * @author Kamil Kokot <kamil@kokot.me>
- */
 final class ThemeTranslationResourceSpec extends ObjectBehavior
 {
     function let(ThemeInterface $theme): void

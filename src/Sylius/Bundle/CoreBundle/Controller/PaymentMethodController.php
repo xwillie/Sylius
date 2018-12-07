@@ -18,18 +18,9 @@ use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * @author Mateusz Zalewski <mateusz.zalewski@lakion.com>
- */
 class PaymentMethodController extends ResourceController
 {
-    /**
-     * @param Request $request
-     * @param string $template
-     *
-     * @return Response
-     */
-    public function getPaymentGatewaysAction(Request $request, $template)
+    public function getPaymentGatewaysAction(Request $request, string $template): Response
     {
         $configuration = $this->requestConfigurationFactory->create($this->metadata, $request);
 

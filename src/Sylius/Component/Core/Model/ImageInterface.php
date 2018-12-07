@@ -15,45 +15,24 @@ namespace Sylius\Component\Core\Model;
 
 use Sylius\Component\Resource\Model\ResourceInterface;
 
-/**
- * @author Grzegorz Sadowski <grzegorz.sadowski@lakion.com>
- */
 interface ImageInterface extends ResourceInterface
 {
     /**
      * @return string
      */
-    public function getType();
+    public function getType(): ?string;
 
-    /**
-     * @param string $type
-     */
-    public function setType($type);
+    public function setType(?string $type): void;
 
-    /**
-     * @return null|\SplFileInfo
-     */
-    public function getFile();
+    public function getFile(): ?\SplFileInfo;
 
-    /**
-     * @param \SplFileInfo $file
-     */
-    public function setFile(\SplFileInfo $file);
+    public function setFile(?\SplFileInfo $file): void;
 
-    /**
-     * @return bool
-     */
-    public function hasFile();
+    public function hasFile(): bool;
 
-    /**
-     * @return string
-     */
-    public function getPath();
+    public function getPath(): ?string;
 
-    /**
-     * @param string $path
-     */
-    public function setPath($path);
+    public function setPath(?string $path): void;
 
     /**
      * @return object
@@ -63,5 +42,5 @@ interface ImageInterface extends ResourceInterface
     /**
      * @param object|null $owner
      */
-    public function setOwner($owner);
+    public function setOwner($owner): void;
 }

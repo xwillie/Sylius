@@ -17,9 +17,6 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
- * @author Arkadiusz Krakowiak <arkadiusz.krakowiak@lakion.com>
- */
 final class RegisterResourceRepositoryPass implements CompilerPassInterface
 {
     /**
@@ -36,7 +33,7 @@ final class RegisterResourceRepositoryPass implements CompilerPassInterface
         $repositoryRegistry = $container->findDefinition('sylius.registry.resource_repository');
 
         foreach ($resources as $alias => $configuration) {
-            list($applicationName, $resourceName) = explode('.', $alias, 2);
+            [$applicationName, $resourceName] = explode('.', $alias, 2);
             $repositoryId = sprintf('%s.repository.%s', $applicationName, $resourceName);
 
             if ($container->has($repositoryId)) {

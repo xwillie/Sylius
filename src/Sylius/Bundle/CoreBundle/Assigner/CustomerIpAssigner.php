@@ -16,15 +16,12 @@ namespace Sylius\Bundle\CoreBundle\Assigner;
 use Sylius\Component\Core\Model\OrderInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-/**
- * @author Mateusz Zalewski <mateusz.zalewski@lakion.com>
- */
 final class CustomerIpAssigner implements IpAssignerInterface
 {
     /**
      * {@inheritdoc}
      */
-    public function assign(OrderInterface $order, Request $request)
+    public function assign(OrderInterface $order, Request $request): void
     {
         $order->setCustomerIp($request->getClientIp());
     }

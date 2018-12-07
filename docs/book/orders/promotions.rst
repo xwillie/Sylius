@@ -15,10 +15,18 @@ and **priority** that is useful for them, because the exclusive promotion should
 
    The ``usageLimit`` of a promotion is the **total number of times this promotion can be used**.
 
+.. tip::
+
+   **Promotion priorities** are numbers that you assign to the promotion. The larger the number, the higher the priority.
+   So a promotion with priority 3 would be applied before a promotion with priority set to 1.
+
+   What can you use the priority for? Well, imagine that you have two different promotions, one's action is to give 10% discount
+   on whole order and the other one gives 5$ discount from the order total. Business (and money) wise, which one should we apply first? ;)
+
 How to create a Promotion programmatically?
 -------------------------------------------
 
-Just as usually, use a factory. The promotion needs a ``code`` and a ``name``.
+Just as usual, use a factory. The promotion needs a ``code`` and a ``name``.
 
 .. code-block:: php
 
@@ -102,16 +110,21 @@ Each PromotionRule type has a very specific structure of its configuration array
 Promotion Actions
 -----------------
 
-What happens with the Order when the rules of a Promotion are fulfilled - this is an **PromotionAction**.
+Promotion Action is basically what happens when the rules of a Promotion are fulfilled, what discount is applied on the whole Order (or its Shipping cost).
 
 There are a few kinds of actions in **Sylius**:
 
-* fixed discount on the order (for example: -5$ discount)
+* fixed discount on the order (for example: -5$ off the order total)
 * percentage discount on the order (for example: -10% on the whole order)
-* fixed unit discount (for example: -1$ for one specific Mug)
-* percentage unit discount (for example: -10% on one specific T-Shirt)
+* fixed unit discount (for example: -1$ off the order total but *distributed and applied on each order item unit*)
+* percentage unit discount (for example: -10% off the order total but *distributed and applied on each order item unit*)
 * add product (for example: gives a free bonus sticker)
-* shipping discount (for example: - 6$ on the costs of shipping)
+* shipping discount (for example: -6$ on the costs of shipping)
+
+.. tip::
+
+   Actions are applied on all items in the Order. If you are willing to apply discounts on specific items
+   in the order check Filters at the bottom of this article.
 
 How to create an PromotionAction programmatically?
 ''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -208,8 +221,13 @@ Filters are really handy when you want to apply promotion's actions to groups of
 For example if you would like to apply actions only on products from a desired taxon - use the available by default
 `TaxonFilter <https://github.com/Sylius/Sylius/blob/master/src/Sylius/Component/Core/Promotion/Filter/TaxonFilter.php>`_.
 
+Read `these scenarios regarding promotion filters <https://github.com/Sylius/Sylius/blob/master/features/promotion/receiving_discount/receiving_fixed_discount_on_products_from_specific_taxon.feature>`_
+to have a better understanding of them.
+
 Learn more
 ----------
 
-* :doc:`Promotion - Component Documentation </components/Promotion/index>`
-* :doc:`Promotion - Bundle Documentation </bundles/SyliusPromotionBundle/index>`
+* :doc:`Promotion - Component Documentation </components_and_bundles/components/Promotion/index>`
+* :doc:`Promotion - Bundle Documentation </components_and_bundles/bundles/SyliusPromotionBundle/index>`
+* :doc:`How to create a custom promotion rule? </cookbook/promotions/custom-promotion-rule>`
+* :doc:`How to create a custom promotion action? </cookbook/promotions/custom-promotion-action>`

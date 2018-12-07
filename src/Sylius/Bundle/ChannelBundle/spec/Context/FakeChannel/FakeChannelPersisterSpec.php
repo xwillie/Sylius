@@ -16,7 +16,6 @@ namespace spec\Sylius\Bundle\ChannelBundle\Context\FakeChannel;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Sylius\Bundle\ChannelBundle\Context\FakeChannel\FakeChannelCodeProviderInterface;
-use Sylius\Bundle\ChannelBundle\Context\FakeChannel\FakeChannelPersister;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,9 +23,6 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
-/**
- * @author Kamil Kokot <kamil@kokot.me>
- */
 final class FakeChannelPersisterSpec extends ObjectBehavior
 {
     function let(FakeChannelCodeProviderInterface $fakeHostnameProvider): void

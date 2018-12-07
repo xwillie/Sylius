@@ -14,12 +14,8 @@ declare(strict_types=1);
 namespace spec\Sylius\Component\Resource\Generator;
 
 use PhpSpec\ObjectBehavior;
-use Sylius\Component\Resource\Generator\RandomnessGenerator;
 use Sylius\Component\Resource\Generator\RandomnessGeneratorInterface;
 
-/**
- * @author Jan Góralski <jan.goralski@lakion.com>
- */
 final class RandomnessGeneratorSpec extends ObjectBehavior
 {
     function it_implements_randomness_generator_interface(): void
@@ -59,12 +55,12 @@ final class RandomnessGeneratorSpec extends ObjectBehavior
     public function getMatchers(): array
     {
         return [
-            'haveLength' => function($subject, $length) {
+            'haveLength' => function ($subject, $length) {
                 return $length === strlen($subject);
             },
-            'beInRange' => function($subject, $min, $max) {
+            'beInRange' => function ($subject, $min, $max) {
                 return $subject >= $min && $subject <= $max;
-            }
+            },
         ];
     }
 }

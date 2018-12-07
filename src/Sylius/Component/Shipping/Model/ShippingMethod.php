@@ -17,51 +17,35 @@ use Sylius\Component\Resource\Model\ArchivableTrait;
 use Sylius\Component\Resource\Model\TimestampableTrait;
 use Sylius\Component\Resource\Model\ToggleableTrait;
 use Sylius\Component\Resource\Model\TranslatableTrait;
+use Sylius\Component\Resource\Model\TranslationInterface;
 
-/**
- * @author Paweł Jędrzejewski <pawel@sylius.org>
- * @author Gonzalo Vilaseca <gvilaseca@reiss.co.uk>
- */
 class ShippingMethod implements ShippingMethodInterface
 {
     use ArchivableTrait, TimestampableTrait, ToggleableTrait;
     use TranslatableTrait {
         __construct as private initializeTranslationsCollection;
+        getTranslation as private doGetTranslation;
     }
 
-    /**
-     * @var mixed
-     */
+    /** @var mixed */
     protected $id;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $code;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $position;
 
-    /**
-     * @var ShippingCategoryInterface
-     */
+    /** @var ShippingCategoryInterface */
     protected $category;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $categoryRequirement = ShippingMethodInterface::CATEGORY_REQUIREMENT_MATCH_ANY;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $calculator;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $configuration = [];
 
     public function __construct()
@@ -71,9 +55,6 @@ class ShippingMethod implements ShippingMethodInterface
         $this->createdAt = new \DateTime();
     }
 
-    /**
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->getTranslation()->__toString();
@@ -154,14 +135,6 @@ class ShippingMethod implements ShippingMethodInterface
     /**
      * {@inheritdoc}
      */
-    public function getCategoryRequirementLabel(): string
-    {
-        return self::getCategoryRequirementLabels()[$this->categoryRequirement];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getName(): ?string
     {
         return $this->getTranslation()->getName();
@@ -224,15 +197,14 @@ class ShippingMethod implements ShippingMethodInterface
     }
 
     /**
-     * @return array
+     * @return ShippingMethodTranslationInterface
      */
-    public static function getCategoryRequirementLabels(): array
+    public function getTranslation(?string $locale = null): TranslationInterface
     {
-        return [
-            ShippingMethodInterface::CATEGORY_REQUIREMENT_MATCH_NONE => 'None of the units have to match the method category',
-            ShippingMethodInterface::CATEGORY_REQUIREMENT_MATCH_ANY => 'At least 1 unit has to match the method category',
-            ShippingMethodInterface::CATEGORY_REQUIREMENT_MATCH_ALL => 'All units has to match the method category',
-        ];
+        /** @var ShippingMethodTranslationInterface $translation */
+        $translation = $this->doGetTranslation($locale);
+
+        return $translation;
     }
 
     /**

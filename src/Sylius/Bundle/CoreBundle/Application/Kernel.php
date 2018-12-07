@@ -17,6 +17,7 @@ use PSS\SymfonyMockerContainer\DependencyInjection\MockerContainer;
 use Symfony\Component\Config\Loader\DelegatingLoader;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Loader\LoaderResolver;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Loader\ClosureLoader;
 use Symfony\Component\DependencyInjection\Loader\DirectoryLoader;
@@ -26,26 +27,39 @@ use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\HttpKernel\Config\FileLocator;
 use Symfony\Component\HttpKernel\Kernel as HttpKernel;
+use Webmozart\Assert\Assert;
 
-/**
- * @author Paweł Jędrzejewski <pawel@sylius.org>
- * @author Gonzalo Vilaseca <gvilaseca@reiss.co.uk>
- */
 class Kernel extends HttpKernel
 {
-    public const VERSION = '1.0.0-beta.3';
-    public const VERSION_ID = '10000';
+    public const VERSION = '1.4.0-DEV';
+    public const VERSION_ID = '10400';
     public const MAJOR_VERSION = '1';
-    public const MINOR_VERSION = '0';
+    public const MINOR_VERSION = '4';
     public const RELEASE_VERSION = '0';
-    public const EXTRA_VERSION = 'beta.3';
+    public const EXTRA_VERSION = 'DEV';
+
+    public function __construct(string $environment, bool $debug)
+    {
+        // TODO: Better deprecation message!
+        @trigger_error(sprintf('Using "%s" as Symfony kernel is deprecated since Sylius 1.3. Please migrate to Symfony 4 directory structure.', self::class), \E_USER_DEPRECATED);
+
+        parent::__construct($environment, $debug);
+    }
 
     /**
      * {@inheritdoc}
      */
-    public function registerBundles()
+    public function registerBundles(): array
     {
         $bundles = [
+            new \Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
+            new \Symfony\Bundle\MonologBundle\MonologBundle(),
+            new \Symfony\Bundle\SecurityBundle\SecurityBundle(),
+            new \Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
+            new \Symfony\Bundle\TwigBundle\TwigBundle(),
+            new \Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
+            new \Doctrine\Bundle\DoctrineCacheBundle\DoctrineCacheBundle(),
+
             new \Sylius\Bundle\OrderBundle\SyliusOrderBundle(),
             new \Sylius\Bundle\MoneyBundle\SyliusMoneyBundle(),
             new \Sylius\Bundle\CurrencyBundle\SyliusCurrencyBundle(),
@@ -70,14 +84,6 @@ class Kernel extends HttpKernel
             new \Sylius\Bundle\GridBundle\SyliusGridBundle(),
             new \winzou\Bundle\StateMachineBundle\winzouStateMachineBundle(),
 
-            new \Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
-            new \Doctrine\Bundle\DoctrineCacheBundle\DoctrineCacheBundle(),
-            new \Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
-            new \Symfony\Bundle\MonologBundle\MonologBundle(),
-            new \Symfony\Bundle\SecurityBundle\SecurityBundle(),
-            new \Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
-            new \Symfony\Bundle\TwigBundle\TwigBundle(),
-
             new \Sonata\CoreBundle\SonataCoreBundle(),
             new \Sonata\BlockBundle\SonataBlockBundle(),
             new \Sonata\IntlBundle\SonataIntlBundle(),
@@ -97,17 +103,13 @@ class Kernel extends HttpKernel
             new \Sylius\Bundle\FixturesBundle\SyliusFixturesBundle(),
             new \Sylius\Bundle\PayumBundle\SyliusPayumBundle(), // must be added after PayumBundle.
             new \Sylius\Bundle\ThemeBundle\SyliusThemeBundle(), // must be added after FrameworkBundle
-        ];
 
-        // Symfony 3.3 moved server:* commands to another bundle
-        if (class_exists(\Symfony\Bundle\WebServerBundle\WebServerBundle::class)) {
-            $bundles[] = new \Symfony\Bundle\WebServerBundle\WebServerBundle();
-        }
+            new \Symfony\Bundle\WebServerBundle\WebServerBundle(), // allows to run build in web server. Not recommended for prod environment
+        ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test', 'test_cached'], true)) {
             $bundles[] = new \Symfony\Bundle\DebugBundle\DebugBundle();
             $bundles[] = new \Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
-            $bundles[] = new \Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
         }
 
         return $bundles;
@@ -116,7 +118,7 @@ class Kernel extends HttpKernel
     /**
      * {@inheritdoc}
      */
-    protected function getContainerBaseClass()
+    protected function getContainerBaseClass(): string
     {
         if (in_array($this->getEnvironment(), ['test', 'test_cached'], true)) {
             return MockerContainer::class;
@@ -128,8 +130,11 @@ class Kernel extends HttpKernel
     /**
      * {@inheritdoc}
      */
-    protected function getContainerLoader(ContainerInterface $container)
+    protected function getContainerLoader(ContainerInterface $container): LoaderInterface
     {
+        /** @var ContainerBuilder $container */
+        Assert::isInstanceOf($container, ContainerBuilder::class);
+
         $locator = new FileLocator($this, $this->getRootDir() . '/Resources');
         $resolver = new LoaderResolver([
             new XmlFileLoader($container, $locator),
@@ -146,7 +151,7 @@ class Kernel extends HttpKernel
     /**
      * {@inheritdoc}
      */
-    public function registerContainerConfiguration(LoaderInterface $loader)
+    public function registerContainerConfiguration(LoaderInterface $loader): void
     {
         $loader->load($this->getRootDir() . '/config/config_' . $this->getEnvironment() . '.yml');
 
@@ -159,7 +164,7 @@ class Kernel extends HttpKernel
     /**
      * {@inheritdoc}
      */
-    public function getCacheDir()
+    public function getCacheDir(): string
     {
         if ($this->isVagrantEnvironment()) {
             return '/dev/shm/sylius/cache/' . $this->getEnvironment();
@@ -171,7 +176,7 @@ class Kernel extends HttpKernel
     /**
      * {@inheritdoc}
      */
-    public function getLogDir()
+    public function getLogDir(): string
     {
         if ($this->isVagrantEnvironment()) {
             return '/dev/shm/sylius/logs';
@@ -180,10 +185,7 @@ class Kernel extends HttpKernel
         return dirname($this->getRootDir()) . '/var/logs';
     }
 
-    /**
-     * @return bool
-     */
-    protected function isVagrantEnvironment()
+    protected function isVagrantEnvironment(): bool
     {
         return (getenv('HOME') === '/home/vagrant' || getenv('VAGRANT') === 'VAGRANT') && is_dir('/dev/shm');
     }

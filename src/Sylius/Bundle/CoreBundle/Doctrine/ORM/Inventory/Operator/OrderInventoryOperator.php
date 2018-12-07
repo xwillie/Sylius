@@ -20,25 +20,14 @@ use Sylius\Component\Core\Inventory\Operator\OrderInventoryOperatorInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\OrderItemInterface;
 
-/**
- * @author Grzegorz Sadowski <grzegorz.sadowski@lakion.com>
- */
 final class OrderInventoryOperator implements OrderInventoryOperatorInterface
 {
-    /**
-     * @var OrderInventoryOperatorInterface
-     */
+    /** @var OrderInventoryOperatorInterface */
     private $decoratedOperator;
 
-    /**
-     * @var EntityManagerInterface
-     */
+    /** @var EntityManagerInterface */
     private $productVariantManager;
 
-    /**
-     * @param OrderInventoryOperatorInterface $decoratedOperator
-     * @param EntityManagerInterface $productVariantManager
-     */
     public function __construct(
         OrderInventoryOperatorInterface $decoratedOperator,
         EntityManagerInterface $productVariantManager
@@ -52,7 +41,7 @@ final class OrderInventoryOperator implements OrderInventoryOperatorInterface
      *
      * @throws OptimisticLockException
      */
-    public function cancel(OrderInterface $order)
+    public function cancel(OrderInterface $order): void
     {
         $this->lockProductVariants($order);
 
@@ -64,7 +53,7 @@ final class OrderInventoryOperator implements OrderInventoryOperatorInterface
      *
      * @throws OptimisticLockException
      */
-    public function hold(OrderInterface $order)
+    public function hold(OrderInterface $order): void
     {
         $this->lockProductVariants($order);
 
@@ -76,7 +65,7 @@ final class OrderInventoryOperator implements OrderInventoryOperatorInterface
      *
      * @throws OptimisticLockException
      */
-    public function sell(OrderInterface $order)
+    public function sell(OrderInterface $order): void
     {
         $this->lockProductVariants($order);
 
@@ -84,11 +73,9 @@ final class OrderInventoryOperator implements OrderInventoryOperatorInterface
     }
 
     /**
-     * @param OrderInterface $order
-     *
      * @throws OptimisticLockException
      */
-    private function lockProductVariants(OrderInterface $order)
+    private function lockProductVariants(OrderInterface $order): void
     {
         /** @var OrderItemInterface $orderItem */
         foreach ($order->getItems() as $orderItem) {

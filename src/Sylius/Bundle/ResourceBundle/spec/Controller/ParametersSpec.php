@@ -14,11 +14,7 @@ declare(strict_types=1);
 namespace spec\Sylius\Bundle\ResourceBundle\Controller;
 
 use PhpSpec\ObjectBehavior;
-use Sylius\Bundle\ResourceBundle\Controller\Parameters;
 
-/**
- * @author Arnaud Langade <arn0d.dev@gmail.com>
- */
 final class ParametersSpec extends ObjectBehavior
 {
     function it_has_mutable_parameters(): void

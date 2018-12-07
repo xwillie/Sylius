@@ -16,12 +16,8 @@ namespace spec\Sylius\Bundle\ThemeBundle\Templating\Cache\Clearer;
 use Doctrine\Common\Cache\Cache;
 use Doctrine\Common\Cache\ClearableCache;
 use PhpSpec\ObjectBehavior;
-use Sylius\Bundle\ThemeBundle\Templating\Cache\Clearer\TemplatePathsCacheClearer;
 use Symfony\Component\HttpKernel\CacheClearer\CacheClearerInterface;
 
-/**
- * @author Kamil Kokot <kamil@kokot.me>
- */
 final class TemplatePathsCacheClearerSpec extends ObjectBehavior
 {
     function let(Cache $cache): void

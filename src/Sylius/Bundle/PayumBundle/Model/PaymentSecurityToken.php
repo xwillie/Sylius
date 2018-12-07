@@ -15,34 +15,23 @@ namespace Sylius\Bundle\PayumBundle\Model;
 
 use Payum\Core\Security\TokenInterface;
 use Payum\Core\Security\Util\Random;
-use Payum\Core\Storage\IdentityInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
 
-class PaymentSecurityToken implements ResourceInterface, TokenInterface
+class PaymentSecurityToken implements PaymentSecurityTokenInterface
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $hash;
 
-    /**
-     * @var IdentityInterface
-     */
+    /** @var mixed */
     protected $details;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $afterUrl;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $targetUrl;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $gatewayName;
 
     public function __construct()
@@ -68,8 +57,6 @@ class PaymentSecurityToken implements ResourceInterface, TokenInterface
 
     /**
      * {@inheritdoc}
-     *
-     * @return IdentityInterface|null
      */
     public function getDetails()
     {
@@ -111,7 +98,7 @@ class PaymentSecurityToken implements ResourceInterface, TokenInterface
     /**
      * {@inheritdoc}
      */
-    public function getAfterUrl(): string
+    public function getAfterUrl(): ?string
     {
         return $this->afterUrl;
     }

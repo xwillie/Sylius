@@ -14,25 +14,16 @@ declare(strict_types=1);
 namespace spec\Sylius\Bundle\CoreBundle\EventListener;
 
 use PhpSpec\ObjectBehavior;
-use Sylius\Bundle\CoreBundle\EventListener\PasswordUpdaterListener;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\User\Model\UserInterface;
 use Sylius\Component\User\Security\PasswordUpdaterInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
-/**
- * @author Anna Walasek <anna.walasek@lakion.com>
- */
 final class PasswordUpdaterListenerSpec extends ObjectBehavior
 {
-    function let(PasswordUpdaterInterface $passwordUpdater)
+    function let(PasswordUpdaterInterface $passwordUpdater): void
     {
         $this->beConstructedWith($passwordUpdater);
-    }
-
-    function it_is_initializable()
-    {
-        $this->shouldHaveType(PasswordUpdaterListener::class);
     }
 
     function it_updates_password_for_customer(
@@ -40,7 +31,7 @@ final class PasswordUpdaterListenerSpec extends ObjectBehavior
         GenericEvent $event,
         UserInterface $user,
         CustomerInterface $customer
-    ) {
+    ): void {
         $event->getSubject()->willReturn($customer);
         $customer->getUser()->willReturn($user);
         $user->getPlainPassword()->willReturn('password123');
@@ -53,7 +44,7 @@ final class PasswordUpdaterListenerSpec extends ObjectBehavior
     function it_does_not_update_password_if_subject_is_not_instance_of_customer_interface(
         GenericEvent $event,
         UserInterface $user
-    ) {
+    ): void {
         $event->getSubject()->willReturn($user);
 
         $this->shouldThrow(\InvalidArgumentException::class)->during('customerUpdateEvent', [$event]);
@@ -63,7 +54,7 @@ final class PasswordUpdaterListenerSpec extends ObjectBehavior
         PasswordUpdaterInterface $passwordUpdater,
         GenericEvent $event,
         CustomerInterface $customer
-    ) {
+    ): void {
         $event->getSubject()->willReturn($customer);
         $customer->getUser()->willReturn(null);
 
@@ -71,5 +62,4 @@ final class PasswordUpdaterListenerSpec extends ObjectBehavior
 
         $this->customerUpdateEvent($event);
     }
-
 }

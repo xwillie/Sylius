@@ -21,19 +21,11 @@ use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Webmozart\Assert\Assert;
 
-/**
- * @author Arkadiusz Krakowiak <arkadiusz.krakowiak@lakion.com>
- */
 final class CartItemAvailabilityValidator extends ConstraintValidator
 {
-    /**
-     * @var AvailabilityCheckerInterface
-     */
+    /** @var AvailabilityCheckerInterface */
     private $availabilityChecker;
 
-    /**
-     * @param AvailabilityCheckerInterface $availabilityChecker
-     */
     public function __construct(AvailabilityCheckerInterface $availabilityChecker)
     {
         $this->availabilityChecker = $availabilityChecker;
@@ -44,7 +36,7 @@ final class CartItemAvailabilityValidator extends ConstraintValidator
      *
      * {@inheritdoc}
      */
-    public function validate($addCartItemCommand, Constraint $constraint)
+    public function validate($addCartItemCommand, Constraint $constraint): void
     {
         Assert::isInstanceOf($addCartItemCommand, AddToCartCommandInterface::class);
         Assert::isInstanceOf($constraint, CartItemAvailability::class);
@@ -65,13 +57,7 @@ final class CartItemAvailabilityValidator extends ConstraintValidator
         }
     }
 
-    /**
-     * @param OrderInterface $cart
-     * @param OrderItemInterface $cartItem
-     *
-     * @return int
-     */
-    private function getExistingCartItemQuantityFromCart(OrderInterface $cart, OrderItemInterface $cartItem)
+    private function getExistingCartItemQuantityFromCart(OrderInterface $cart, OrderItemInterface $cartItem): int
     {
         foreach ($cart->getItems() as $existingCartItem) {
             if ($existingCartItem->equals($cartItem)) {

@@ -18,19 +18,20 @@ use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Webmozart\Assert\Assert;
 
-/**
- * @author Arkadiusz Krakowiak <arkadiusz.krakowiak@lakion.com>
- */
 final class OrderPaymentMethodEligibilityValidator extends ConstraintValidator
 {
     /**
-     * @param OrderInterface $order
-     *
      * {@inheritdoc}
+     *
+     * @throws \InvalidArgumentException
      */
-    public function validate($order, Constraint $constraint)
+    public function validate($order, Constraint $constraint): void
     {
+        /** @var OrderInterface $order */
         Assert::isInstanceOf($order, OrderInterface::class);
+
+        /** @var OrderPaymentMethodEligibility $constraint */
+        Assert::isInstanceOf($constraint, OrderPaymentMethodEligibility::class);
 
         $payments = $order->getPayments();
 

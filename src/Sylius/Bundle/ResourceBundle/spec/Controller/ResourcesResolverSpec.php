@@ -16,14 +16,10 @@ namespace spec\Sylius\Bundle\ResourceBundle\Controller;
 use Pagerfanta\Pagerfanta;
 use PhpSpec\ObjectBehavior;
 use Sylius\Bundle\ResourceBundle\Controller\RequestConfiguration;
-use Sylius\Bundle\ResourceBundle\Controller\ResourcesResolver;
 use Sylius\Bundle\ResourceBundle\Controller\ResourcesResolverInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 
-/**
- * @author Paweł Jędrzejewski <pawel@sylius.org>
- */
 final class ResourcesResolverSpec extends ObjectBehavior
 {
     function it_implements_resources_resolver_interface(): void
@@ -92,6 +88,25 @@ final class ResourcesResolverSpec extends ObjectBehavior
         $this->getResources($requestConfiguration, $repository)->shouldReturn([$firstResource]);
     }
 
+    function it_uses_custom_repository_if_specified(
+        RequestConfiguration $requestConfiguration,
+        RepositoryInterface $repository,
+        RepositoryInterface $customRepository,
+        ResourceInterface $firstResource
+    ): void {
+        $requestConfiguration->isHtmlRequest()->willReturn(true);
+        $requestConfiguration->getRepositoryMethod()->willReturn([$customRepository, 'findBy']);
+        $requestConfiguration->getRepositoryArguments()->willReturn([['foo' => true]]);
+
+        $requestConfiguration->isPaginated()->willReturn(false);
+        $requestConfiguration->isLimited()->willReturn(true);
+        $requestConfiguration->getLimit()->willReturn(15);
+
+        $customRepository->findBy(['foo' => true])->willReturn([$firstResource]);
+
+        $this->getResources($requestConfiguration, $repository)->shouldReturn([$firstResource]);
+    }
+
     function it_creates_paginator_by_default(
         RequestConfiguration $requestConfiguration,
         RepositoryInterface $repository,
@@ -111,4 +126,3 @@ final class ResourcesResolverSpec extends ObjectBehavior
         $this->getResources($requestConfiguration, $repository)->shouldReturn($paginator);
     }
 }
-

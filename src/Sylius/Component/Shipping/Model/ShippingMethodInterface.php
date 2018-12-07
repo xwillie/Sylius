@@ -15,18 +15,16 @@ namespace Sylius\Component\Shipping\Model;
 
 use Sylius\Component\Resource\Model\ArchivableInterface;
 use Sylius\Component\Resource\Model\CodeAwareInterface;
+use Sylius\Component\Resource\Model\ResourceInterface;
 use Sylius\Component\Resource\Model\TimestampableInterface;
 use Sylius\Component\Resource\Model\ToggleableInterface;
 use Sylius\Component\Resource\Model\TranslatableInterface;
+use Sylius\Component\Resource\Model\TranslationInterface;
 
-/**
- * @author Paweł Jędrzejewski <pawel@sylius.org>
- * @author Gonzalo Vilaseca <gvilaseca@reiss.co.uk>
- */
 interface ShippingMethodInterface extends
+    ResourceInterface,
     ArchivableInterface,
     CodeAwareInterface,
-    ShippingMethodTranslationInterface,
     TimestampableInterface,
     ToggleableInterface,
     TranslatableInterface
@@ -35,24 +33,20 @@ interface ShippingMethodInterface extends
     public const CATEGORY_REQUIREMENT_MATCH_ANY = 1;
     public const CATEGORY_REQUIREMENT_MATCH_ALL = 2;
 
-    /**
-     * @return int|null
-     */
+    public function getName(): ?string;
+
+    public function setName(?string $name): void;
+
+    public function getDescription(): ?string;
+
+    public function setDescription(?string $description): void;
+
     public function getPosition(): ?int;
 
-    /**
-     * @param int|null $position
-     */
     public function setPosition(?int $position): void;
 
-    /**
-     * @return ShippingCategoryInterface|null
-     */
     public function getCategory(): ?ShippingCategoryInterface;
 
-    /**
-     * @param ShippingCategoryInterface|null $category
-     */
     public function setCategory(?ShippingCategoryInterface $category);
 
     /**
@@ -62,20 +56,10 @@ interface ShippingMethodInterface extends
      * 1) None of shippables matches the category.
      * 2) At least one of shippables matches the category.
      * 3) All shippables have to match the method category.
-     *
-     * @return int|null
      */
     public function getCategoryRequirement(): ?int;
 
-    /**
-     * @param int|null $categoryRequirement
-     */
     public function setCategoryRequirement(?int $categoryRequirement): void;
-
-    /**
-     * @return string
-     */
-    public function getCategoryRequirementLabel(): string;
 
     /**
      * @return string
@@ -87,13 +71,12 @@ interface ShippingMethodInterface extends
      */
     public function setCalculator(?string $calculator): void;
 
-    /**
-     * @return array
-     */
     public function getConfiguration(): array;
 
-    /**
-     * @param array $configuration
-     */
     public function setConfiguration(array $configuration): void;
+
+    /**
+     * @return ShippingMethodTranslationInterface
+     */
+    public function getTranslation(?string $locale = null): TranslationInterface;
 }

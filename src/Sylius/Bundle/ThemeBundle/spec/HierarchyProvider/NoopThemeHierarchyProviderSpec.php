@@ -14,13 +14,9 @@ declare(strict_types=1);
 namespace spec\Sylius\Bundle\ThemeBundle\HierarchyProvider;
 
 use PhpSpec\ObjectBehavior;
-use Sylius\Bundle\ThemeBundle\HierarchyProvider\NoopThemeHierarchyProvider;
 use Sylius\Bundle\ThemeBundle\HierarchyProvider\ThemeHierarchyProviderInterface;
 use Sylius\Bundle\ThemeBundle\Model\ThemeInterface;
 
-/**
- * @author Kamil Kokot <kamil@kokot.me>
- */
 final class NoopThemeHierarchyProviderSpec extends ObjectBehavior
 {
     function it_implements_theme_hierarchy_provider_interface(): void

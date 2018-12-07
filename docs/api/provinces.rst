@@ -38,7 +38,7 @@ If you request for more detailed data, you will receive an object with the follo
 
 .. note::
 
-    Read more about :doc:`Provinces in the component docs</components/Addressing/models>`.
+    Read more about :doc:`Provinces in the component docs</components_and_bundles/components/Addressing/models>`.
 
 Getting a Single Province
 -------------------------
@@ -69,7 +69,7 @@ To see the details of the province with ``code = PL-MZ`` which belongs to the co
 
 .. code-block:: bash
 
-     $ curl http://demo.sylius.org/api/v1/countries/PL/provinces/PL-MZ \
+     $ curl http://demo.sylius.com/api/v1/countries/PL/provinces/PL-MZ \
         -H "Authorization: Bearer SampleToken" \
         -H "Accept: application/json"
 
@@ -127,7 +127,7 @@ Example
 
 .. code-block:: bash
 
-    $ curl http://sylius.dev/api/v1/countries/PL/provinces/PL-MZ \
+    $ curl http://sylius.test/api/v1/countries/PL/provinces/PL-MZ \
         -H "Authorization: Bearer SampleToken" \
         -H "Accept: application/json" \
         -X DELETE

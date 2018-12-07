@@ -20,9 +20,7 @@ use Symfony\Component\Process\Exception\RuntimeException;
 
 final class InstallCommand extends AbstractInstallCommand
 {
-    /**
-     * @var array
-     */
+    /** @var array */
     private $commands = [
         [
             'command' => 'check-requirements',
@@ -45,7 +43,7 @@ final class InstallCommand extends AbstractInstallCommand
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('sylius:install')
@@ -60,7 +58,7 @@ EOT
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $outputStyle = new SymfonyStyle($input, $output);
         $outputStyle->writeln('<info>Installing Sylius...</info>');
@@ -78,28 +76,18 @@ EOT
                     count($this->commands),
                     $command['message']
                 ));
-                $this->commandExecutor->runCommand('sylius:install:'.$command['command'], [], $output);
+                $this->commandExecutor->runCommand('sylius:install:' . $command['command'], [], $output);
             } catch (RuntimeException $exception) {
                 $errored = true;
             }
         }
 
-        $frontControllerPath = 'prod' === $this->getEnvironment() ? '/' : sprintf('/app_%s.php', $this->getEnvironment());
-
         $outputStyle->newLine(2);
         $outputStyle->success($this->getProperFinalMessage($errored));
-        $outputStyle->writeln(sprintf(
-            'You can now open your store at the following path under the website root: <info>%s.</info>',
-            $frontControllerPath
-        ));
+        $outputStyle->writeln('You can now open your store at the following path under the website root: /');
     }
 
-    /**
-     * @param bool $errored
-     *
-     * @return string
-     */
-    private function getProperFinalMessage($errored)
+    private function getProperFinalMessage(bool $errored): string
     {
         if ($errored) {
             return 'Sylius has been installed, but some error occurred.';
@@ -108,10 +96,7 @@ EOT
         return 'Sylius has been successfully installed.';
     }
 
-    /**
-     * @return string
-     */
-    private function getSyliusLogo()
+    private function getSyliusLogo(): string
     {
         return '                                                                  
            <info>,</info>                                                       

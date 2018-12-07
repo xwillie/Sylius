@@ -33,7 +33,7 @@ If you request a tax rate via API, you will receive an object with the following
 
 .. note::
 
-    Read more about :doc:`Tax Rates in the component docs</components/Taxation/models>`.
+    Read more about :doc:`Tax Rates in the component docs</components_and_bundles/components/Taxation/models>`.
 
 Getting a Single Tax Rate
 --------------------------
@@ -62,7 +62,7 @@ To see the details of the tax rate with ``code = clothing_sales_tax_7`` use the 
 
 .. code-block:: bash
 
-     $ curl http://demo.sylius.org/api/v1/tax-rates/clothing_sales_tax_7 \
+     $ curl http://demo.sylius.com/api/v1/tax-rates/clothing_sales_tax_7 \
         -H "Authorization: Bearer SampleToken" \
         -H "Accept: application/json"
 
@@ -130,7 +130,7 @@ Example
 
 .. code-block:: bash
 
-    $ curl http://demo.sylius.org/api/v1/tax-rates/ \
+    $ curl http://demo.sylius.com/api/v1/tax-rates/ \
         -H "Authorization: Bearer SampleToken" \
         -H "Accept: application/json"
 

@@ -22,41 +22,23 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-/**
- * @author Kamil Kokot <kamil@kokot.me>
- */
 class ProductOptionExampleFactory extends AbstractExampleFactory implements ExampleFactoryInterface
 {
-    /**
-     * @var FactoryInterface
-     */
+    /** @var FactoryInterface */
     private $productOptionFactory;
 
-    /**
-     * @var FactoryInterface
-     */
+    /** @var FactoryInterface */
     private $productOptionValueFactory;
 
-    /**
-     * @var RepositoryInterface
-     */
+    /** @var RepositoryInterface */
     private $localeRepository;
 
-    /**
-     * @var \Faker\Generator
-     */
+    /** @var \Faker\Generator */
     private $faker;
 
-    /**
-     * @var OptionsResolver
-     */
+    /** @var OptionsResolver */
     private $optionsResolver;
 
-    /**
-     * @param FactoryInterface $productOptionFactory
-     * @param FactoryInterface $productOptionValueFactory
-     * @param RepositoryInterface $localeRepository
-     */
     public function __construct(
         FactoryInterface $productOptionFactory,
         FactoryInterface $productOptionValueFactory,
@@ -75,7 +57,7 @@ class ProductOptionExampleFactory extends AbstractExampleFactory implements Exam
     /**
      * {@inheritdoc}
      */
-    public function create(array $options = [])
+    public function create(array $options = []): ProductOptionInterface
     {
         $options = $this->optionsResolver->resolve($options);
 
@@ -111,17 +93,17 @@ class ProductOptionExampleFactory extends AbstractExampleFactory implements Exam
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
-            ->setDefault('name', function (Options $options) {
+            ->setDefault('name', function (Options $options): string {
                 return $this->faker->words(3, true);
             })
-            ->setDefault('code', function (Options $options) {
+            ->setDefault('code', function (Options $options): string {
                 return StringInflector::nameToCode($options['name']);
             })
             ->setDefault('values', null)
-            ->setDefault('values', function (Options $options, $values) {
+            ->setDefault('values', function (Options $options, $values): array {
                 if (is_array($values)) {
                     return $values;
                 }
@@ -137,10 +119,7 @@ class ProductOptionExampleFactory extends AbstractExampleFactory implements Exam
         ;
     }
 
-    /**
-     * @return array
-     */
-    private function getLocales()
+    private function getLocales(): iterable
     {
         /** @var LocaleInterface[] $locales */
         $locales = $this->localeRepository->findAll();

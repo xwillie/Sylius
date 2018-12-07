@@ -13,14 +13,11 @@ declare(strict_types=1);
 
 namespace spec\Sylius\Component\Addressing\Comparator;
 
-use Sylius\Component\Addressing\Comparator\AddressComparator;
 use PhpSpec\ObjectBehavior;
+use Sylius\Component\Addressing\Comparator\AddressComparator;
 use Sylius\Component\Addressing\Comparator\AddressComparatorInterface;
 use Sylius\Component\Addressing\Model\AddressInterface;
 
-/**
- * @author Jan Góralski <jan.goralski@lakion.com>
- */
 final class AddressComparatorSpec extends ObjectBehavior
 {
     function it_is_initializable(): void

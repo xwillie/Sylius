@@ -17,19 +17,11 @@ use Sylius\Component\Addressing\Comparator\AddressComparatorInterface;
 use Sylius\Component\Core\Model\AddressInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
 
-/**
- * @author Jan Góralski <jan.goralski@lakion.com>
- */
 final class CustomerUniqueAddressAdder implements CustomerAddressAdderInterface
 {
-    /**
-     * @var AddressComparatorInterface
-     */
+    /** @var AddressComparatorInterface */
     private $addressComparator;
 
-    /**
-     * @param AddressComparatorInterface $addressComparator
-     */
     public function __construct(AddressComparatorInterface $addressComparator)
     {
         $this->addressComparator = $addressComparator;
@@ -38,7 +30,7 @@ final class CustomerUniqueAddressAdder implements CustomerAddressAdderInterface
     /**
      * {@inheritdoc}
      */
-    public function add(CustomerInterface $customer, AddressInterface $address)
+    public function add(CustomerInterface $customer, AddressInterface $address): void
     {
         foreach ($customer->getAddresses() as $customerAddress) {
             if ($this->addressComparator->equal($customerAddress, $address)) {

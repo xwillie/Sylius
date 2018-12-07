@@ -17,16 +17,10 @@ use Sylius\Component\Channel\Model\ChannelInterface;
 use Sylius\Component\Core\Model\PromotionInterface;
 use Sylius\Component\Promotion\Repository\PromotionRepositoryInterface as BasePromotionRepositoryInterface;
 
-/**
- * @author Mateusz Zalewski <mateusz.zalewski@lakion.com>
- * @author Łukasz Chruściel <lukasz.chrusciel@lakion.com>
- */
 interface PromotionRepositoryInterface extends BasePromotionRepositoryInterface
 {
     /**
-     * @param ChannelInterface $channel
-     *
-     * @return PromotionInterface[]
+     * @return array|PromotionInterface[]
      */
-    public function findActiveByChannel(ChannelInterface $channel);
+    public function findActiveByChannel(ChannelInterface $channel): array;
 }

@@ -14,13 +14,9 @@ declare(strict_types=1);
 namespace spec\Sylius\Bundle\ThemeBundle\Asset;
 
 use PhpSpec\ObjectBehavior;
-use Sylius\Bundle\ThemeBundle\Asset\PathResolver;
 use Sylius\Bundle\ThemeBundle\Asset\PathResolverInterface;
 use Sylius\Bundle\ThemeBundle\Model\ThemeInterface;
 
-/**
- * @author Kamil Kokot <kamil@kokot.me>
- */
 final class PathResolverSpec extends ObjectBehavior
 {
     function it_implements_path_resolver_interface(): void

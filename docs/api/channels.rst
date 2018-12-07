@@ -44,7 +44,7 @@ If you request for more detailed data, you will receive an object with the follo
 
 .. note::
 
-    Read more about :doc:`Channels </components/Channel/models>`.
+    Read more about :doc:`Channels docs </components_and_bundles/components/Channel/models>`.
 
 Getting a Single Channel
 ------------------------
@@ -73,7 +73,7 @@ To see the details of the channel with ``code = US_WEB`` use the below method:
 
 .. code-block:: bash
 
-     $ curl http://demo.sylius.org/api/v1/channels/US_WEB \
+     $ curl http://demo.sylius.com/api/v1/channels/US_WEB \
         -H "Authorization: Bearer SampleToken" \
         -H "Accept: application/json"
 

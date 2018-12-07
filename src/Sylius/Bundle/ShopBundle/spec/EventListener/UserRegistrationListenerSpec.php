@@ -26,9 +26,6 @@ use Sylius\Component\User\Security\Generator\GeneratorInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
-/**
- * @author Grzegorz Sadowski <grzegorz.sadowski@lakion.com>
- */
 final class UserRegistrationListenerSpec extends ObjectBehavior
 {
     function let(
@@ -96,17 +93,53 @@ final class UserRegistrationListenerSpec extends ObjectBehavior
         $channel->isAccountVerificationRequired()->willReturn(false);
 
         $user->setEnabled(true)->shouldBeCalled();
-        $userLogin->login($user, 'shop')->shouldBeCalled();
-
-        $tokenGenerator->generate()->willReturn('1d7dbc5c3dbebe5c');
-        $user->setEmailVerificationToken('1d7dbc5c3dbebe5c')->shouldBeCalled();
 
         $userManager->persist($user)->shouldBeCalled();
         $userManager->flush()->shouldBeCalled();
 
+        $userLogin->login($user, 'shop')->shouldBeCalled();
+
+        $tokenGenerator->generate()->shouldNotBeCalled();
+        $user->setEmailVerificationToken(Argument::any())->shouldNotBeCalled();
+
         $eventDispatcher
             ->dispatch(UserEvents::REQUEST_VERIFICATION_TOKEN, Argument::type(GenericEvent::class))
-            ->shouldBeCalled()
+            ->shouldNotBeCalled()
+        ;
+
+        $this->handleUserVerification($event);
+    }
+
+    function it_does_not_send_verification_email_if_it_is_not_required_on_channel(
+        ObjectManager $userManager,
+        GeneratorInterface $tokenGenerator,
+        EventDispatcherInterface $eventDispatcher,
+        ChannelContextInterface $channelContext,
+        UserLoginInterface $userLogin,
+        GenericEvent $event,
+        CustomerInterface $customer,
+        ShopUserInterface $user,
+        ChannelInterface $channel
+    ): void {
+        $event->getSubject()->willReturn($customer);
+        $customer->getUser()->willReturn($user);
+
+        $channelContext->getChannel()->willReturn($channel);
+        $channel->isAccountVerificationRequired()->willReturn(false);
+
+        $user->setEnabled(true)->shouldBeCalled();
+
+        $userManager->persist($user)->shouldBeCalled();
+        $userManager->flush()->shouldBeCalled();
+
+        $userLogin->login($user, 'shop')->shouldBeCalled();
+
+        $tokenGenerator->generate()->shouldNotBeCalled();
+        $user->setEmailVerificationToken(Argument::any())->shouldNotBeCalled();
+
+        $eventDispatcher
+            ->dispatch(UserEvents::REQUEST_VERIFICATION_TOKEN, Argument::type(GenericEvent::class))
+            ->shouldNotBeCalled()
         ;
 
         $this->handleUserVerification($event);

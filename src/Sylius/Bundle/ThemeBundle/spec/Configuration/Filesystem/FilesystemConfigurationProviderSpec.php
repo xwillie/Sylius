@@ -16,12 +16,8 @@ namespace spec\Sylius\Bundle\ThemeBundle\Configuration\Filesystem;
 use PhpSpec\ObjectBehavior;
 use Sylius\Bundle\ThemeBundle\Configuration\ConfigurationProviderInterface;
 use Sylius\Bundle\ThemeBundle\Configuration\Filesystem\ConfigurationLoaderInterface;
-use Sylius\Bundle\ThemeBundle\Configuration\Filesystem\FilesystemConfigurationProvider;
 use Sylius\Bundle\ThemeBundle\Locator\FileLocatorInterface;
 
-/**
- * @author Kamil Kokot <kamil@kokot.me>
- */
 final class FilesystemConfigurationProviderSpec extends ObjectBehavior
 {
     function let(FileLocatorInterface $fileLocator, ConfigurationLoaderInterface $loader): void

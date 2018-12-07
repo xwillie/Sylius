@@ -22,20 +22,11 @@ use Symfony\Component\Form\ReversedTransformer;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Type;
 
-/**
- * @author Alexandre Bacco <alexandre.bacco@gmail.com>
- * @author Łukasz Chruściel <lukasz.chrusciel@lakion.com>
- */
 final class ContainsProductConfigurationType extends AbstractType
 {
-    /**
-     * @var RepositoryInterface
-     */
+    /** @var RepositoryInterface */
     private $productRepository;
 
-    /**
-     * @param RepositoryInterface $productRepository
-     */
     public function __construct(RepositoryInterface $productRepository)
     {
         $this->productRepository = $productRepository;
@@ -44,7 +35,7 @@ final class ContainsProductConfigurationType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('product_code', ProductAutocompleteChoiceType::class, [
@@ -56,13 +47,15 @@ final class ContainsProductConfigurationType extends AbstractType
             ])
         ;
 
-        $builder->get('product_code')->addModelTransformer(new ReversedTransformer(new ResourceToIdentifierTransformer($this->productRepository, 'code')));
+        $builder->get('product_code')->addModelTransformer(
+            new ReversedTransformer(new ResourceToIdentifierTransformer($this->productRepository, 'code'))
+        );
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'sylius_promotion_rule_contains_product_configuration';
     }

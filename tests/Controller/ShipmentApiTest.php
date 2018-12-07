@@ -13,14 +13,8 @@ declare(strict_types=1);
 
 namespace Sylius\Tests\Controller;
 
-use Lakion\ApiTestCase\JsonApiTestCase;
-use Sylius\Component\Core\Model\OrderInterface;
-use Sylius\Component\Order\Model\OrderItemInterface;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * @author Łukasz Chruściel <lukasz.chrusciel@lakion.com>
- */
 final class ShipmentApiTest extends CheckoutApiTestCase
 {
     /**
@@ -96,8 +90,6 @@ final class ShipmentApiTest extends CheckoutApiTestCase
     }
 
     /**
-     * @param mixed $orderId
-     *
      * @return string
      */
     private function getOrderUrl($orderId)
@@ -106,8 +98,6 @@ final class ShipmentApiTest extends CheckoutApiTestCase
     }
 
     /**
-     * @param mixed $shipmentId
-     *
      * @return string
      */
     private function getShipmentUrl($shipmentId)

@@ -14,41 +14,25 @@ declare(strict_types=1);
 namespace Sylius\Bundle\UserBundle\EventListener;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
-use Sylius\Component\Resource\Exception\UnexpectedTypeException;
 use Sylius\Component\User\Model\UserInterface;
 use Sylius\Component\User\Security\PasswordUpdaterInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
-/**
- * @author Łukasz Chruściel <lukasz.chrusciel@lakion.com>
- * @author Michał Marcinkowski <michal.marcinkowski@lakion.com>
- */
 class PasswordUpdaterListener
 {
-    /**
-     * @var PasswordUpdaterInterface
-     */
+    /** @var PasswordUpdaterInterface */
     private $passwordUpdater;
 
-    /**
-     * @param PasswordUpdaterInterface $passwordUpdater
-     */
     public function __construct(PasswordUpdaterInterface $passwordUpdater)
     {
         $this->passwordUpdater = $passwordUpdater;
     }
 
-    /**
-     * @param GenericEvent $event
-     */
     public function genericEventUpdater(GenericEvent $event): void
     {
         $this->updatePassword($event->getSubject());
     }
 
-    /**
-     * @param LifecycleEventArgs $event
-     */
     public function prePersist(LifecycleEventArgs $event): void
     {
         $user = $event->getEntity();
@@ -60,9 +44,6 @@ class PasswordUpdaterListener
         $this->updatePassword($user);
     }
 
-    /**
-     * @param LifecycleEventArgs $event
-     */
     public function preUpdate(LifecycleEventArgs $event): void
     {
         $user = $event->getEntity();
@@ -74,9 +55,6 @@ class PasswordUpdaterListener
         $this->updatePassword($user);
     }
 
-    /**
-     * @param UserInterface $user
-     */
     protected function updatePassword(UserInterface $user): void
     {
         if (null !== $user->getPlainPassword()) {

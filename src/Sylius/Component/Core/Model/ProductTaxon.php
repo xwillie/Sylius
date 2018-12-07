@@ -13,29 +13,18 @@ declare(strict_types=1);
 
 namespace Sylius\Component\Core\Model;
 
-/**
- * @author Anna Walasek <anna.walasek@lakion.com>
- */
 class ProductTaxon implements ProductTaxonInterface
 {
-    /**
-     * @var mixed
-     */
+    /** @var mixed */
     protected $id;
 
-    /**
-     * @var ProductInterface
-     */
+    /** @var ProductInterface */
     protected $product;
 
-    /**
-     * @var TaxonInterface
-     */
+    /** @var TaxonInterface */
     protected $taxon;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $position;
 
     /**
@@ -49,7 +38,7 @@ class ProductTaxon implements ProductTaxonInterface
     /**
      * {@inheritdoc}
      */
-    public function getProduct()
+    public function getProduct(): ?ProductInterface
     {
         return $this->product;
     }
@@ -57,7 +46,7 @@ class ProductTaxon implements ProductTaxonInterface
     /**
      * {@inheritdoc}
      */
-    public function setProduct(ProductInterface $product)
+    public function setProduct(?ProductInterface $product): void
     {
         $this->product = $product;
     }
@@ -65,7 +54,7 @@ class ProductTaxon implements ProductTaxonInterface
     /**
      * {@inheritdoc}
      */
-    public function getTaxon()
+    public function getTaxon(): ?TaxonInterface
     {
         return $this->taxon;
     }
@@ -73,7 +62,7 @@ class ProductTaxon implements ProductTaxonInterface
     /**
      * {@inheritdoc}
      */
-    public function setTaxon(TaxonInterface $taxon)
+    public function setTaxon(?TaxonInterface $taxon): void
     {
         $this->taxon = $taxon;
     }
@@ -81,7 +70,7 @@ class ProductTaxon implements ProductTaxonInterface
     /**
      * {@inheritdoc}
      */
-    public function getPosition()
+    public function getPosition(): ?int
     {
         return $this->position;
     }
@@ -89,7 +78,7 @@ class ProductTaxon implements ProductTaxonInterface
     /**
      * {@inheritdoc}
      */
-    public function setPosition($position)
+    public function setPosition(?int $position): void
     {
         $this->position = $position;
     }

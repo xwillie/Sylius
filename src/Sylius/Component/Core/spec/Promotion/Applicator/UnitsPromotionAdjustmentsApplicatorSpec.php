@@ -21,29 +21,20 @@ use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\OrderItemInterface;
 use Sylius\Component\Core\Model\OrderItemUnitInterface;
-use Sylius\Component\Core\Promotion\Applicator\UnitsPromotionAdjustmentsApplicator;
 use Sylius\Component\Core\Promotion\Applicator\UnitsPromotionAdjustmentsApplicatorInterface;
 use Sylius\Component\Order\Factory\AdjustmentFactoryInterface;
 use Sylius\Component\Promotion\Model\PromotionInterface;
 
-/**
- * @author Mateusz Zalewski <mateusz.zalewski@lakion.com>
- */
 final class UnitsPromotionAdjustmentsApplicatorSpec extends ObjectBehavior
 {
     function let(
         AdjustmentFactoryInterface $adjustmentFactory,
         IntegerDistributorInterface $distributor
-    ) {
+    ): void {
         $this->beConstructedWith($adjustmentFactory, $distributor);
     }
 
-    function it_is_initializable()
-    {
-        $this->shouldHaveType(UnitsPromotionAdjustmentsApplicator::class);
-    }
-
-    function it_implements_an_units_promotion_adjustments_applicator_interface()
+    function it_implements_an_units_promotion_adjustments_applicator_interface(): void
     {
         $this->shouldImplement(UnitsPromotionAdjustmentsApplicatorInterface::class);
     }
@@ -61,7 +52,7 @@ final class UnitsPromotionAdjustmentsApplicatorSpec extends ObjectBehavior
         OrderItemUnitInterface $magnumUnit,
         OrderItemUnitInterface $secondColtUnit,
         PromotionInterface $promotion
-    ) {
+    ): void {
         $order->countItems()->willReturn(2);
 
         $order
@@ -117,7 +108,7 @@ final class UnitsPromotionAdjustmentsApplicatorSpec extends ObjectBehavior
         OrderItemUnitInterface $coltUnit,
         OrderItemUnitInterface $magnumUnit,
         PromotionInterface $promotion
-    ) {
+    ): void {
         $order->countItems()->willReturn(2);
 
         $order
@@ -168,7 +159,7 @@ final class UnitsPromotionAdjustmentsApplicatorSpec extends ObjectBehavior
         OrderItemUnitInterface $magnumUnit,
         OrderItemUnitInterface $winchesterUnit,
         PromotionInterface $promotion
-    ) {
+    ): void {
         $order->countItems()->willReturn(3);
 
         $order
@@ -228,7 +219,7 @@ final class UnitsPromotionAdjustmentsApplicatorSpec extends ObjectBehavior
         OrderItemUnitInterface $secondColtUnit,
         OrderItemUnitInterface $thirdColtUnit,
         PromotionInterface $promotion
-    ) {
+    ): void {
         $order->countItems()->willReturn(1);
 
         $order
@@ -245,7 +236,7 @@ final class UnitsPromotionAdjustmentsApplicatorSpec extends ObjectBehavior
             ->willReturn(new ArrayCollection([
                 $firstColtUnit->getWrappedObject(),
                 $secondColtUnit->getWrappedObject(),
-                $thirdColtUnit->getWrappedObject()
+                $thirdColtUnit->getWrappedObject(),
             ]))
         ;
 
@@ -276,7 +267,7 @@ final class UnitsPromotionAdjustmentsApplicatorSpec extends ObjectBehavior
         OrderItemUnitInterface $firstColtUnit,
         OrderItemUnitInterface $secondColtUnit,
         PromotionInterface $promotion
-    ) {
+    ): void {
         $order->countItems()->willReturn(1);
 
         $order
@@ -312,7 +303,7 @@ final class UnitsPromotionAdjustmentsApplicatorSpec extends ObjectBehavior
     function it_throws_exception_if_items_count_is_different_than_adjustment_amounts(
         PromotionInterface $promotion,
         OrderInterface $order
-    ) {
+    ): void {
         $order->countItems()->willReturn(2);
 
         $this

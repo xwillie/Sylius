@@ -15,14 +15,10 @@ namespace spec\Sylius\Bundle\OrderBundle\NumberAssigner;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Sylius\Bundle\OrderBundle\NumberAssigner\OrderNumberAssigner;
 use Sylius\Bundle\OrderBundle\NumberAssigner\OrderNumberAssignerInterface;
 use Sylius\Bundle\OrderBundle\NumberGenerator\OrderNumberGeneratorInterface;
 use Sylius\Component\Order\Model\OrderInterface;
 
-/**
- * @author Grzegorz Sadowski <grzegorz.sadowski@lakion.com>
- */
 final class OrderNumberAssignerSpec extends ObjectBehavior
 {
     function let(OrderNumberGeneratorInterface $numberGenerator): void

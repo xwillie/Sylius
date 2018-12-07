@@ -15,13 +15,9 @@ namespace spec\Sylius\Bundle\ThemeBundle\Translation\Finder;
 
 use PhpSpec\ObjectBehavior;
 use Sylius\Bundle\ThemeBundle\Factory\FinderFactoryInterface;
-use Sylius\Bundle\ThemeBundle\Translation\Finder\TranslationFilesFinder;
 use Sylius\Bundle\ThemeBundle\Translation\Finder\TranslationFilesFinderInterface;
 use Symfony\Component\Finder\Finder;
 
-/**
- * @author Kamil Kokot <kamil@kokot.me>
- */
 final class TranslationFilesFinderSpec extends ObjectBehavior
 {
     function let(FinderFactoryInterface $finderFactory): void

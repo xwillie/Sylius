@@ -16,7 +16,6 @@ namespace spec\Sylius\Bundle\UserBundle\Security;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Sylius\Bundle\UserBundle\Event\UserEvent;
-use Sylius\Bundle\UserBundle\Security\UserLogin;
 use Sylius\Bundle\UserBundle\Security\UserLoginInterface;
 use Sylius\Bundle\UserBundle\UserEvents;
 use Sylius\Component\User\Model\UserInterface;
@@ -28,10 +27,6 @@ use Symfony\Component\Security\Core\Exception\CredentialsExpiredException;
 use Symfony\Component\Security\Core\Exception\DisabledException;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 
-/**
- * @author Łukasz Chruściel <lukasz.chrusciel@lakion.com>
- * @author Michał Marcinkowski <michal.marcinkowski@lakion.com>
- */
 final class UserLoginSpec extends ObjectBehavior
 {
     function let(TokenStorageInterface $tokenStorage, UserCheckerInterface $userChecker, EventDispatcherInterface $eventDispatcher): void

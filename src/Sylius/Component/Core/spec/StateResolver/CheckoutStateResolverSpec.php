@@ -19,25 +19,16 @@ use SM\StateMachine\StateMachineInterface;
 use Sylius\Component\Core\Checker\OrderPaymentMethodSelectionRequirementCheckerInterface;
 use Sylius\Component\Core\Checker\OrderShippingMethodSelectionRequirementCheckerInterface;
 use Sylius\Component\Core\Model\OrderInterface;
-use Sylius\Component\Core\Model\OrderItemInterface;
-use Sylius\Component\Core\Model\ProductVariantInterface;
-use Sylius\Component\Core\Model\ShipmentInterface;
 use Sylius\Component\Core\OrderCheckoutTransitions;
-use Sylius\Component\Core\StateResolver\CheckoutStateResolver;
 use Sylius\Component\Order\StateResolver\StateResolverInterface;
-use Sylius\Component\Shipping\Model\ShippingMethodInterface;
-use Sylius\Component\Shipping\Resolver\ShippingMethodsResolverInterface;
 
-/**
- * @author Anna Walasek <anna.walasek@lakion.com>
- */
 final class CheckoutStateResolverSpec extends ObjectBehavior
 {
     function let(
         FactoryInterface $stateMachineFactory,
         OrderPaymentMethodSelectionRequirementCheckerInterface $orderPaymentMethodSelectionRequirementChecker,
         OrderShippingMethodSelectionRequirementCheckerInterface $orderShippingMethodSelectionRequirementChecker
-    ) {
+    ): void {
         $this->beConstructedWith(
             $stateMachineFactory,
             $orderPaymentMethodSelectionRequirementChecker,
@@ -45,12 +36,7 @@ final class CheckoutStateResolverSpec extends ObjectBehavior
         );
     }
 
-    function it_is_initializable()
-    {
-        $this->shouldHaveType(CheckoutStateResolver::class);
-    }
-
-    function it_implements_an_order_state_resolver_interface()
+    function it_implements_an_order_state_resolver_interface(): void
     {
         $this->shouldImplement(StateResolverInterface::class);
     }
@@ -61,7 +47,7 @@ final class CheckoutStateResolverSpec extends ObjectBehavior
         OrderPaymentMethodSelectionRequirementCheckerInterface $orderPaymentMethodSelectionRequirementChecker,
         OrderShippingMethodSelectionRequirementCheckerInterface $orderShippingMethodSelectionRequirementChecker,
         StateMachineInterface $stateMachine
-    ) {
+    ): void {
         $orderPaymentMethodSelectionRequirementChecker->isPaymentMethodSelectionRequired($order)->willReturn(false);
 
         $orderShippingMethodSelectionRequirementChecker->isShippingMethodSelectionRequired($order)->willReturn(false);
@@ -83,7 +69,7 @@ final class CheckoutStateResolverSpec extends ObjectBehavior
         OrderPaymentMethodSelectionRequirementCheckerInterface $orderPaymentMethodSelectionRequirementChecker,
         OrderShippingMethodSelectionRequirementCheckerInterface $orderShippingMethodSelectionRequirementChecker,
         StateMachineInterface $stateMachine
-    ) {
+    ): void {
         $orderPaymentMethodSelectionRequirementChecker->isPaymentMethodSelectionRequired($order)->willReturn(true);
 
         $orderShippingMethodSelectionRequirementChecker->isShippingMethodSelectionRequired($order)->willReturn(false);
@@ -105,7 +91,7 @@ final class CheckoutStateResolverSpec extends ObjectBehavior
         OrderPaymentMethodSelectionRequirementCheckerInterface $orderPaymentMethodSelectionRequirementChecker,
         OrderShippingMethodSelectionRequirementCheckerInterface $orderShippingMethodSelectionRequirementChecker,
         StateMachineInterface $stateMachine
-    ) {
+    ): void {
         $orderPaymentMethodSelectionRequirementChecker->isPaymentMethodSelectionRequired($order)->willReturn(true);
 
         $orderShippingMethodSelectionRequirementChecker->isShippingMethodSelectionRequired($order)->willReturn(true);
@@ -127,7 +113,7 @@ final class CheckoutStateResolverSpec extends ObjectBehavior
         OrderPaymentMethodSelectionRequirementCheckerInterface $orderPaymentMethodSelectionRequirementChecker,
         OrderShippingMethodSelectionRequirementCheckerInterface $orderShippingMethodSelectionRequirementChecker,
         StateMachineInterface $stateMachine
-    ) {
+    ): void {
         $orderPaymentMethodSelectionRequirementChecker->isPaymentMethodSelectionRequired($order)->willReturn(true);
 
         $orderShippingMethodSelectionRequirementChecker->isShippingMethodSelectionRequired($order)->willReturn(true);
@@ -149,7 +135,7 @@ final class CheckoutStateResolverSpec extends ObjectBehavior
         OrderPaymentMethodSelectionRequirementCheckerInterface $orderPaymentMethodSelectionRequirementChecker,
         OrderShippingMethodSelectionRequirementCheckerInterface $orderShippingMethodSelectionRequirementChecker,
         StateMachineInterface $stateMachine
-    ) {
+    ): void {
         $orderPaymentMethodSelectionRequirementChecker->isPaymentMethodSelectionRequired($order)->willReturn(false);
 
         $orderShippingMethodSelectionRequirementChecker->isShippingMethodSelectionRequired($order)->willReturn(true);
@@ -171,7 +157,7 @@ final class CheckoutStateResolverSpec extends ObjectBehavior
         OrderPaymentMethodSelectionRequirementCheckerInterface $orderPaymentMethodSelectionRequirementChecker,
         OrderShippingMethodSelectionRequirementCheckerInterface $orderShippingMethodSelectionRequirementChecker,
         StateMachineInterface $stateMachine
-    ) {
+    ): void {
         $orderPaymentMethodSelectionRequirementChecker->isPaymentMethodSelectionRequired($order)->willReturn(true);
 
         $orderShippingMethodSelectionRequirementChecker->isShippingMethodSelectionRequired($order)->willReturn(true);
@@ -193,7 +179,7 @@ final class CheckoutStateResolverSpec extends ObjectBehavior
         OrderPaymentMethodSelectionRequirementCheckerInterface $orderPaymentMethodSelectionRequirementChecker,
         OrderShippingMethodSelectionRequirementCheckerInterface $orderShippingMethodSelectionRequirementChecker,
         StateMachineInterface $stateMachine
-    ) {
+    ): void {
         $orderPaymentMethodSelectionRequirementChecker->isPaymentMethodSelectionRequired($order)->willReturn(true);
 
         $orderShippingMethodSelectionRequirementChecker->isShippingMethodSelectionRequired($order)->willReturn(true);

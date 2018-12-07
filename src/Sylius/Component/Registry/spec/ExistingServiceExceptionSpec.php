@@ -14,11 +14,7 @@ declare(strict_types=1);
 namespace spec\Sylius\Component\Registry;
 
 use PhpSpec\ObjectBehavior;
-use Sylius\Component\Registry\ExistingServiceException;
 
-/**
- * @author Saša Stamenković <umpirsky@gmail.com>
- */
 final class ExistingServiceExceptionSpec extends ObjectBehavior
 {
     function let(): void

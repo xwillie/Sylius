@@ -39,7 +39,7 @@ Example
 
 .. code-block:: bash
 
-    $  curl 'http://demo.sylius.org/api/v1/products/?sorting\[code\]=desc&limit=4' \
+    $  curl 'http://demo.sylius.com/api/v1/products/?sorting\[code\]=desc&limit=4' \
           -H "Authorization: Bearer SampleToken"
 
 Exemplary response
@@ -283,14 +283,14 @@ Definition
 
 .. tip::
 
-    You can find a list of all search options in :doc:`GridBundle docs</bundles/SyliusGridBundle/filters>`.
+    You can find a list of all search options in :doc:`GridBundle docs</components_and_bundles/bundles/SyliusGridBundle/filters>`.
 
 Example
 ^^^^^^^
 
 .. code-block:: bash
 
-    $  curl 'http://demo.sylius.org/api/v1/products/?criteria\[search\]\[type\]=contains&criteria\[search\]\[value\]=sticker&limit=4' \
+    $  curl 'http://demo.sylius.com/api/v1/products/?criteria\[search\]\[type\]=contains&criteria\[search\]\[value\]=sticker&limit=4' \
           -H "Authorization: Bearer SampleToken"
 
 Exemplary response

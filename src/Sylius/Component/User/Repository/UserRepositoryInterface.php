@@ -13,20 +13,10 @@ declare(strict_types=1);
 
 namespace Sylius\Component\User\Repository;
 
-use Pagerfanta\PagerfantaInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\Component\User\Model\UserInterface;
 
-/**
- * @author Michał Marcinkowski <michal.marcinkowski@lakion.com>
- * @author Łukasz Chruściel <lukasz.chrusciel@lakion.com>
- */
 interface UserRepositoryInterface extends RepositoryInterface
 {
-    /**
-     * @param string $email
-     *
-     * @return UserInterface|null
-     */
     public function findOneByEmail(string $email): ?UserInterface;
 }

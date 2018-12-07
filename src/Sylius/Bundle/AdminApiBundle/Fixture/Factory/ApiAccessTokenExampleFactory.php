@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Sylius\Bundle\AdminApiBundle\Fixture\Factory;
 
-use FOS\OAuthServerBundle\Model\ClientManagerInterface;
 use Sylius\Bundle\AdminApiBundle\Model\AccessTokenInterface;
 use Sylius\Bundle\AdminApiBundle\Model\ClientInterface;
 use Sylius\Bundle\AdminApiBundle\Model\UserInterface;
@@ -25,41 +24,23 @@ use Sylius\Component\User\Repository\UserRepositoryInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-/**
- * @author Łukasz Chruściel <lukasz.chrusciel@lakion.com>
- */
 class ApiAccessTokenExampleFactory extends AbstractExampleFactory
 {
-    /**
-     * @var FactoryInterface
-     */
+    /** @var FactoryInterface */
     private $accessTokenFactory;
 
-    /**
-     * @var UserRepositoryInterface
-     */
+    /** @var UserRepositoryInterface */
     private $userRepository;
 
-    /**
-     * @var RepositoryInterface
-     */
+    /** @var RepositoryInterface */
     private $clientRepository;
 
-    /**
-     * @var \Faker\Generator
-     */
+    /** @var \Faker\Generator */
     private $faker;
 
-    /**
-     * @var OptionsResolver
-     */
+    /** @var OptionsResolver */
     private $optionsResolver;
 
-    /**
-     * @param FactoryInterface $accessTokenFactory
-     * @param UserRepositoryInterface $userRepository
-     * @param RepositoryInterface $clientRepository
-     */
     public function __construct(
         FactoryInterface $accessTokenFactory,
         UserRepositoryInterface $userRepository,

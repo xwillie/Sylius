@@ -14,13 +14,9 @@ declare(strict_types=1);
 namespace spec\Sylius\Bundle\ResourceBundle\Validator\Constraints;
 
 use PhpSpec\ObjectBehavior;
-use Sylius\Bundle\ResourceBundle\Validator\Constraints\Enabled;
 use Sylius\Bundle\ResourceBundle\Validator\EnabledValidator;
 use Symfony\Component\Validator\Constraint;
 
-/**
- * @author Kamil Kokot <kamil@kokot.me>
- */
 final class EnabledSpec extends ObjectBehavior
 {
     function it_is_constraint(): void

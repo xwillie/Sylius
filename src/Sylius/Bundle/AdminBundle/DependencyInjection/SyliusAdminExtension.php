@@ -18,9 +18,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
-/**
- * @author Paweł Jędrzejewski <pawel@sylius.org>
- */
 final class SyliusAdminExtension extends Extension
 {
     /**
@@ -29,10 +26,17 @@ final class SyliusAdminExtension extends Extension
     public function load(array $config, ContainerBuilder $container): void
     {
         $config = $this->processConfiguration($this->getConfiguration([], $container), $config);
-        $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
 
         $container->setParameter('sylius.admin.notification.enabled', $config['notifications']['enabled']);
         $container->setParameter('sylius.admin.notification.frequency', $config['notifications']['frequency']);
+        $container->setParameter('sylius.admin.shop_enabled', false);
+
+        $bundles = $container->getParameter('kernel.bundles');
+        if (array_key_exists('SyliusShopBundle', $bundles)) {
+            $loader->load('services/integrations/shop.xml');
+            $container->setParameter('sylius.admin.shop_enabled', true);
+        }
 
         $loader->load('services.xml');
     }

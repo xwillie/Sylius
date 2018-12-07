@@ -14,15 +14,10 @@ declare(strict_types=1);
 namespace spec\Sylius\Component\User\Security\Generator;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use Sylius\Component\Resource\Generator\RandomnessGeneratorInterface;
 use Sylius\Component\User\Security\Checker\UniquenessCheckerInterface;
 use Sylius\Component\User\Security\Generator\GeneratorInterface;
-use Sylius\Component\User\Security\Generator\UniquePinGenerator;
 
-/**
- * @author Jan Góralski <jan.goralski@lakion.com>
- */
 final class UniquePinGeneratorSpec extends ObjectBehavior
 {
     function let(RandomnessGeneratorInterface $generator, UniquenessCheckerInterface $checker): void
@@ -34,7 +29,7 @@ final class UniquePinGeneratorSpec extends ObjectBehavior
     {
         $this->shouldImplement(GeneratorInterface::class);
     }
-    
+
     function it_throws_invalid_argument_exception_on_instantiation_with_an_out_of_range_length(
         RandomnessGeneratorInterface $generator,
         UniquenessCheckerInterface $checker

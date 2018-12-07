@@ -14,13 +14,9 @@ declare(strict_types=1);
 namespace spec\Sylius\Bundle\ThemeBundle\Factory;
 
 use PhpSpec\ObjectBehavior;
-use Sylius\Bundle\ThemeBundle\Factory\ThemeScreenshotFactory;
 use Sylius\Bundle\ThemeBundle\Factory\ThemeScreenshotFactoryInterface;
 use Sylius\Bundle\ThemeBundle\Model\ThemeScreenshot;
 
-/**
- * @author Kamil Kokot <kamil@kokot.me>
- */
 final class ThemeScreenshotFactorySpec extends ObjectBehavior
 {
     function it_implements_theme_screenshot_factory_interface(): void

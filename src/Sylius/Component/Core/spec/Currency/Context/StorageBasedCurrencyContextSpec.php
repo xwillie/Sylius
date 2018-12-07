@@ -20,17 +20,14 @@ use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Currency\Context\CurrencyContextInterface;
 use Sylius\Component\Currency\Context\CurrencyNotFoundException;
 
-/**
- * @author Kamil Kokot <kamil@kokot.me>
- */
 final class StorageBasedCurrencyContextSpec extends ObjectBehavior
 {
-    function let(ChannelContextInterface $channelContext, CurrencyStorageInterface $currencyStorage)
+    function let(ChannelContextInterface $channelContext, CurrencyStorageInterface $currencyStorage): void
     {
         $this->beConstructedWith($channelContext, $currencyStorage);
     }
 
-    function it_is_a_currency_context()
+    function it_is_a_currency_context(): void
     {
         $this->shouldImplement(CurrencyContextInterface::class);
     }
@@ -39,7 +36,7 @@ final class StorageBasedCurrencyContextSpec extends ObjectBehavior
         ChannelContextInterface $channelContext,
         CurrencyStorageInterface $currencyStorage,
         ChannelInterface $channel
-    ) {
+    ): void {
         $channelContext->getChannel()->willReturn($channel);
 
         $currencyStorage->get($channel)->willReturn('BTC');
@@ -51,7 +48,7 @@ final class StorageBasedCurrencyContextSpec extends ObjectBehavior
         ChannelContextInterface $channelContext,
         CurrencyStorageInterface $currencyStorage,
         ChannelInterface $channel
-    ) {
+    ): void {
         $channelContext->getChannel()->willReturn($channel);
 
         $currencyStorage->get($channel)->willReturn(null);
